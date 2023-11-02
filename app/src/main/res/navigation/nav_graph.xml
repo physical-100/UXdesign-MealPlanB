@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/profile_fragment">
+
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="Profile_fragment"
+        android:label="Profile_fragment" >
+        <action
+            android:id="@+id/action_profile_fragment_to_meal_selectFragment"
+            app:destination="@id/meal_selectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/meal_selectFragment"
+        android:name="com.example.mealplanb.Meal_selectFragment"
+        android:label="fragment_meal_select"
+        tools:layout="@layout/fragment_meal_select" >
+        <action
+            android:id="@+id/action_meal_selectFragment_to_calorySettingFragment"
+            app:destination="@id/calorySettingFragment" />
+        <action
+            android:id="@+id/action_meal_selectFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/todayFragment"
+        android:name="com.example.mealplanb.TodayFragment"
+        android:label="fragment_today"
+        tools:layout="@layout/fragment_today" />
+    <fragment
+        android:id="@+id/calorySettingFragment"
+        android:name="com.example.mealplanb.CalorySettingFragment"
+        android:label="fragment_calory_setting"
+        tools:layout="@layout/fragment_calory_setting" >
+        <action
+            android:id="@+id/action_calorySettingFragment_to_detailNutritionFragment"
+            app:destination="@id/detailNutritionFragment" />
+        <action
+            android:id="@+id/action_calorySettingFragment_to_meal_selectFragment"
+            app:destination="@id/meal_selectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailNutritionFragment"
+        android:name="com.example.mealplanb.DetailNutritionFragment"
+        android:label="fragment_detail_nutrition"
+        tools:layout="@layout/fragment_detail_nutrition" >
+        <action
+            android:id="@+id/action_detailNutritionFragment_to_calorySettingFragment"
+            app:destination="@id/calorySettingFragment" />
+        <action
+            android:id="@+id/action_detailNutritionFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statics_Fragment"
+        android:name="com.example.mealplanb.Statics_Fragment"
+        android:label="fragment_statics_"
+        tools:layout="@layout/fragment_statics" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.mealplanb.MainFragment"
+        android:label="MainFragment" />
+</navigation>

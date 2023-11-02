@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:title="홈"
+        android:icon="@drawable/baseline_home_24"/>
+    <item
+        android:id="@+id/navigation_statics"
+        android:title="통계"
+        android:icon="@drawable/baseline_calendar_month_24" />
+    <item
+        android:id="@+id/navigation_fast"
+        android:title="단식"
+        android:icon="@drawable/baseline_no_food_24"
+         />
+
+    <item
+        android:id="@+id/navigation_my_page"
+        android:title="Mypage"
+        android:icon="@drawable/baseline_person_24"
+        />
+
+</menu>
