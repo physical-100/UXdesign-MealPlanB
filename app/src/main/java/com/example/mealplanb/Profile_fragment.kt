@@ -19,6 +19,11 @@ class Profile_fragment : Fragment() {
     lateinit var activity: String
     private var isSexSelected = false
     private var isActivitySelected = false
+    private lateinit var mDatabase: FirebaseDatabase
+    private lateinit var mReference: DatabaseReference
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+    private val databaseReference: DatabaseReference = firebaseDatabase.reference
+
 
 
 
@@ -95,13 +100,21 @@ class Profile_fragment : Fragment() {
         // 버튼 클릭 이벤트 처리
         binding.nextButton.setOnClickListener {
             // 입력 값 가져오기
+            val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
             val name = binding.username.text.toString()
+            dataRoute.child("이름").setValue(name)
             val gender = sex
+            dataRoute.child("성별").setValue(sex)
             val age = binding.age.text.toString().toInt()
+            dataRoute.child("나이").setValue(age)
             val height = binding.height.text.toString().toInt()
+            dataRoute.child("키").setValue(height)
             val start_weight = binding.startWeight.text.toString().toDouble()
+            dataRoute.child("시작체중").setValue(start_weight)
             val goal_weight = binding.goalWeight.text.toString().toDouble()
+            dataRoute.child("목표체중").setValue(goal_weight)
             val activityLevel = activity
+            dataRoute.child("평소 활동량").setValue(activityLevel)
 
             // 데이터 클래스 업데이트
             Userdata = Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel)
