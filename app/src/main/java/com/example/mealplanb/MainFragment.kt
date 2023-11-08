@@ -10,6 +10,8 @@ import com.example.mealplanb.databinding.FragmentTodayBinding
 
 class MainFragment : Fragment() {
     lateinit var binding:FragmentMainBinding
+    val userData = UserManager.getUserData()
+    val userCal = UserManager.getUserCal()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

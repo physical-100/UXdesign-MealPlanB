@@ -17,8 +17,8 @@ import com.github.mikephil.charting.utils.ColorTemplate
 
 class TodayFragment : Fragment() {
     lateinit var binding: FragmentTodayBinding
-
-
+    val userData = UserManager.getUserData()
+    val userCal = UserManager.getUserCal()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -29,16 +29,27 @@ class TodayFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentTodayBinding.inflate(inflater, container, false)
-        val userCalory = arguments?.getParcelable<User_calory>("user_calory")
-        if (userCalory != null) {
+//        val userCalory = arguments?.getParcelable<User_calory>("user_calory")
+//        if (userCalory != null) {
+//            // userCalory를 사용하여 필요한 작업 수행
+//            binding.apply {
+//                goalCarb.text = "/${userCalory.carb}g"
+//                goalProtein.text = "/${userCalory.protein}g"
+//                goalFat.text = "/${userCalory.fat}g"
+//                goal.text= "${userCalory.goal_calory} Kcal"
+//
+//            }
+
+        if (userCal != null) {
             // userCalory를 사용하여 필요한 작업 수행
             binding.apply {
-                goalCarb.text = "/${userCalory.carb}g"
-                goalProtein.text = "/${userCalory.protein}g"
-                goalFat.text = "/${userCalory.fat}g"
-                goal.text= "${userCalory.goal_calory} Kcal"
+                goalCarb.text = "/${userCal.carb}g"
+                goalProtein.text = "/${userCal.protein}g"
+                goalFat.text = "/${userCal.fat}g"
+                goal.text= "${userCal.goal_calory} Kcal"
 
             }
+
 //            val pieChart: PieChart = binding.chart
 //
 //            // 목표 칼로리와 현재 칼로리 (예: 사용자가 섭취한 칼로리)를 가져옵니다.

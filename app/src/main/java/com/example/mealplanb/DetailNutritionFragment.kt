@@ -15,6 +15,8 @@ import com.example.mealplanb.databinding.FragmentDetailNutritionBinding
 
 class DetailNutritionFragment : Fragment() {
     lateinit var binding: FragmentDetailNutritionBinding
+    lateinit var name:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,11 @@ class DetailNutritionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val userData = UserManager.getUserData()
+        if (userData != null) {
+           name= userData.username
+            // 예: userData.name, userData.gender, userData.age, 등등...
+        }
 
         binding = FragmentDetailNutritionBinding.inflate(inflater, container, false)
 
@@ -170,8 +177,11 @@ class DetailNutritionFragment : Fragment() {
                 })
 
                 next2.setOnClickListener {
-                    val userCalory = User_calory(goal_calory.toInt(), init_carb, init_protein, init_fat)
-
+                    val carb_percent=(init_carb_cal/goal_calory*100).toInt()
+                    val protein_percent=(init_protein_cal/goal_calory*100).toInt()
+                    val fat_percent=(init_fat_cal/goal_calory*100).toInt()
+                    val userCalory = User_calory(name,goal_calory.toInt(), init_carb, init_protein, init_fat,carb_percent,protein_percent,fat_percent)
+                    UserManager.setUserCal(userCalory)
                     val bundle = bundleOf(
                         "user_calory" to userCalory
                     )
