@@ -1,8 +1,11 @@
-package com.example.mealplanb
+package com.example.mealplanb.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.mealplanb.fragment.DailyStaticFragment
+import com.example.mealplanb.fragment.MonthlyStaticFragment
+import com.example.mealplanb.fragment.WeeklyStaticFragment
 
 class StaticsPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
     override fun createFragment(position: Int): Fragment {

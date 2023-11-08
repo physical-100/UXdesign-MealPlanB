@@ -1,9 +1,8 @@
 package com.example.mealplanb
 
-import Profile_fragment
+import com.example.mealplanb.initset.Profile_fragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentTransaction
 
 class MainActivity : AppCompatActivity() {
 

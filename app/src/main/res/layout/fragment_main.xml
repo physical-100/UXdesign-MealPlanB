@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainFragment">
+        tools:context=".bottomnav.MainFragment">
         <FrameLayout
             android:id="@+id/basic_container"
             android:layout_width="match_parent"

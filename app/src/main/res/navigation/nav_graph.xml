@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profile_fragment"
-        android:name="Profile_fragment"
+        android:name="com.example.mealplanb.initset.Profile_fragment"
         android:label="Profile_fragment" >
         <action
             android:id="@+id/action_profile_fragment_to_meal_selectFragment"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/meal_selectFragment"
-        android:name="com.example.mealplanb.Meal_selectFragment"
+        android:name="com.example.mealplanb.initset.Meal_selectFragment"
         android:label="fragment_meal_select"
         tools:layout="@layout/fragment_meal_select" >
         <action
@@ -27,12 +27,16 @@
     </fragment>
     <fragment
         android:id="@+id/todayFragment"
-        android:name="com.example.mealplanb.TodayFragment"
+        android:name="com.example.mealplanb.bottomnav.TodayFragment"
         android:label="fragment_today"
-        tools:layout="@layout/fragment_today" />
+        tools:layout="@layout/fragment_today" >
+        <action
+            android:id="@+id/action_todayFragment_to_add_Diet_Fragment"
+            app:destination="@id/add_Diet_Fragment" />
+    </fragment>
     <fragment
         android:id="@+id/calorySettingFragment"
-        android:name="com.example.mealplanb.CalorySettingFragment"
+        android:name="com.example.mealplanb.initset.CalorySettingFragment"
         android:label="fragment_calory_setting"
         tools:layout="@layout/fragment_calory_setting" >
         <action
@@ -44,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailNutritionFragment"
-        android:name="com.example.mealplanb.DetailNutritionFragment"
+        android:name="com.example.mealplanb.initset.DetailNutritionFragment"
         android:label="fragment_detail_nutrition"
         tools:layout="@layout/fragment_detail_nutrition" >
         <action
@@ -56,11 +60,20 @@
     </fragment>
     <fragment
         android:id="@+id/statics_Fragment"
-        android:name="com.example.mealplanb.Statics_Fragment"
+        android:name="com.example.mealplanb.bottomnav.Statics_Fragment"
         android:label="fragment_statics_"
         tools:layout="@layout/fragment_statics" />
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.mealplanb.MainFragment"
-        android:label="MainFragment" />
+        android:name="com.example.mealplanb.bottomnav.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_add_Diet_Fragment"
+            app:destination="@id/add_Diet_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_Diet_Fragment"
+        android:name="com.example.mealplanb.fragment.Add_Diet_Fragment"
+        android:label="fragment_add__diet_"
+        tools:layout="@layout/fragment_add__diet_" />
 </navigation>
