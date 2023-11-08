@@ -1,13 +1,13 @@
-package com.example.mealplanb
+package com.example.mealplanb.bottomnav
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.mealplanb.databinding.FragmentDetailNutritionBinding
+import com.example.mealplanb.UserManager
+import com.example.mealplanb.adapter.StaticsPagerAdapter
 import com.example.mealplanb.databinding.FragmentStaticsBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -39,7 +39,7 @@ class Statics_Fragment : Fragment() {
             if (userCal != null&&userData!=null) {
                 binding.apply {
                     staticWeight.text = "${userData.goal_weight}Kg"
-                    staticCalory.text = "${userCal.goal_calory}Kg"
+                    staticCalory.text = "${userCal.goal_calory}Kcal"
                     staticRatio.text ="${userCal.carb_percent}:${userCal.protein_percent}:${userCal.fat_percent}"
                 }
             }
