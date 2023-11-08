@@ -1,4 +1,4 @@
-package com.example.mealplanb
+package com.example.mealplanb.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

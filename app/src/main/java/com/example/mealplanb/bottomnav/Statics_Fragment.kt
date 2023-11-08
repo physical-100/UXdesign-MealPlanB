@@ -1,13 +1,12 @@
-package com.example.mealplanb
+package com.example.mealplanb.bottomnav
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.mealplanb.databinding.FragmentDetailNutritionBinding
+import com.example.mealplanb.adapter.StaticsPagerAdapter
 import com.example.mealplanb.databinding.FragmentStaticsBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
