@@ -15,6 +15,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class Statics_Fragment : Fragment() {
     lateinit var binding: FragmentStaticsBinding
+    val userData = UserManager.getUserData()
+    val userCal = UserManager.getUserCal()
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -34,6 +36,13 @@ class Statics_Fragment : Fragment() {
                     2 -> tab.text = "월간"
                 }
             }.attach()
+            if (userCal != null&&userData!=null) {
+                binding.apply {
+                    staticWeight.text = "${userData.goal_weight}Kg"
+                    staticCalory.text = "${userCal.goal_calory}Kg"
+                    staticRatio.text ="${userCal.carb_percent}:${userCal.protein_percent}:${userCal.fat_percent}"
+                }
+            }
 
             return binding.root
         }

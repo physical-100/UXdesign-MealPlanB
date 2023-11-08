@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
+import com.example.mealplanb.UserManager
 import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentProfileFragmentBinding
 
@@ -120,6 +121,7 @@ class Profile_fragment : Fragment() {
             Userdata = Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel)
             // 이거를 db에 저장하고 싶음
 
+            UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel))
 
             val bundle = Bundle()
             bundle.putParcelable("userdata", Userdata!!)
@@ -138,8 +140,4 @@ class Profile_fragment : Fragment() {
         binding.Layout2.setBackgroundResource(0)
         binding.Layout3.setBackgroundResource(0)
     }
-}
-
-private fun Bundle.putParcelable(s: String, userdata: Userdata) {
-
 }

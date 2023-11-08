@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 class MainActivity : AppCompatActivity() {
 
     private var userdata: Userdata? = null
+    private var usercal: User_calory?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +24,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Userdata를 설정하는 메서드 (예: 데이터가 입력될 때 호출)
-    fun setUserdata(userdata: Userdata) {
-        this.userdata = userdata
+}
+object UserManager {
+    private var userdata: Userdata? = null
+    private var usercal: User_calory?=null
+    fun getUserCal():User_calory?{
+        return  usercal
+    }
+    fun setUserCal(usercal: User_calory) {
+        this.usercal = usercal
+    }
+
+    fun getUserData(): Userdata? {
+        return userdata
+    }
+
+    fun setUserData(userData: Userdata) {
+        this.userdata = userData
     }
 }
