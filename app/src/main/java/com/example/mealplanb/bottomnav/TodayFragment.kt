@@ -1,18 +1,14 @@
-package com.example.mealplanb
+package com.example.mealplanb.bottomnav
 
-import Profile_fragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanb.R
+import com.example.mealplanb.User_calory
 import com.example.mealplanb.databinding.FragmentTodayBinding
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
 
 
 class TodayFragment : Fragment() {
@@ -75,6 +71,9 @@ class TodayFragment : Fragment() {
 //            pieChart.invalidate()
 
 
+        }
+        binding.meal1.setOnClickListener{
+            findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment)
         }
     return  binding.root
     }

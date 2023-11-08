@@ -1,4 +1,4 @@
-package com.example.mealplanb
+package com.example.mealplanb.initset
 
 import android.os.Bundle
 import android.util.Log
@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanb.R
+import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentCalorySettingBinding
-import com.example.mealplanb.databinding.FragmentMealSelectBinding
 
 class CalorySettingFragment : Fragment() {
     lateinit var binding: FragmentCalorySettingBinding
