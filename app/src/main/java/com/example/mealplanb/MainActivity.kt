@@ -1,6 +1,6 @@
 package com.example.mealplanb
 
-import com.example.mealplanb.initset.Profile_fragment
+import Profile_fragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
