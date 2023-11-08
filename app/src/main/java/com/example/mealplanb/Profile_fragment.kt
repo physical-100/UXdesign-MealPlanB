@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
 import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentProfileFragmentBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class Profile_fragment : Fragment() {
