@@ -145,7 +145,3 @@ class Profile_fragment : Fragment() {
         binding.Layout3.setBackgroundResource(0)
     }
 }
-
-private fun Bundle.putParcelable(s: String, userdata: Userdata) {
-
-}
