@@ -143,6 +143,7 @@ class Profile_fragment : Fragment() {
         binding.Layout1.setBackgroundResource(0)
         binding.Layout2.setBackgroundResource(0)
         binding.Layout3.setBackgroundResource(0)
+        //dfdf
     }
 }
 
