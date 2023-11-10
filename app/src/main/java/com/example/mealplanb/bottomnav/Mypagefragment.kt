@@ -36,10 +36,10 @@ class Mypagefragment : Fragment() {
 
         }
         binding.modifiyNickname.setOnClickListener {
-
+            findNavController().navigate(R.id.action_mainFragment_to_profile_modifyingFragment)
         }
         binding.sujungProfile.setOnClickListener {
-
+            findNavController().navigate(R.id.action_mainFragment_to_profile_modifyingFragment)
         }
         return  binding.root
     }

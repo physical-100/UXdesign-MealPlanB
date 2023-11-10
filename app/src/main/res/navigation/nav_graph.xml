@@ -73,6 +73,9 @@
         <action
             android:id="@+id/action_mainFragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_profile_modifyingFragment"
+            app:destination="@id/profile_modifyingFragment" />
     </fragment>
     <fragment
         android:id="@+id/add_Diet_Fragment"
@@ -84,4 +87,9 @@
         android:name="com.example.mealplanb.bottomnav.Mypagefragment"
         android:label="fragment_mypagefragment"
         tools:layout="@layout/fragment_mypagefragment" />
+    <fragment
+        android:id="@+id/profile_modifyingFragment"
+        android:name="com.example.mealplanb.fragment.Profile_modifyingFragment"
+        android:label="fragment_profile_modifying"
+        tools:layout="@layout/fragment_profile_modifying" />
 </navigation>

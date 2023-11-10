@@ -66,16 +66,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/sujung_profile"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_marginStart="130dp"
+                android:layout_marginEnd="130dp"
                 android:background="@drawable/circle"
                 android:src="@drawable/baseline_add_24"
-                tools:layout_editor_absoluteX="261dp"
-                tools:layout_editor_absoluteY="147dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editImageview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/editImageview"
                 tools:ignore="MissingConstraints" />
 
 
@@ -92,7 +95,8 @@
             android:id="@+id/Layout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
             `<TextView
             android:id="@+id/goal_setting"
             android:layout_width="wrap_content"
