@@ -1,7 +1,7 @@
 package com.example.mealplanb
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.mealplanb.bottomnav.MainFragment
 import com.example.mealplanb.initset.Profile_fragment
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +17,12 @@ class MainActivity : AppCompatActivity() {
         if (userdata == null) {
             val profileFragment = Profile_fragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_profile, profileFragment)
+                .replace(R.id.nav_host_fragment, profileFragment)
+                .commit()
+        }else{ //유저데이터가 있을  때 mainfragment로 감
+            val mainFragment = MainFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, mainFragment)
                 .commit()
         }
     }

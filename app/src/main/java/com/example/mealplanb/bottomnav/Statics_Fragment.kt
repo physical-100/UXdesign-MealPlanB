@@ -39,7 +39,7 @@ class Statics_Fragment : Fragment() {
             if (userCal != null&&userData!=null) {
                 binding.apply {
                     staticWeight.text = "${userData.goal_weight}Kg"
-                    staticCalory.text = "${userCal.goal_calory}Kg"
+                    staticCalory.text = "${userCal.goal_calory}Kcal"
                     staticRatio.text ="${userCal.carb_percent}:${userCal.protein_percent}:${userCal.fat_percent}"
                 }
             }
