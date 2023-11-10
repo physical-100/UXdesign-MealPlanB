@@ -50,7 +50,9 @@ class MainFragment : Fragment() {
                 }
                 R.id.navigation_my_page -> {
                     // 마이 페이지로 이동
-                    // 예: supportFragmentManager.beginTransaction().replace(R.id.fragment_container, NotificationsFragment()).commit()
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.basic_container, Mypagefragment())
+                    transaction.commit()
                     true
                 }
                 else -> false

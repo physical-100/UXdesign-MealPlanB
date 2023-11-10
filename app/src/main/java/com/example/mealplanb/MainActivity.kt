@@ -17,12 +17,13 @@ class MainActivity : AppCompatActivity() {
         if (userdata == null) {
             val profileFragment = Profile_fragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, profileFragment)
+                .replace(R.id.fragment_profile, profileFragment)
                 .commit()
-        }else{ //유저데이터가 있을  때 mainfragment로 감
+        } else{ //유저데이터가 있을  때 mainfragment로 감
+            UserManager.setUserData(userdata!!)
             val mainFragment = MainFragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, mainFragment)
+                .replace(R.id.fragment_main, mainFragment)
                 .commit()
         }
     }
