@@ -45,7 +45,9 @@ class MainFragment : Fragment() {
                 }
                 R.id.navigation_fast -> {
                     // 단식 화면으로 이동
-                    // 예: supportFragmentManager.beginTransaction().replace(R.id.fragment_container, NotificationsFragment()).commit()
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.basic_container, FastFragment())
+                    transaction.commit()
                     true
                 }
                 R.id.navigation_my_page -> {

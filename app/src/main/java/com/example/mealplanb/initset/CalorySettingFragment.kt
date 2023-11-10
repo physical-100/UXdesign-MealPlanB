@@ -11,12 +11,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
 import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentCalorySettingBinding
-import com.example.mealplanb.databinding.FragmentMealSelectBinding
+import com.google.firebase.database.FirebaseDatabase
 
 class CalorySettingFragment : Fragment() {
     lateinit var binding: FragmentCalorySettingBinding
 //    lateinit var Userdata:Userdata
     lateinit var goal_cal:String
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +59,10 @@ class CalorySettingFragment : Fragment() {
 
         }
         binding.next2.setOnClickListener {
+            val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
+
             goal_cal = binding.calorySetting.text.toString()
+            dataRoute.child("목표 칼로리").setValue(goal_cal.toInt())
             Log.i("sendcal",goal_cal)
             findNavController().navigate(R.id.action_calorySettingFragment_to_detailNutritionFragment, bundleOf("goal_cal" to goal_cal))
             //목표 칼로리를 인자로 넘김
