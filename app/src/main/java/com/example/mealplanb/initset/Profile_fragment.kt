@@ -1,5 +1,6 @@
 package com.example.mealplanb.initset
 
+import android.animation.Animator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
