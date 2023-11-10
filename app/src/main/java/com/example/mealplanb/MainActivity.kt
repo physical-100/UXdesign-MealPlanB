@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
 
                         }
 
-
                     }
                     if (usercomplete == null) {
                         val profileFragment = Profile_fragment()
