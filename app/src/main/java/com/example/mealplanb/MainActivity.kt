@@ -2,6 +2,8 @@ package com.example.mealplanb
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.example.mealplanb.bottomnav.MainFragment
 import com.example.mealplanb.initset.Profile_fragment
 import com.google.firebase.database.DataSnapshot
@@ -61,12 +63,13 @@ class MainActivity : AppCompatActivity() {
                         val profileFragment = Profile_fragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment_profile, profileFragment).commit()
-                    } else { //유저데이터가 있을  때 mainfragment로 감
+                    } else {
+                        //유저데이터가 있을  때 mainfragment로 감
                         UserManager.setUserData(userdata!!)
+                        UserManager.setUserCal(usercal!!)
                         val mainFragment = MainFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_main, mainFragment)
-                            .commit()
+                            .replace(R.id.Fragment_main, mainFragment).commit()
                     }
                 }
 
