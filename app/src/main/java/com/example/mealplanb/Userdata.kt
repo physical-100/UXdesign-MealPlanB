@@ -4,13 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Userdata(
-    val username: String,
-    val gender: String,
-    val age: Int,
-    val height: Int,
-    val start_weight: Double,
-    val goal_weight: Double,
-    val type: String
+    var username: String,
+    var gender: String,
+    var age: Int,
+    var height: Int,
+    var start_weight: Double,
+    var goal_weight: Double,
+    var type: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -45,7 +45,7 @@ data class Userdata(
             return arrayOfNulls(size)
         }
         fun clear(): Userdata {
-            return Userdata("", "", 0, 0, 0.0, 0.0, "")
+            return Userdata("", "", 0, 0, 0.0, 0.0,"")
         }
     }
 }

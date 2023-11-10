@@ -193,6 +193,7 @@ class DetailNutritionFragment : Fragment() {
                     dataRoute.child("목표 단백질(%)").setValue(protein_percent)
                     dataRoute.child("목표 지방").setValue(init_fat_cal)
                     dataRoute.child("목표 지방(%)").setValue(fat_percent)
+                    firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/초기설정여부").setValue("완료")
 
 
 

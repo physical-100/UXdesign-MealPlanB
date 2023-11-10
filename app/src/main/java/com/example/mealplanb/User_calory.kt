@@ -3,8 +3,16 @@ package com.example.mealplanb
 import android.os.Parcel
 import android.os.Parcelable
 
-data class User_calory(val name:String,val goal_calory: Int, val carb: Int, val protein: Int, val fat: Int,val carb_percent:Int,val protein_percent:Int,val fat_percent:Int) :
-    Parcelable {
+data class User_calory(
+    val name:String,
+    var goal_calory: Int,
+    var carb: Int,
+    var protein: Int,
+    var fat: Int,
+    var carb_percent:Int,
+    var protein_percent:Int,
+    var fat_percent:Int
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readInt(),
@@ -38,6 +46,9 @@ data class User_calory(val name:String,val goal_calory: Int, val carb: Int, val 
 
         override fun newArray(size: Int): Array<User_calory?> {
             return arrayOfNulls(size)
+        }
+        fun clear(): User_calory {
+            return User_calory("",0, 0, 0, 0, 0, 0, 0)
         }
     }
 }
