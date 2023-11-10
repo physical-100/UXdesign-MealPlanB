@@ -5,14 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.mealplanb.MainActivity
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
+
     lateinit var binding:FragmentMainBinding
     val userData = UserManager.getUserData()
     val userCal = UserManager.getUserCal()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -50,7 +54,9 @@ class MainFragment : Fragment() {
                 }
                 R.id.navigation_my_page -> {
                     // 마이 페이지로 이동
-                    // 예: supportFragmentManager.beginTransaction().replace(R.id.fragment_container, NotificationsFragment()).commit()
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.basic_container, Mypagefragment())
+                    transaction.commit()
                     true
                 }
                 else -> false

@@ -70,10 +70,26 @@
         <action
             android:id="@+id/action_mainFragment_to_add_Diet_Fragment"
             app:destination="@id/add_Diet_Fragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_profile_modifyingFragment"
+            app:destination="@id/profile_modifyingFragment" />
     </fragment>
     <fragment
         android:id="@+id/add_Diet_Fragment"
         android:name="com.example.mealplanb.fragment.Add_Diet_Fragment"
         android:label="fragment_add__diet_"
         tools:layout="@layout/fragment_add__diet_" />
+    <fragment
+        android:id="@+id/mypagefragment"
+        android:name="com.example.mealplanb.bottomnav.Mypagefragment"
+        android:label="fragment_mypagefragment"
+        tools:layout="@layout/fragment_mypagefragment" />
+    <fragment
+        android:id="@+id/profile_modifyingFragment"
+        android:name="com.example.mealplanb.fragment.Profile_modifyingFragment"
+        android:label="fragment_profile_modifying"
+        tools:layout="@layout/fragment_profile_modifying" />
 </navigation>
