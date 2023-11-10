@@ -10,10 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
 import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentMealSelectBinding
+import com.google.firebase.database.FirebaseDatabase
 
 
 class Meal_selectFragment : Fragment() {
     lateinit var binding: FragmentMealSelectBinding
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +40,8 @@ class Meal_selectFragment : Fragment() {
         binding.general.setOnClickListener{
 //            val mealtype="general"
             // 클릭시 색 변경 + 다음버튼 눌렀을 때 이동
+            val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
+            dataRoute.child("목표식단").setValue("일반식단")
             var bundle = bundleOf("Userdata" to userdata)
             findNavController().navigate(R.id.action_meal_selectFragment_to_calorySettingFragment,bundle)
         }
