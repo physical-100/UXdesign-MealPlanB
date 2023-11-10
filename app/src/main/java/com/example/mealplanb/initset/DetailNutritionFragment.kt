@@ -14,10 +14,13 @@ import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.User_calory
 import com.example.mealplanb.databinding.FragmentDetailNutritionBinding
+import com.google.firebase.database.FirebaseDatabase
 
 class DetailNutritionFragment : Fragment() {
     lateinit var binding: FragmentDetailNutritionBinding
     lateinit var name:String
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -179,10 +182,20 @@ class DetailNutritionFragment : Fragment() {
                 })
 
                 next2.setOnClickListener {
+                    val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
                     val carb_percent=(init_carb_cal/goal_calory*100).toInt()
                     val protein_percent=(init_protein_cal/goal_calory*100).toInt()
                     val fat_percent=(init_fat_cal/goal_calory*100).toInt()
                     val userCalory = User_calory(name,goal_calory.toInt(), init_carb, init_protein, init_fat,carb_percent,protein_percent,fat_percent)
+                    dataRoute.child("목표 탄수화물").setValue(init_carb_cal)
+                    dataRoute.child("목표 탄수화물(%)").setValue(carb_percent)
+                    dataRoute.child("목표 단백질").setValue(init_protein_cal)
+                    dataRoute.child("목표 단백질(%)").setValue(protein_percent)
+                    dataRoute.child("목표 지방").setValue(init_fat_cal)
+                    dataRoute.child("목표 지방(%)").setValue(fat_percent)
+
+
+
                     UserManager.setUserCal(userCalory)
                     val bundle = bundleOf(
                         "user_calory" to userCalory
