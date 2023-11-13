@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "322410420635",
+    "firebase_url": "https://fir-test-android-4779e-default-rtdb.firebaseio.com",
+    "project_id": "fir-test-android-4779e",
+    "storage_bucket": "fir-test-android-4779e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322410420635:android:2c3af6448897ecc5d3a93e",
+        "android_client_info": {
+          "package_name": "com.example.firebasetest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNBIkQqpk22_vpRJBwADKf5242S9NPgKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322410420635:android:dae9e359b64e160cd3a93e",
+        "android_client_info": {
+          "package_name": "com.example.mealplanb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNBIkQqpk22_vpRJBwADKf5242S9NPgKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322410420635:android:39eb36e84669b809d3a93e",
+        "android_client_info": {
+          "package_name": "com.example.third"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNBIkQqpk22_vpRJBwADKf5242S9NPgKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
