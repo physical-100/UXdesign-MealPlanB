@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="550dp"
+    tools:context=".bottomnav.DailyweightFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EA8B6D"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="나의 변화"
+            android:textColor="#FFFFFF"
+            android:textSize="28dp"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        <TextView
+            android:id="@+id/weight_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="오늘 내 체중은?"
+            android:textAlignment="center"
+            android:textSize="15dp"
+            android:textColor="#FFFFFF"
+            />
+        <TextView
+            android:id="@+id/daily_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="00.0kg"
+            android:textAlignment="center"
+            android:textSize="50dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            />
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="2500dp"
+            android:layout_height="250dp"
+            android:src="@drawable/icon_scale"/>
+
+        <Button
+            android:id="@+id/addweightbutton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_shape"
+            android:backgroundTint="#EC6E46"
+            android:text="기 록 하 기"
+            android:textColor="#FFFFFF"
+            />
+    </LinearLayout>
+
+</FrameLayout>
