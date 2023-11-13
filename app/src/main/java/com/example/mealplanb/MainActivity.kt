@@ -1,4 +1,5 @@
 package com.example.mealplanb
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +12,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
 
 class MainActivity : AppCompatActivity() {
     private val firebaseDatabase = FirebaseDatabase.getInstance()
