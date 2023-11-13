@@ -21,7 +21,7 @@ class Fast_Timer_1_Fragment : Fragment() {
     private lateinit var timeTxt: TextView
     private lateinit var circularProgressBar: ProgressBar
 
-    private val countdownTime = 60 // 60 second, 1 min
+    private val countdownTime = 3600 // 1hour 3600 second, 60 min
     private val clockTime = (countdownTime * 1000).toLong()
     private val progressTime = (clockTime/1000).toFloat()
 
@@ -69,7 +69,7 @@ class Fast_Timer_1_Fragment : Fragment() {
 
         val pauseBtn = binding.pauseBtn
         val resumeBtn = binding.resumeBtn
-        var resetBtn = binding.resetBtn
+        val resetBtn = binding.resetBtn
 
         pauseBtn.setOnClickListener {
             customCountdownTimer.pauseTimer()

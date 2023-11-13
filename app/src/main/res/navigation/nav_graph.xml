@@ -71,10 +71,9 @@
             android:id="@+id/action_mainFragment_to_add_Diet_Fragment"
             app:destination="@id/add_Diet_Fragment" />
         <action
-
             android:id="@+id/action_mainFragment_to_fast_Timer_1_Fragment"
             app:destination="@id/fast_Timer_1_Fragment" />
-
+        <action
             android:id="@+id/action_mainFragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
         <action

@@ -14,9 +14,11 @@
             android:id="@+id/circularProgressBar"
             android:layout_width="400dp"
             android:layout_height="400dp"
+            android:background="@drawable/circleshape"
             android:layout_centerInParent="true"
             android:indeterminateOnly="false"
-            android:progressDrawable="@id/circularProgressBar"/>
+            android:progress="0"
+            android:progressDrawable="@drawable/circle_progressbar_1"/>
 
         <TextView
             android:id="@+id/timeTxt"
