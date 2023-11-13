@@ -1,5 +1,6 @@
 package com.example.mealplanb.initset
 
+import android.animation.Animator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -122,10 +123,11 @@ class Profile_fragment : Fragment() {
             dataRoute.child("평소 활동량").setValue(activityLevel)
 
             // 데이터 클래스 업데이트
-            Userdata = Userdata(name, gender, age, height, start_weight, goal_weight, activityLevel)
+
+            //Userdata = Userdata(name, gender, age, height, start_weight, goal_weight, activityLevel)
             // 이거를 db에 저장하고 싶음
 
-            UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel))
+            //UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel))
 
             val bundle = Bundle()
             bundle.putParcelable("userdata", Userdata!!)
