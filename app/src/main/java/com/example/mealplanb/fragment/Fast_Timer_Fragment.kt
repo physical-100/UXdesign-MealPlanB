@@ -20,7 +20,9 @@ class Fast_Timer_Fragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFastTimerBinding.inflate(inflater,container,false)
         binding.button.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_fast_Timer_1_Fragment)
+        //    findNavController().navigate(R.id.action_fastFragment_to_setting_Fast_Type_Fragment)
+            //단식 종류 설정해야해서 밑에코드 주석처리함
+        findNavController().navigate(R.id.action_mainFragment_to_setting_Fast_Type_Fragment)
         }
         return binding.root
     }

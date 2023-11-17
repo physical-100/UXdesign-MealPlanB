@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         userdata = Userdata.clear()
         usercal = User_calory.clear()
         val initFragment = AnimationFragment()
+
                 firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
