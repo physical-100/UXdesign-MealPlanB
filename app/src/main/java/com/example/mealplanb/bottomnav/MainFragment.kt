@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mealplanb.MainActivity
-import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
+import com.example.mealplanb.R
 import com.example.mealplanb.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
