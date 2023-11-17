@@ -71,6 +71,7 @@
             android:id="@+id/action_mainFragment_to_add_Diet_Fragment"
             app:destination="@id/add_Diet_Fragment" />
         <action
+
             android:id="@+id/action_mainFragment_to_fast_Timer_1_Fragment"
             app:destination="@id/fast_Timer_1_Fragment" />
         <action
@@ -79,6 +80,9 @@
         <action
             android:id="@+id/action_mainFragment_to_profile_modifyingFragment"
             app:destination="@id/profile_modifyingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_setting_Fast_Type_Fragment"
+            app:destination="@id/setting_Fast_Type_Fragment" />
 
     </fragment>
     <fragment
@@ -94,6 +98,9 @@
         <action
             android:id="@+id/action_fastFragment_to_fast_Timer_1_Fragment"
             app:destination="@id/fast_Timer_1_Fragment" />
+        <action
+            android:id="@+id/action_fastFragment_to_setting_Fast_Type_Fragment"
+            app:destination="@id/setting_Fast_Type_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/fast_Timer_1_Fragment"
@@ -121,5 +128,23 @@
         <action
             android:id="@+id/action_animationFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting_Fast_Type_Fragment"
+        android:name="com.example.mealplanb.fragment.Setting_Fast_Type_Fragment"
+        android:label="fragment_setting__fast__type_"
+        tools:layout="@layout/fragment_setting__fast__type_" >
+        <action
+            android:id="@+id/action_setting_Fast_Type_Fragment_to_setting_Fast_Date_Fragment"
+            app:destination="@id/setting_Fast_Date_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting_Fast_Date_Fragment"
+        android:name="com.example.mealplanb.fragment.Setting_Fast_Date_Fragment"
+        android:label="fragment_setting__fast__date_"
+        tools:layout="@layout/fragment_setting__fast__date_" >
+        <action
+            android:id="@+id/action_setting_Fast_Date_Fragment_to_fast_Timer_1_Fragment"
+            app:destination="@id/fast_Timer_1_Fragment" />
     </fragment>
 </navigation>
