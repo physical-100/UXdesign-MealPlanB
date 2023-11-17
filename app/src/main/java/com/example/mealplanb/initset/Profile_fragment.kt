@@ -41,7 +41,7 @@ class Profile_fragment : Fragment() {
         val view = binding.root
 
         setbackground()
-
+        Log.i("qqq4", "onCreateView: ")
         binding.nextButton.isEnabled=false
         // 성별, 활동량이 선택되어 잇는지 확인
 

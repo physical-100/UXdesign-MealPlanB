@@ -58,10 +58,13 @@ class MainActivity : AppCompatActivity() {
                         }
 
                     }
+                    Log.i("qqq","qqq")
                     if (usercomplete == null) {
+                        Log.i("qqq1", "onDataChange: ")
                         val profileFragment = Profile_fragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment_profile, profileFragment).commit()
+                        Log.i("qqq2", "onDataChange: ")
                     } else {
                         //유저데이터가 있을  때 mainfragment로 감
                         UserManager.setUserData(userdata!!)

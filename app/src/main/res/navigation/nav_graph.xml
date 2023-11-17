@@ -81,7 +81,16 @@
         android:id="@+id/add_Diet_Fragment"
         android:name="com.example.mealplanb.fragment.Add_Diet_Fragment"
         android:label="fragment_add__diet_"
-        tools:layout="@layout/fragment_add__diet_" />
+        tools:layout="@layout/fragment_add__diet_" >
+        <action
+            android:id="@+id/action_add_Diet_Fragment_to_specificFood_Fragment"
+            app:destination="@id/specificFood_Fragment">
+            <argument
+                android:name="addfooddata"
+                android:defaultValue="음식"/>
+        </action>
+
+    </fragment>
     <fragment
         android:id="@+id/mypagefragment"
         android:name="com.example.mealplanb.bottomnav.Mypagefragment"
@@ -92,4 +101,13 @@
         android:name="com.example.mealplanb.fragment.Profile_modifyingFragment"
         android:label="fragment_profile_modifying"
         tools:layout="@layout/fragment_profile_modifying" />
+    <fragment
+        android:id="@+id/specificFood_Fragment"
+        android:name="com.example.mealplanb.fragment.SpecificFood_Fragment"
+        android:label="fragment_specific_food_"
+        tools:layout="@layout/fragment_specific_food_">
+        <argument
+            android:name="addfooddata"
+            app:argType="com.example.mealplanb.dataclass.food" />
+    </fragment>
 </navigation>
