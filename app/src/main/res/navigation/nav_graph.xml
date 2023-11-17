@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@+id/mainFragment">
+    app:startDestination="@id/animationFragment">
 
     <fragment
         android:id="@+id/profile_fragment"
@@ -110,4 +110,16 @@
         android:name="com.example.mealplanb.fragment.Profile_modifyingFragment"
         android:label="fragment_profile_modifying"
         tools:layout="@layout/fragment_profile_modifying" />
+    <fragment
+        android:id="@+id/animationFragment"
+        android:name="com.example.mealplanb.fragment.AnimationFragment"
+        android:label="fragment_animation"
+        tools:layout="@layout/fragment_animation" >
+        <action
+            android:id="@+id/action_animationFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_animationFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
