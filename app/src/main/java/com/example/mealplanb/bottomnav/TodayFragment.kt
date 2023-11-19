@@ -10,6 +10,7 @@ import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.User_calory
 import com.example.mealplanb.databinding.FragmentTodayBinding
+import com.example.mealplanb.fragment.MealhomeFragment
 
 
 class TodayFragment : Fragment() {
@@ -73,9 +74,16 @@ class TodayFragment : Fragment() {
 
 
         }
-        binding.meal1.setOnClickListener{
-            findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment)
-        }
+        val mealhomeFragment = MealhomeFragment()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.addmeal, mealhomeFragment)
+            .commit()
+
+        val dailyweightFragment = DailyweightFragment()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.addweight, dailyweightFragment)
+            .commit()
+
     return  binding.root
     }
 

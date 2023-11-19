@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@+id/mainFragment">
+    app:startDestination="@id/animationFragment">
 
     <fragment
         android:id="@+id/profile_fragment"
@@ -71,11 +71,19 @@
             android:id="@+id/action_mainFragment_to_add_Diet_Fragment"
             app:destination="@id/add_Diet_Fragment" />
         <action
+
+            android:id="@+id/action_mainFragment_to_fast_Timer_1_Fragment"
+            app:destination="@id/fast_Timer_1_Fragment" />
+        <action
             android:id="@+id/action_mainFragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
         <action
             android:id="@+id/action_mainFragment_to_profile_modifyingFragment"
             app:destination="@id/profile_modifyingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_setting_Fast_Type_Fragment"
+            app:destination="@id/setting_Fast_Type_Fragment" />
+
     </fragment>
     <fragment
         android:id="@+id/add_Diet_Fragment"
@@ -84,13 +92,25 @@
         tools:layout="@layout/fragment_add__diet_" >
         <action
             android:id="@+id/action_add_Diet_Fragment_to_specificFood_Fragment"
-            app:destination="@id/specificFood_Fragment">
-            <argument
-                android:name="addfooddata"
-                android:defaultValue="음식"/>
-        </action>
-
+            app:destination="@id/specificFood_Fragment" />
     </fragment>
+    <fragment
+        android:id="@+id/fastFragment"
+        android:name="com.example.mealplanb.bottomnav.FastFragment"
+        android:label="fragment_fast"
+        tools:layout="@layout/fragment_fast" >
+        <action
+            android:id="@+id/action_fastFragment_to_fast_Timer_1_Fragment"
+            app:destination="@id/fast_Timer_1_Fragment" />
+        <action
+            android:id="@+id/action_fastFragment_to_setting_Fast_Type_Fragment"
+            app:destination="@id/setting_Fast_Type_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fast_Timer_1_Fragment"
+        android:name="com.example.mealplanb.fragment.Fast_Timer_1_Fragment"
+        android:label="fragment_fast__timer_1_"
+        tools:layout="@layout/fragment_fast__timer_1_" />
     <fragment
         android:id="@+id/mypagefragment"
         android:name="com.example.mealplanb.bottomnav.Mypagefragment"
@@ -102,12 +122,42 @@
         android:label="fragment_profile_modifying"
         tools:layout="@layout/fragment_profile_modifying" />
     <fragment
+        android:id="@+id/animationFragment"
+        android:name="com.example.mealplanb.fragment.AnimationFragment"
+        android:label="fragment_animation"
+        tools:layout="@layout/fragment_animation" >
+        <action
+            android:id="@+id/action_animationFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_animationFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting_Fast_Type_Fragment"
+        android:name="com.example.mealplanb.fragment.Setting_Fast_Type_Fragment"
+        android:label="fragment_setting__fast__type_"
+        tools:layout="@layout/fragment_setting__fast__type_" >
+        <action
+            android:id="@+id/action_setting_Fast_Type_Fragment_to_setting_Fast_Date_Fragment"
+            app:destination="@id/setting_Fast_Date_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting_Fast_Date_Fragment"
+        android:name="com.example.mealplanb.fragment.Setting_Fast_Date_Fragment"
+        android:label="fragment_setting__fast__date_"
+        tools:layout="@layout/fragment_setting__fast__date_" >
+        <action
+            android:id="@+id/action_setting_Fast_Date_Fragment_to_fast_Timer_1_Fragment"
+            app:destination="@id/fast_Timer_1_Fragment" />
+    </fragment>
+    <fragment
         android:id="@+id/specificFood_Fragment"
         android:name="com.example.mealplanb.fragment.SpecificFood_Fragment"
         android:label="fragment_specific_food_"
-        tools:layout="@layout/fragment_specific_food_">
-        <argument
-            android:name="addfooddata"
-            app:argType="com.example.mealplanb.dataclass.food" />
+        tools:layout="@layout/fragment_specific_food_" >
+        <action
+            android:id="@+id/action_specificFood_Fragment_to_add_Diet_Fragment"
+            app:destination="@id/add_Diet_Fragment" />
     </fragment>
 </navigation>

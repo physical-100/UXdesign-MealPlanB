@@ -1,5 +1,6 @@
 package com.example.mealplanb.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanb.R
 import com.example.mealplanb.adapter.AddFoodAdapter
+import com.example.mealplanb.databinding.AddfoodrowBinding
 import com.example.mealplanb.databinding.FragmentAddDietBinding
 import com.example.mealplanb.dataclass.food
 import java.net.HttpURLConnection
@@ -36,6 +38,9 @@ class Add_Diet_Fragment : Fragment() {
     val handler=Handler()
     var adapter: AddFoodAdapter?=null
     var data = arrayListOf<food>(
+        food("닭가슴살", "하림", 120.0,100.0,100.0,100.0,100.0 ),
+        food("현미밥", "", 153.0,100.0,100.0,100.0,100.0 ),
+        food("야채샐러드", "", 16.0,50.0,100.0,100.0,100.0 )
     )
 
     override fun onCreateView(
@@ -44,12 +49,16 @@ class Add_Diet_Fragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
+
+
         return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+
+
         binding!!.editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -93,16 +102,17 @@ class Add_Diet_Fragment : Fragment() {
                 Log.i("food1234", "$data")
                 adapter!!.notifyItemChanged(holder.adapterPosition)
 
-               // val bundle= bundleOf("add food" to data)
-                //Log.i("s", "$bundle ")
-                //findNavController().navigate(R.id.action_add_Diet_Fragment_to_specificFood_Fragment,bundle)
+
+                val bundle= bundleOf("add food" to data)
+                Log.i("szzzz", "$bundle ")
+                findNavController().navigate(R.id.action_add_Diet_Fragment_to_specificFood_Fragment,bundle)
             }
             override fun OnaddBtnClick(data: food, holder: RecyclerView.ViewHolder) {
                 Log.i("food123","$data add button")
                 adapter!!.notifyItemChanged(holder.adapterPosition)
             }
         }
-        
+
     }
 
     override fun onDestroy() {
@@ -122,7 +132,7 @@ class Add_Diet_Fragment : Fragment() {
 //        urlBuilder.append("&" + URLEncoder.encode("bgn_year", "UTF-8") + "=" + URLEncoder.encode("2017", "UTF-8")) /*구축년도*/
 //        urlBuilder.append("&" + URLEncoder.encode("animal_plant", "UTF-8") + "=" + URLEncoder.encode("(유)돌코리아", "UTF-8")) /*가공업체*/
                 urlBuilder.append("&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")) /*응답데이터 형식(xml/json) Default: xml*/
-                
+
                 val url = URL(urlBuilder.toString())
                 val conn = url.openConnection() as HttpURLConnection
                 conn.requestMethod = "GET"

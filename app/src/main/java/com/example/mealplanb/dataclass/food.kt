@@ -13,5 +13,4 @@ data class food(
     var foodcarbo:Double,
     var foodprotein:Double,
     var foodfat:Double
-):
-    Parcelable
+): Parcelable

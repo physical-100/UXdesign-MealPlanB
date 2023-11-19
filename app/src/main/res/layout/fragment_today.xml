@@ -363,46 +363,19 @@
                             android:textSize="20sp" />
                     </LinearLayout>
                 </LinearLayout>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/addmeal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="137dp">
+                </androidx.fragment.app.FragmentContainerView>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/addweight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                    <TableRow>
+                </androidx.fragment.app.FragmentContainerView>
 
-                        <Button
-                            android:id="@+id/meal_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="식단 1" />
-
-                        <Button
-                            android:id="@+id/meal_2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="식단 2" />
-                    </TableRow>
-
-                    <TableRow>
-
-                        <Button
-                            android:id="@+id/meal_3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="식단 3" />
-
-                        <Button
-                            android:id="@+id/meal_4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="식단 4" />
-                    </TableRow>
-
-                </TableLayout>
 
             </LinearLayout>
         </ScrollView>
