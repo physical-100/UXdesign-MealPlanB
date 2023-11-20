@@ -41,7 +41,7 @@ class Profile_fragment : Fragment() {
         val view = binding.root
 
         setbackground()
-
+        Log.i("qqq4", "onCreateView: ")
         binding.nextButton.isEnabled=false
         // 성별, 활동량이 선택되어 잇는지 확인
 
@@ -125,9 +125,10 @@ class Profile_fragment : Fragment() {
             // 데이터 클래스 업데이트
 
             //Userdata = Userdata(name, gender, age, height, start_weight, goal_weight, activityLevel)
+
             // 이거를 db에 저장하고 싶음
 
-            //UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel))
+            UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel))
 
             val bundle = Bundle()
             bundle.putParcelable("userdata", Userdata!!)

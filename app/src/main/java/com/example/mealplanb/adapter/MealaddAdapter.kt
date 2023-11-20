@@ -1,5 +1,4 @@
 package com.example.mealplanb.adapter
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,5 +39,4 @@ class MealaddAdapter(
             }
         }
     }
-    //아아
 }
