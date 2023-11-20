@@ -112,6 +112,23 @@
         android:label="fragment_fast__timer_1_"
         tools:layout="@layout/fragment_fast__timer_1_" />
     <fragment
+        android:id="@+id/fastFragment"
+        android:name="com.example.mealplanb.bottomnav.FastFragment"
+        android:label="fragment_fast"
+        tools:layout="@layout/fragment_fast" >
+        <action
+            android:id="@+id/action_fastFragment_to_fast_Timer_1_Fragment"
+            app:destination="@id/fast_Timer_1_Fragment" />
+        <action
+            android:id="@+id/action_fastFragment_to_setting_Fast_Type_Fragment"
+            app:destination="@id/setting_Fast_Type_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fast_Timer_1_Fragment"
+        android:name="com.example.mealplanb.fragment.Fast_Timer_1_Fragment"
+        android:label="fragment_fast__timer_1_"
+        tools:layout="@layout/fragment_fast__timer_1_" />
+    <fragment
         android:id="@+id/mypagefragment"
         android:name="com.example.mealplanb.bottomnav.Mypagefragment"
         android:label="fragment_mypagefragment"
@@ -151,6 +168,7 @@
             android:id="@+id/action_setting_Fast_Date_Fragment_to_fast_Timer_1_Fragment"
             app:destination="@id/fast_Timer_1_Fragment" />
     </fragment>
+
     <fragment
         android:id="@+id/specificFood_Fragment"
         android:name="com.example.mealplanb.fragment.SpecificFood_Fragment"

@@ -1,6 +1,4 @@
 package com.example.mealplanb.adapter
-
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,10 +35,8 @@ class MealaddAdapter(
 
             // 아이템을 클릭할 때 호출할 함수
             itemView.setOnClickListener {
-                Log.i("meal",meal)
                 onItemClick(meal)
             }
         }
     }
-
 }

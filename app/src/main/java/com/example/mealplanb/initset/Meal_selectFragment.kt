@@ -37,7 +37,6 @@ class Meal_selectFragment : Fragment() {
         binding.back.setOnClickListener{
            Userdata.clear()
             findNavController().navigate(R.id.action_meal_selectFragment_to_profile_fragment)
-
         }
         binding.general.setOnClickListener{
 //            val mealtype="general"

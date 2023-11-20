@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.TextView
+
+
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mealplanb.R
@@ -14,6 +17,7 @@ import com.example.mealplanb.adapter.ItemSpacingDecoration
 import com.example.mealplanb.adapter.MealaddAdapter
 import com.example.mealplanb.databinding.FragmentDailyweightBinding
 import com.example.mealplanb.databinding.FragmentMealhomeBinding
+
 import com.example.mealplanb.databinding.ItemMealBinding
 import com.example.mealplanb.dataclass.food
 import com.google.firebase.database.DataSnapshot
@@ -39,11 +43,21 @@ class MealhomeFragment : Fragment() {
     lateinit var fatview:TextView
 
 
+
+class MealhomeFragment : Fragment() {
+    lateinit var binding: FragmentMealhomeBinding
+    lateinit var mealaddAdapter: MealaddAdapter
+    private var meals = mutableListOf("식단 1", "식단 2", "식단 3")
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMealhomeBinding.inflate(inflater, container, false)
+
+
+
 
         // Initialize RecyclerView for horizontal scrolling list of meals
         val itemSpacingDecoration = ItemSpacingDecoration(resources.getDimensionPixelSize(R.dimen.item_spacing))
@@ -52,12 +66,18 @@ class MealhomeFragment : Fragment() {
         mealaddAdapter = MealaddAdapter(meals) { clickedMeal ->
             // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
             // 예: Navigation Component를 사용한 화면 전환
+
             Log.i("식단은 무엇?",meals.toString())
+
+
             findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment)
         }
         binding.recyclerviewMeal.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerviewMeal.adapter = mealaddAdapter
+
         meallistfromDatabase()
+
+
 
         return binding.root
     }
@@ -72,10 +92,16 @@ class MealhomeFragment : Fragment() {
                 // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
                 // 예: Navigation Component를 사용한 화면 전환
 
+
+
+
                 findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment)
             }
             binding.recyclerviewMeal.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             binding.recyclerviewMeal.adapter = mealaddAdapter
+
+
+
 
 
         }
@@ -90,6 +116,7 @@ class MealhomeFragment : Fragment() {
         // Add the new meal view to the linear layout inside ScrollView
 
     }
+
 
     private fun meallistfromDatabase(){
 
@@ -143,6 +170,8 @@ class MealhomeFragment : Fragment() {
 
 
     }
+
+
 
 
 
