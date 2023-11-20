@@ -12,10 +12,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class editweightFragment : BottomSheetDialogFragment() {
 
-    // 인터페이스 정의: 숫자 입력 완료 이벤트를 액티비티로 전달하기 위함
     interface OnNumberEnteredListener {
         fun onNumberEntered(number: Int)
     }
+    // 인터페이스 정의: 숫자 입력 완료 이벤트를 액티비티로 전달하기 위함
 
     private var listener: OnNumberEnteredListener? = null
 

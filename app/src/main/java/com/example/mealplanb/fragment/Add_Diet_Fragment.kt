@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,11 @@ import com.example.mealplanb.adapter.AddFoodAdapter
 import com.example.mealplanb.databinding.AddfoodrowBinding
 import com.example.mealplanb.databinding.FragmentAddDietBinding
 import com.example.mealplanb.dataclass.food
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.jayway.jsonpath.JsonPath
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
@@ -30,17 +36,18 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
-import kotlin.math.log
 
-class Add_Diet_Fragment : Fragment() {
+import kotlin.math.log
+import kotlin.reflect.typeOf
+
+class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListener {
     // TODO: Rename and change types of parameters
     var binding: FragmentAddDietBinding?=null
     val handler=Handler()
     var adapter: AddFoodAdapter?=null
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
     var data = arrayListOf<food>(
-        food("닭가슴살", "하림", 120.0,100.0,100.0,100.0,100.0 ),
-        food("현미밥", "", 153.0,100.0,100.0,100.0,100.0 ),
-        food("야채샐러드", "", 16.0,50.0,100.0,100.0,100.0 )
+
     )
 
     override fun onCreateView(
@@ -56,12 +63,13 @@ class Add_Diet_Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        foodFavoritesRoad()
         initRecyclerView()
 
         binding!!.editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 handler.removeCallbacksAndMessages(null)
                 handler.postDelayed({
@@ -75,13 +83,21 @@ class Add_Diet_Fragment : Fragment() {
                         // 검색어가 비어있으면 모든 데이터 표시
                         handler.removeCallbacksAndMessages(null)
                         data.clear()
-                        adapter?.setData(data)
+                        foodFavoritesRoad()
                     }
                 }, 250)
 
 
             }
         })
+        //식단기입을 완료하고 싶을때
+        binding!!.endaddmeal.setOnClickListener {
+            //식단1에 대한 정보를 보내고!!
+
+
+
+        }
+
         //음식 검색한 다음에
         //현우 API에서 식품검색해서 받아오기 firebase database랑 dataclass food?
 //        adapter!!.itemClickListener//어떻게 해서 일단 클릭을 했다고 가정하자 그럼 클릭한 음식의 정보들 다 전달
@@ -98,11 +114,19 @@ class Add_Diet_Fragment : Fragment() {
         adapter!!.itemClickListener = object : AddFoodAdapter.OnItemClickListener{
             override fun OnItemClick(data: food, holder: AddFoodAdapter.ViewHolder) {
                 Log.i("food1234", "$data")
-                adapter!!.notifyItemChanged(holder.adapterPosition)
+                //adapter!!.notifyItemChanged(holder.adapterPosition)
+                    // Handle the click on the item
 
                 val bundle= bundleOf("add food" to data)
                 Log.i("szzzz", "$bundle ")
-                findNavController().navigate(R.id.action_add_Diet_Fragment_to_specificFood_Fragment,bundle)
+//                findNavController().navigate(R.id.action_add_Diet_Fragment_to_specificFood_Fragment,bundle)
+                val bottomSheetFragment =  SpecificFood_Fragment()
+
+                // 리스너 설정
+                bottomSheetFragment.arguments = bundle
+
+                // Show the fragment
+                bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
             }
             override fun OnaddBtnClick(data: food, holder: RecyclerView.ViewHolder) {
                 Log.i("food123","$data add button")
@@ -115,6 +139,37 @@ class Add_Diet_Fragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         binding = null
+    }
+    private fun foodFavoritesRoad() {
+        val dataRoute = firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단 추천/자주먹는음식(즐겨찾기)")
+        dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (Fuserdata in dataSnapshot.children) {
+                    val key = Fuserdata.key.toString()
+                    val value1 = JsonPath.parse(Fuserdata.value)
+                    if(key!=null){
+                        val foodname=value1.read("$['식품이름']") as String
+                        Log.i("ssexx", "onDataChange: $foodname")
+                        val foodbrand=value1.read("$['가공업체']")as String
+                        val foodcarbo=(value1.read("$['탄수화물']")as String).toDouble()
+                        val foodprotein=(value1.read("$['단백질']")as String).toDouble()
+                        val foodfat=(value1.read("$['지방']")as String).toDouble()
+                        val foodamount=(value1.read("$['섭취량']")as String).toDouble()
+                        Log.i("ssexx1", "onDataChange: $foodamount")
+                        val foodkcal=(value1.read("$['열량']")as String).toDouble()
+                        val appendFood=food(foodname,foodbrand,foodkcal,foodamount,foodcarbo,foodprotein,foodfat)
+                        data.add(appendFood)
+                    }
+
+
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
     private fun foodSearch(searchText:String) { // 함수로 쓰고 싶으면 내가 입력하는 검색어 즉 음식이름을 받아오면 되겠지
         GlobalScope.launch(Dispatchers.IO) {
@@ -184,5 +239,9 @@ class Add_Diet_Fragment : Fragment() {
                 Log.e("foodSearch", "JSONException: ${e.message}")
             }
         }
+    }
+
+    override fun onNumberEntered(number: Int) {
+
     }
 }

@@ -10,17 +10,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="식단 1"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="탄수"/>
+
+    <TextView
+        android:id="@+id/carbotextView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="단백질"/>
+
+    <TextView
+        android:id="@+id/proteintextView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text= "지방"/>
+
+    <TextView
+        android:id="@+id/fattextView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0" />
 
 </LinearLayout>

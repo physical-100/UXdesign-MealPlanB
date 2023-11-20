@@ -35,9 +35,12 @@ class AddFoodAdapter(val items:ArrayList<food>): RecyclerView.Adapter<AddFoodAda
         init {
             binding.clickfood.setOnClickListener {
                 itemClickListener?.OnItemClick(items[adapterPosition], this)
+                val position =adapterPosition
+                val clickedItem = items[position]
                 //해당 음식을 +버튼을 누르면 음식을 추가한다. 데이터베이스에
                 //일단 내가 아침 식단을 추가해서 음식을 검색해서 음식을 추가한다면
                 //firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능").child("아침//아침이라는 선택 값을 가져와야함.").setValue("음식데이터를 넣어줘야한다.")
+
             }
             binding.addbutton.setOnClickListener {
                 itemClickListener?.OnaddBtnClick(items[adapterPosition], this)
