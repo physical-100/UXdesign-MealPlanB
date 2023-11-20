@@ -58,7 +58,6 @@ class Add_Diet_Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
 
-
         binding!!.editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -91,7 +90,6 @@ class Add_Diet_Fragment : Fragment() {
 
     private fun initRecyclerView(){
         binding!!.recyclerview.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
-        Log.i("foodview", "initRecyclerView: ")
         Log.i("foodlist",data.toString())
         adapter = AddFoodAdapter(data)
         binding!!.recyclerview.adapter = adapter
@@ -101,7 +99,6 @@ class Add_Diet_Fragment : Fragment() {
             override fun OnItemClick(data: food, holder: AddFoodAdapter.ViewHolder) {
                 Log.i("food1234", "$data")
                 adapter!!.notifyItemChanged(holder.adapterPosition)
-
 
                 val bundle= bundleOf("add food" to data)
                 Log.i("szzzz", "$bundle ")
