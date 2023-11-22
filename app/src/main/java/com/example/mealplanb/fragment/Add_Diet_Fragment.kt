@@ -45,6 +45,7 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
     var binding: FragmentAddDietBinding?=null
     val handler=Handler()
     var adapter: AddFoodAdapter?=null
+    lateinit var mealName:String
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     var data = arrayListOf<food>(
 
@@ -55,6 +56,7 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        mealName = arguments?.getString("mealName").toString()
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
 
 
@@ -92,6 +94,10 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
         })
         //식단기입을 완료하고 싶을때
         binding!!.endaddmeal.setOnClickListener {
+
+            val bundle = Bundle()
+            bundle.putString("mealName", mealName)
+            findNavController().navigate(R.id.action_add_Diet_Fragment_to_mealDetailFragment,bundle)
             //식단1에 대한 정보를 보내고!!
 
 
@@ -117,13 +123,15 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
                 //adapter!!.notifyItemChanged(holder.adapterPosition)
                     // Handle the click on the item
 
-                val bundle= bundleOf("add food" to data)
-                Log.i("szzzz", "$bundle ")
+                val bundle1= bundleOf("add food" to data)
+                Log.i("szzzz", "$bundle1 ")
+                bundle1.putString("mealName", mealName)
+
 //                findNavController().navigate(R.id.action_add_Diet_Fragment_to_specificFood_Fragment,bundle)
                 val bottomSheetFragment =  SpecificFood_Fragment()
 
                 // 리스너 설정
-                bottomSheetFragment.arguments = bundle
+                bottomSheetFragment.arguments = bundle1
 
                 // Show the fragment
                 bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)

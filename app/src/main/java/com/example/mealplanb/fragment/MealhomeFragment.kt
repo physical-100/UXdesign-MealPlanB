@@ -58,10 +58,14 @@ class MealhomeFragment : Fragment() {
                 // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
                 // 예: Navigation Component를 사용한 화면 전환
 
-                Log.i("식단은 무엇?", meals.toString())
+                Log.i("식단은 무엇?", clickedMeal)
 
+                // Bundle을 생성하고 클릭된 Meal의 이름을 전달
+                val bundle = Bundle()
+                bundle.putString("mealName", clickedMeal)
 
-                findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment)
+                // Navigation Component를 사용한 화면 전환 및 Bundle 전달
+                findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
             }
             binding.recyclerviewMeal.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

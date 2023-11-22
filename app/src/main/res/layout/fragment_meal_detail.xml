@@ -57,7 +57,7 @@
                         android:id="@+id/detailmeal_Kacl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="???"
+                        android:text="0"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         />
@@ -96,7 +96,7 @@
                                 android:id="@+id/meal_detail_carb_percent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="??%"/>
+                                android:text="0%"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -144,7 +144,7 @@
                                 android:id="@+id/meal_detail_protein_percent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="??%"/>
+                                android:text="0%"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -192,7 +192,7 @@
                                 android:id="@+id/meal_detail_fat_percent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="??%"/>
+                                android:text="0%"/>
                         </LinearLayout>
 
                         <LinearLayout
