@@ -148,7 +148,11 @@
             app:destination="@id/profile_fragment" />
         <action
             android:id="@+id/action_animationFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/setting_Fast_Type_Fragment"

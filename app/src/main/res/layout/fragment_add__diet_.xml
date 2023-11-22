@@ -10,20 +10,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="237dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="검색어 입력"
-            android:inputType="textPersonName" />
-
-        <Button
-            android:id="@+id/endaddmeal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="식단기입완료하시겠습니까?" />
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/back_to_main"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/baseline_arrow_back_24" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/baseline_search_24" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText"
+                android:ems="10"
+                android:hint="검색어 입력"
+                android:inputType="textPersonName"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_gravity="end"
+            android:id="@+id/endaddmeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="식단 기입 완료" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"

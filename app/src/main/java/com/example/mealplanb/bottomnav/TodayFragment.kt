@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ScrollView
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
@@ -17,8 +19,16 @@ class TodayFragment : Fragment() {
     lateinit var binding: FragmentTodayBinding
     val userData = UserManager.getUserData()
     val userCal = UserManager.getUserCal()
+    private lateinit var scrollView: ScrollView
+    private var scrollPosition = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // ScrollView의 스크롤 위치 저장
+        scrollPosition = scrollView.scrollY
+        outState.putInt("scroll_position", scrollPosition)
     }
 
     override fun onCreateView(
@@ -27,6 +37,13 @@ class TodayFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentTodayBinding.inflate(inflater, container, false)
+        scrollView =binding.scrollView
+
+        // 스크롤 위치를 복원
+        if (savedInstanceState != null) {
+            scrollPosition = savedInstanceState.getInt("scroll_position", 0)
+            scrollView.post { scrollView.scrollTo(0, scrollPosition) }
+        }
 //        val userCalory = arguments?.getParcelable<User_calory>("user_calory")
 //        if (userCalory != null) {
 //            // userCalory를 사용하여 필요한 작업 수행
@@ -85,6 +102,20 @@ class TodayFragment : Fragment() {
             .commit()
 
     return  binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Disable back press
+        binding.scrollView.setOnClickListener {
+            scrollPosition = binding.scrollView.scrollY
+            // Perform your screen transition here...
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        // Restore the scroll position when the fragment is resumed
+        binding.scrollView.post() { binding.scrollView.scrollTo(0, scrollPosition) }
     }
 
 
