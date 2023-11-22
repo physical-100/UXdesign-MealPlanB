@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.MealData
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
@@ -30,6 +31,10 @@ class MealDetailFragment : Fragment() {
         mealName = arguments?.getString("mealName").toString()
         UsermealdataList = UserManager.getMealData()!!
         binding = FragmentMealDetailBinding.inflate(inflater,container,false)
+
+        binding.cancelDetailpage.setOnClickListener {
+                findNavController().navigateUp()
+        }
 
 
         return binding.root
