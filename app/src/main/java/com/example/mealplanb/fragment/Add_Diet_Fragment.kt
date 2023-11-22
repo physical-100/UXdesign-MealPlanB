@@ -58,16 +58,17 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
-
-
         return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding!!.backToMain.setOnClickListener {
+            findNavController().navigateUp()
+        }
         foodFavoritesRoad()
         initRecyclerView()
+
 
         binding!!.editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
