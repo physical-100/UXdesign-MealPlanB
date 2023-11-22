@@ -14,7 +14,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanb.MealData
 import com.example.mealplanb.R
+import com.example.mealplanb.UserManager
+import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentDailyStaticBinding
 import com.example.mealplanb.databinding.FragmentEditweightBinding
 import com.example.mealplanb.databinding.FragmentSpecificFoodBinding
@@ -31,12 +34,14 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         fun onNumberEntered(number: Int)
     }
     private var listener: OnNumberEnteredListener? = null
+    private var Usermealdata: MealData? = null
     lateinit var binding: FragmentSpecificFoodBinding
     private lateinit var showfood : TextView
     private lateinit var specificfooddata: food
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     val currentTime = Calendar.getInstance().time
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    lateinit var mealName:String
     val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
 
 
@@ -58,6 +63,19 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
     ): View? {
         binding= FragmentSpecificFoodBinding.inflate(inflater, container, false)
+
+        val arguments = arguments
+        if (arguments != null) {
+
+            specificfooddata= arguments?.getParcelable<food>("add food")!!
+
+            // "mealName" 키를 사용하여 데이터 가져오기
+            mealName = arguments.getString("mealName").toString()
+
+            // 가져온 데이터를 사용하여 필요한 작업 수행
+//            Log.i("SpecificFood_Fragment", "addFood: $addFood, mealName: $mealName")
+        }
+
         specificfooddata= arguments?.getParcelable<food>("add food")!!
        // data = arguments?.getParcelable("add food", food)!!
         Log.i("1234555", "$specificfooddata ")
@@ -136,22 +154,25 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
     private fun saveDataToFirebase() {
         // Get a reference to the database
-        val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime")
-        val foodkey=dataRoute.child("${specificfooddata.foodname}").push().key
-        val newData=mapOf(
-            "식품이름" to "${specificfooddata.foodname}",
-            "열량" to "${specificfooddata.foodcal}",
-            "섭취량" to "${specificfooddata.foodamount}",
-            "가공업체" to "${specificfooddata.foodbrand}",
-            "탄수화물" to "${specificfooddata.foodcarbo}",
-            "단백질" to "${specificfooddata.foodprotein}",
-            "지방" to "${specificfooddata.foodfat}"
-        )
-        if(foodkey!=null){
-            dataRoute.child("식단1").child(foodkey).updateChildren(newData)
-            //여기서 사용자가 선택한 "식단1"의 정보를 가져와야한다.
-            //식단2 선택했으면 식단2에다가 추가해야하니까
-        }
+
+        UserManager.addMealData(MealData( realTime,mealName,specificfooddata.foodname,specificfooddata.foodbrand,specificfooddata.foodcal,specificfooddata.foodamount,specificfooddata.foodcarbo,specificfooddata.foodprotein,specificfooddata.foodfat ))
+        Log.i("확인",UserManager.getMealData().toString())
+//        val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime")
+//        val foodkey=dataRoute.child("${specificfooddata.foodname}").push().key
+//        val newData=mapOf(
+//            "식품이름" to "${specificfooddata.foodname}",
+//            "열량" to "${specificfooddata.foodcal}",
+//            "섭취량" to "${specificfooddata.foodamount}",
+//            "가공업체" to "${specificfooddata.foodbrand}",
+//            "탄수화물" to "${specificfooddata.foodcarbo}",
+//            "단백질" to "${specificfooddata.foodprotein}",
+//            "지방" to "${specificfooddata.foodfat}"
+//        )
+//        if(foodkey!=null){
+//            dataRoute.child("식단1").child(foodkey).updateChildren(newData)
+//            //여기서 사용자가 선택한 "식단1"의 정보를 가져와야한다.
+//            //식단2 선택했으면 식단2에다가 추가해야하니까
+//        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.mealplanb
 
+import android.os.Build.VERSION_CODES.M
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mealplanb.UserManager
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.bottomnav.MainFragment
 import com.example.mealplanb.fragment.AnimationFragment
 import com.example.mealplanb.initset.Profile_fragment
+import com.google.firebase.auth.FirebaseUserMetadata
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -93,6 +95,7 @@ class MainActivity : AppCompatActivity() {
     object UserManager {
         private var userdata: Userdata? = null
         private var usercal: User_calory? = null
+        private var usermealdataList: ArrayList<MealData> = ArrayList()
         fun getUserCal(): User_calory? {
             return usercal
         }
@@ -104,5 +107,11 @@ class MainActivity : AppCompatActivity() {
         }
         fun setUserData(userData: Userdata) {
             this.userdata = userData
+        }
+        fun getMealData(): ArrayList<MealData> {
+            return usermealdataList
+        }
+        fun addMealData(mealData: MealData) {
+            usermealdataList.add(mealData)
         }
     }
