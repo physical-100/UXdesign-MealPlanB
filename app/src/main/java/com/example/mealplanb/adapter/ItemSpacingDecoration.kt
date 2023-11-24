@@ -13,5 +13,5 @@ class ItemSpacingDecoration(private val spaceHeight: Int) : RecyclerView.ItemDec
             outRect.right = spaceHeight
         }
     }
-    //아ㅏ
+    //
 }
