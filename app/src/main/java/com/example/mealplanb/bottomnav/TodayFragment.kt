@@ -58,10 +58,10 @@ class TodayFragment : Fragment() {
         if (userCal != null) {
             // userCalory를 사용하여 필요한 작업 수행
             binding.apply {
-                goalCarb.text = "/${userCal.carb}g"
-                goalProtein.text = "/${userCal.protein}g"
-                goalFat.text = "/${userCal.fat}g"
-                goal.text= "${userCal.goal_calory} Kcal"
+                carbohydrate.text = "순탄수\n${userCal.carb}g"
+                protein.text = "단백질\n${userCal.protein}g"
+                fat.text = "지방\n${userCal.fat}g"
+                leftoverCal.text= "오늘은 ${userCal.goal_calory}kcal 남았어요"
 
             }
 

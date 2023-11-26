@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Meal plan B"
 include ':app'
-include ':progressviewslib'
