@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mealplanb.UserManager
+import com.example.mealplanb.adapter.StaticdetailAdapter
 import com.example.mealplanb.adapter.StaticsPagerAdapter
 import com.example.mealplanb.databinding.FragmentStaticsBinding
 import com.google.android.material.tabs.TabLayout
@@ -29,13 +30,14 @@ class Statics_Fragment : Fragment() {
             val adapter = StaticsPagerAdapter(requireActivity())
             viewPager.adapter = adapter
 
+
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 when (position) {
-                    0 -> tab.text = "일간"
-                    1 -> tab.text = "주간"
-                    2 -> tab.text = "월간"
+                    0 -> tab.text = "칼로리"
+                    1 -> tab.text = "체중"
                 }
             }.attach()
+             // 칼로리와 체중을 인자로 넘겨야함
             if (userCal != null&&userData!=null) {
                 binding.apply {
                     staticWeight.text = "${userData.goal_weight}Kg"
