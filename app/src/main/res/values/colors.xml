@@ -3,7 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#FFAAAAAA</color>
-    <color name="backgroungray">#70AAAAAA</color>
-    <color name="blue">#9C79FF</color>
-    <color name="pink">#FEC8F8</color>
+    <color name="violet">#7C5CF8</color>
+    <color name="pink">#FFD3FA</color>
+    <color name="BG">#F8F9FC</color>
+    <color name="deep_violet">#220435</color>
+
 </resources>
