@@ -1,52 +1,74 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
-    android:layout_height="300dp"
+    android:layout_width="124dp"
+    android:layout_height="200dp"
     android:orientation="vertical"
-    android:background="@drawable/custom_shape"
+    android:background="@drawable/diet_shape"
     android:padding="20dp">
     <TextView
         android:id="@+id/mealorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="식단 1"/>
+        android:text="첫 끼"
+        android:textSize="20dp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="@color/white"
+        android:paddingBottom="12dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="탄수"/>
+        android:text="탄수"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendard_medium"/>
 
     <TextView
         android:id="@+id/carbotextView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0" />
+        android:text="0"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendard_medium"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="단백질"/>
+        android:text="단백질"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendard_medium"/>
 
     <TextView
         android:id="@+id/proteintextView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0" />
+        android:text="0"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendard_medium"/>
 
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text= "지방"/>
+        android:text= "지방"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendard_medium"/>
 
 
     <TextView
         android:id="@+id/fattextView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0" />
+        android:text="0"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pretendard_medium"/>
 
 
 
