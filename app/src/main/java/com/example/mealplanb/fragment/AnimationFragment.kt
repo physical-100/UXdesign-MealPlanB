@@ -22,11 +22,6 @@ class AnimationFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentAnimationBinding.inflate(inflater, container, false)
         // Find the ImageView with id 'anim' in the binding
-        val imageView: ImageView = binding.anim
-        val animationDrawable: AnimationDrawable = imageView.drawable as AnimationDrawable
-
-        // 애니메이션 시작
-        animationDrawable.start()
         return binding.root
         //아아
 

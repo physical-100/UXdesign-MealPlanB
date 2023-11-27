@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
@@ -40,56 +41,68 @@ class Profile_fragment : Fragment() {
         binding = FragmentProfileFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        setbackground()
         Log.i("qqq4", "onCreateView: ")
-        binding.nextButton.isEnabled=false
+        binding.next2.isEnabled=false
         // 성별, 활동량이 선택되어 잇는지 확인
 
 
-        binding.imagefemale.setOnClickListener {
+        binding.femaleBtn.setOnClickListener {
             sex="여성"
             isSexSelected= true
-            binding.femaleLayout.setBackgroundResource(R.drawable.image_border)
-            binding.maleLayout.setBackgroundResource(0)
+            binding.femaleBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.femaleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.maleBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.maleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         }
-        binding.imagemale.setOnClickListener {
+        binding.maleBtn.setOnClickListener {
             sex="남성"
             isSexSelected=true
-            binding.maleLayout.setBackgroundResource(R.drawable.image_border)
-            binding.femaleLayout.setBackgroundResource(0)
+            binding.maleBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.maleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.femaleBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.femaleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         }
-        binding.imageView.setOnClickListener {
+        binding.activeBtn.setOnClickListener {
             activity= "활동 많음"
             isActivitySelected= true
-            binding.Layout1.setBackgroundResource(R.drawable.image_border)
-            binding.Layout2.setBackgroundResource(0)
-            binding.Layout3.setBackgroundResource(0)
+            binding.activeBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.activeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.normalBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.normalBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.passiveBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         }
-        binding.imageView2.setOnClickListener {
-            activity= "활동 많음"
+        binding.normalBtn.setOnClickListener {
+            activity= "일반적"
             isActivitySelected= true
-            binding.Layout1.setBackgroundResource(0)
-            binding.Layout2.setBackgroundResource(R.drawable.image_border)
-            binding.Layout3.setBackgroundResource(0)
+            binding.activeBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.activeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.normalBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.normalBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.passiveBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         }
-        binding.imageView3.setOnClickListener {
-            activity= "활동 많음"
+        binding.passiveBtn.setOnClickListener {
+            activity= "활동 적음"
             isActivitySelected= true
-            binding.Layout1.setBackgroundResource(0)
-            binding.Layout2.setBackgroundResource(0)
-            binding.Layout3.setBackgroundResource(R.drawable.image_border)
+            binding.activeBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.activeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.normalBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.normalBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.passiveBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
 
         val editTextList = listOf(
             binding.username, binding.age, binding.height,
-            binding.startWeight, binding.goalWeight
+            binding.startWeight, binding.targetWeight
         )
         editTextList.forEach { editText ->
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     // 모든 EditText의 텍스트가 비어있지 않으면 버튼 활성화
                     val allFieldsNotEmpty = editTextList.all { it.text.isNotEmpty() }
-                    binding.nextButton.isEnabled = allFieldsNotEmpty&&isSexSelected&&isActivitySelected
+                    binding.next2.isEnabled = allFieldsNotEmpty&&isSexSelected&&isActivitySelected
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -104,7 +117,7 @@ class Profile_fragment : Fragment() {
             })
         }
         // 버튼 클릭 이벤트 처리
-        binding.nextButton.setOnClickListener {
+        binding.next2.setOnClickListener {
             // 입력 값 가져오기
             val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
             val name = binding.username.text.toString()
@@ -117,7 +130,7 @@ class Profile_fragment : Fragment() {
             dataRoute.child("키").setValue(height)
             val start_weight = binding.startWeight.text.toString().toDouble()
             dataRoute.child("시작체중").setValue(start_weight)
-            val goal_weight = binding.goalWeight.text.toString().toDouble()
+            val goal_weight = binding.targetWeight.text.toString().toDouble()
             dataRoute.child("목표체중").setValue(goal_weight)
             val activityLevel = activity
             dataRoute.child("평소 활동량").setValue(activityLevel)
@@ -131,7 +144,7 @@ class Profile_fragment : Fragment() {
             UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel))
 
             val bundle = Bundle()
-            bundle.putParcelable("userdata", Userdata!!)
+            bundle.putParcelable("userdata", Userdata)
 
             // 다음 프래그먼트로 이동
             findNavController().navigate(R.id.action_profile_fragment_to_meal_selectFragment,bundle)
@@ -141,11 +154,11 @@ class Profile_fragment : Fragment() {
         return view
     }
     private  fun setbackground(){
-        binding.femaleLayout.setBackgroundResource(0)
-        binding.maleLayout.setBackgroundResource(0)
-        binding.Layout1.setBackgroundResource(0)
-        binding.Layout2.setBackgroundResource(0)
-        binding.Layout3.setBackgroundResource(0)
+        binding.femaleBtn.setBackgroundResource(0)
+        binding.maleBtn.setBackgroundResource(0)
+        binding.activeBtn.setBackgroundResource(0)
+        binding.normalBtn.setBackgroundResource(0)
+        binding.passiveBtn.setBackgroundResource(0)
         //dfdf
     }
 }
