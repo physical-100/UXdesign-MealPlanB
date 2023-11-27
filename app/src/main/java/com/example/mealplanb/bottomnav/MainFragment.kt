@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import com.example.mealplanb.MainActivity
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.R
 import com.example.mealplanb.databinding.FragmentMainBinding
+import com.example.mealplanb.fragment.recommand.Recommend_container
 
 class MainFragment : Fragment() {
 
@@ -31,6 +31,12 @@ class MainFragment : Fragment() {
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.replace(R.id.basic_container, TodayFragment())
         transaction.commit()
+        binding.floatingActionButton.setOnClickListener {
+            val bottomSheetFragment =  Recommend_container()
+            // Show the fragment
+            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+
+        }
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             val handled = when (item.itemId) {
