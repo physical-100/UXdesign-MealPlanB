@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/violet</item>
-        <item name="colorPrimaryDark">@color/deep_violet</item>
-        <item name="colorAccent">@color/pink</item>
+        <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">>
+            <item name="colorPrimary">@color/violet</item>
+            <item name="colorPrimaryDark">@color/deep_violet</item>
+            <item name="colorAccent">@color/pink</item>
 
-        <!--custom font-family 적용-->
-        <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
-        <item name="android:buttonStyle">@style/customButtonFontStyle</item>
-        <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
-        <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
-        <item name="android:checkboxStyle">@style/customCheckboxFontStyle</item>
-    </style>
+            <!--custom font-family 적용-->
+            <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
+            <item name="android:buttonStyle">@style/customButtonFontStyle</item>
+            <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
+            <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
+            <item name="android:checkboxStyle">@style/customCheckboxFontStyle</item>
+        </style>
+        <style name="CustomShapeAppearance.FloatingActionButton" parent="">
+            <item name="cornerSize">2dp</item>
+                <item name="cornerSizeTopRight">16dp</item> <!-- 우측 상단 꼭지점 둥글기 -->
+                <item name="cornerSizeTopLeft">16dp</item>  <!-- 좌측 상단 꼭지점 둥글기 -->
+                <item name="cornerSizeBottomRight">16dp</item>  <!-- 우측 하단 꼭지점 둥글기 -->
+                <item name="cornerSizeBottomLeft">16dp</item>
+            <item name="cornerFamily">rounded</item>
+            </style>
+        <style name="Chatstyle" parent="">
+            <item name="cornerSize">2dp</item>
+            <item name="cornerSizeTopRight">0dp</item> <!-- 우측 상단 꼭지점 둥글기 -->
+            <item name="cornerSizeTopLeft">16dp</item>  <!-- 좌측 상단 꼭지점 둥글기 -->
+            <item name="cornerSizeBottomRight">16dp</item>  <!-- 우측 하단 꼭지점 둥글기 -->
+            <item name="cornerSizeBottomLeft">16dp</item>
+            <item name="cornerFamily">rounded</item>
+            </style>
+
 </resources>

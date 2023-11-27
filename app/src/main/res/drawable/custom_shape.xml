@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <corners android:radius="30dp" /> <!-- 굴곡을 조절할 수 있는 radius 속성 -->
-    <solid android:color="@color/gray" /> <!-- 배경 색상 설정 -->
+    <corners android:radius="30dp" />
+    <solid android:color="@color/gray" />
 </shape>
