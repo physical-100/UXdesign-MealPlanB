@@ -58,8 +58,6 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
-
-
         return binding!!.root
     }
 

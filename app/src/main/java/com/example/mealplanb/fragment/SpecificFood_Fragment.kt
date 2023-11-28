@@ -65,17 +65,17 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
         val arguments = arguments
         if (arguments != null) {
-
             specificfooddata= arguments?.getParcelable<food>("add food")!!
 
             // "mealName" 키를 사용하여 데이터 가져오기
             mealName = arguments.getString("mealName").toString()
 
             // 가져온 데이터를 사용하여 필요한 작업 수행
-//            Log.i("SpecificFood_Fragment", "addFood: $addFood, mealName: $mealName")
+          //  Log.i("SpecificFood_Fragment", "addFood: $addFood, mealName: $mealName")
         }
 
-        specificfooddata= arguments?.getParcelable<food>("add food")!!
+       // specificfooddata= arguments?.getParcelable<food>("add food")!!
+        //mealName=arguments.getString("mealName").toString()
        // data = arguments?.getParcelable("add food", food)!!
         Log.i("1234555", "$specificfooddata ")
         //일단 정보 받아오는거 성공했다이
@@ -131,7 +131,7 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         plusmeal.setOnClickListener{
             saveDataToFirebase(editfoodamount) //데이터베이스 저장
             findNavController().navigate(R.id.action_specificFood_Fragment_to_add_Diet_Fragment)
-            dismiss()
+            //dismiss()
         }
 
 
@@ -152,10 +152,16 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
     private fun saveDataToFirebase(editfoodamount:Double) {
         // Get a reference to the database
+        UserManager.addMealData(MealData( realTime,
+            mealName,
+            specificfooddata.foodname,
+            specificfooddata.foodbrand,
+            editfoodamount*specificfooddata.foodcal,
+            editfoodamount*specificfooddata.foodamount,
+            editfoodamount*specificfooddata.foodcarbo,
+            editfoodamount*specificfooddata.foodprotein,
+            editfoodamount*specificfooddata.foodfat ))
 
-
-
-        UserManager.addMealData(MealData( realTime,mealName,specificfooddata.foodname,specificfooddata.foodbrand,editfoodamount*specificfooddata.foodcal,editfoodamount*specificfooddata.foodamount,editfoodamount*specificfooddata.foodcarbo,editfoodamount*specificfooddata.foodprotein,editfoodamount*specificfooddata.foodfat ))
         Log.i("확인",UserManager.getMealData().toString())
 //        val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime")
 //        val foodkey=dataRoute.child("${specificfooddata.foodname}").push().key
