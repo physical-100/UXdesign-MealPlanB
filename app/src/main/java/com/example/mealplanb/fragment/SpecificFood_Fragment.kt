@@ -36,7 +36,6 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
     private var listener: OnNumberEnteredListener? = null
     private var Usermealdata: MealData? = null
     lateinit var binding: FragmentSpecificFoodBinding
-    private lateinit var showfood : TextView
     private lateinit var specificfooddata: food
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     val currentTime = Calendar.getInstance().time
@@ -66,32 +65,28 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
         val arguments = arguments
         if (arguments != null) {
-
             specificfooddata= arguments?.getParcelable<food>("add food")!!
 
             // "mealName" 키를 사용하여 데이터 가져오기
             mealName = arguments.getString("mealName").toString()
 
             // 가져온 데이터를 사용하여 필요한 작업 수행
-//            Log.i("SpecificFood_Fragment", "addFood: $addFood, mealName: $mealName")
+          //  Log.i("SpecificFood_Fragment", "addFood: $addFood, mealName: $mealName")
         }
 
-        specificfooddata= arguments?.getParcelable<food>("add food")!!
+       // specificfooddata= arguments?.getParcelable<food>("add food")!!
+        //mealName=arguments.getString("mealName").toString()
        // data = arguments?.getParcelable("add food", food)!!
         Log.i("1234555", "$specificfooddata ")
         //일단 정보 받아오는거 성공했다이
 
-        val plusmeal =binding.plusmeal
-        plusmeal.setOnClickListener{
-            saveDataToFirebase() //데이터베이스 저장
-           // findNavController().navigate(R.id.action_specificFood_Fragment_to_add_Diet_Fragment)
-            dismiss()
-        }
 
         val oftenfoodadd=binding.oftenfood
         oftenfoodadd.setOnClickListener {
             favoritesFoodToFirebase()
         }
+
+
         val carboview=binding.carbotextView2
         val proteinview=binding.proteintextView2
         val fatview=binding.fattextView2
@@ -103,37 +98,39 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         val proteinperg=specificfooddata.foodprotein/specificfooddata.foodamount
         val fatperg=specificfooddata.foodfat/specificfooddata.foodamount
         val kcalperg=specificfooddata.foodcal/specificfooddata.foodamount
-
         val foodamount=specificfooddata.foodamount
-        //100g을 1인분 기준
-        foodamountview?.hint="${foodamount/100.0}"
-        carboview?.text="${carboperg*100.0}"
-        proteinview?.text="${proteinperg*100.0}"
-        fatview?.text="${fatperg*100.0}"
-        kcalview?.text="${kcalperg*100.0}"
-        perpersonbutton?.text="${foodamount}"
+
+        foodamountview?.hint=String.format("%.1f",foodamount/foodamount)
+        carboview?.text=String.format("%.1f",carboperg*foodamount)
+        proteinview?.text=String.format("%.1f",proteinperg*foodamount)
+        fatview?.text=String.format("%.1f",fatperg*foodamount)
+        kcalview?.text=String.format("%.1f",kcalperg*foodamount)
+        perpersonbutton?.text=String.format("%.1f",foodamount)
+        var editfoodamount=foodamount/specificfooddata.foodamount
 
         val plusbutton=binding.plus
         plusbutton.setOnClickListener{
-            val editfoodamount=foodamountview?.hint.toString().toDouble()+0.5
-            foodamountview?.hint=editfoodamount.toString()
-            carboview?.text="${carboperg*editfoodamount*100.0.toInt()}"
-            proteinview?.text="${proteinperg*editfoodamount*100.0.toInt()}"
-            fatview?.text="${fatperg*editfoodamount*100.0.toInt()}"
-            kcalview?.text="${kcalperg*editfoodamount*100.0.toInt()}"
-
-
-
+            editfoodamount=foodamountview?.hint.toString().toDouble()+0.5
+            foodamountview?.hint=String.format("%.1f",editfoodamount)
+            carboview?.text=String.format("%.1f",carboperg*editfoodamount*foodamount)
+            proteinview?.text=String.format("%.1f",proteinperg*editfoodamount*foodamount)
+            fatview?.text=String.format("%.1f",fatperg*editfoodamount*foodamount)
+            kcalview?.text=String.format("%.1f",kcalperg*editfoodamount*foodamount)
         }
         val minusbutton=binding.minus
         minusbutton.setOnClickListener{
-            val editfoodamount=foodamountview?.hint.toString().toDouble()-0.5
-            foodamountview?.hint=editfoodamount.toString()
-            carboview?.text="${carboperg*editfoodamount*100.0.toInt()}"
-            proteinview?.text="${proteinperg*editfoodamount*100.0.toInt()}"
-            fatview?.text="${fatperg*editfoodamount*100.0.toInt()}"
-            kcalview?.text="${fatperg*editfoodamount*100.0.toInt()}"
+            editfoodamount=foodamountview?.hint.toString().toDouble()-0.5
+            foodamountview?.hint=String.format("%.1f",editfoodamount)
+            carboview?.text=String.format("%.1f",carboperg*editfoodamount*foodamount)
+            proteinview?.text=String.format("%.1f",proteinperg*editfoodamount*foodamount)
+            fatview?.text=String.format("%.1f",fatperg*editfoodamount*foodamount)
+            kcalview?.text=String.format("%.1f",kcalperg*editfoodamount*foodamount)
+        }
 
+        val plusmeal =binding.plusmeal
+        plusmeal.setOnClickListener{
+            saveDataToFirebase(editfoodamount) //데이터베이스 저장
+            dismiss()
         }
 
 
@@ -152,10 +149,18 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
 
 
-    private fun saveDataToFirebase() {
+    private fun saveDataToFirebase(editfoodamount:Double) {
         // Get a reference to the database
+        UserManager.addMealData(MealData( realTime,
+            mealName,
+            specificfooddata.foodname,
+            specificfooddata.foodbrand,
+            editfoodamount*specificfooddata.foodcal,
+            editfoodamount*specificfooddata.foodamount,
+            editfoodamount*specificfooddata.foodcarbo,
+            editfoodamount*specificfooddata.foodprotein,
+            editfoodamount*specificfooddata.foodfat ))
 
-        UserManager.addMealData(MealData( realTime,mealName,specificfooddata.foodname,specificfooddata.foodbrand,specificfooddata.foodcal,specificfooddata.foodamount,specificfooddata.foodcarbo,specificfooddata.foodprotein,specificfooddata.foodfat ))
         Log.i("확인",UserManager.getMealData().toString())
 //        val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime")
 //        val foodkey=dataRoute.child("${specificfooddata.foodname}").push().key

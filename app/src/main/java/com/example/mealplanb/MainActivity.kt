@@ -114,5 +114,7 @@ class MainActivity : AppCompatActivity() {
         fun addMealData(mealData: MealData) {
             usermealdataList.add(mealData)
         }
-
+        fun clearMealData(){
+            usermealdataList.clear()
+        }
     }
