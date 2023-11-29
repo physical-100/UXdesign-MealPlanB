@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         private var userdata: Userdata? = null
         private var usercal: User_calory? = null
         private var usermealdataList: ArrayList<MealData> = ArrayList()
+        private var userEatTotalNutritionList: ArrayList<EatTotalNutrition> = ArrayList()
         fun getUserCal(): User_calory? {
             return usercal
         }
@@ -108,6 +109,13 @@ class MainActivity : AppCompatActivity() {
         fun setUserData(userData: Userdata) {
             this.userdata = userData
         }
+        fun getEatTotalList(): ArrayList<EatTotalNutrition>{
+            return userEatTotalNutritionList
+        }
+        fun addEatTotalList(eatTotalNutrition: EatTotalNutrition){
+            userEatTotalNutritionList.add(eatTotalNutrition)
+        }
+
         fun getMealData(): ArrayList<MealData> {
             return usermealdataList
         }

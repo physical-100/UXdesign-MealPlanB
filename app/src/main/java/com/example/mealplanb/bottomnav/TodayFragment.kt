@@ -1,6 +1,7 @@
 package com.example.mealplanb.bottomnav
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanb.EatTotalNutrition
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.User_calory
@@ -21,6 +23,9 @@ class TodayFragment : Fragment() {
     val userCal = UserManager.getUserCal()
     private lateinit var scrollView: ScrollView
     private var scrollPosition = 0
+    private var UserTotalNutrition= arrayListOf<EatTotalNutrition>(
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,6 +45,19 @@ class TodayFragment : Fragment() {
         scrollView =binding.scrollView
 
         // 스크롤 위치를 복원
+        UserTotalNutrition=UserManager.getEatTotalList()
+        Log.i("통합식사", UserTotalNutrition.toString())
+        var totalcarbo=0.0
+        var totalproteion=0.0
+        var totalfat=0.0
+        var totalkcal=0.0
+        for(eachNutrtion in UserTotalNutrition){
+            totalcarbo+=eachNutrtion.totalcarbo
+            totalproteion+=eachNutrtion.totalprotein
+            totalfat+=eachNutrtion.totalfat
+            totalkcal+=eachNutrtion.totalkcal
+        }
+
         if (savedInstanceState != null) {
             scrollPosition = savedInstanceState.getInt("scroll_position", 0)
             scrollView.post { scrollView.scrollTo(0, scrollPosition) }
@@ -58,10 +76,10 @@ class TodayFragment : Fragment() {
         if (userCal != null) {
             // userCalory를 사용하여 필요한 작업 수행
             binding.apply {
-                carbohydrate.text = "순탄수\n${userCal.carb}g"
-                protein.text = "단백질\n${userCal.protein}g"
-                fat.text = "지방\n${userCal.fat}g"
-                leftoverCal.text= "오늘은 ${userCal.goal_calory}kcal 남았어요"
+                carbohydrate.text = "순탄수\n${String.format("%.1f",userCal.carb-totalcarbo)}g"
+                protein.text = "단백질\n${String.format("%.1f",userCal.protein-totalproteion)}g"
+                fat.text = "지방\n${String.format("%.1f",userCal.fat-totalfat)}g"
+                leftoverCal.text= "오늘은 ${String.format("%.1f",userCal.goal_calory-totalkcal)}kcal 남았어요"
 
             }
 
