@@ -11,6 +11,8 @@ import com.example.mealplanb.adapter.ChatAdapter
 import com.example.mealplanb.databinding.FragmentRecommendContainerBinding
 import com.example.mealplanb.dataclass.Message
 import com.example.mealplanb.dataclass.MessageType
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -27,6 +29,10 @@ class Recommend_container : BottomSheetDialogFragment(),OnItemClickListener{
         Message("어떻게 식사를 추천해드릴까요??", MessageType.LEFT,null,null,null,null),
         // 다른 메시지 추가
     )
+
+//    override fun onStart() {
+//        super.onStart()
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
