@@ -3,15 +3,15 @@
     <item
         android:id="@+id/navigation_home"
         android:title="홈"
-        android:icon="@drawable/baseline_home_24"/>
+        android:icon="@drawable/navi_btn_home"/>
     <item
         android:id="@+id/navigation_statics"
         android:title="통계"
-        android:icon="@drawable/baseline_calendar_month_24" />
+        android:icon="@drawable/navi_btn_stats" />
     <item
         android:id="@+id/navigation_fast"
         android:title="단식"
-        android:icon="@drawable/baseline_no_food_24"
+        android:icon="@drawable/navi_btn_fast"
          />
 
     <item

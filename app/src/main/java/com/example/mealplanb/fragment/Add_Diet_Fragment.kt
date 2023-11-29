@@ -1,6 +1,7 @@
 package com.example.mealplanb.fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -41,15 +42,25 @@ import kotlin.math.log
 import kotlin.reflect.typeOf
 
 class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListener {
-    // TODO: Rename and change types of parameters
-    var binding: FragmentAddDietBinding?=null
+    // 즐겨찾기 반응이 느려서 이전 프레그먼트에서 저장하고 불러오는 식으로 해야할거 같다 수정 필요
+    lateinit var binding:FragmentAddDietBinding
     val handler=Handler()
     var adapter: AddFoodAdapter?=null
     lateinit var mealName:String
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     var data = arrayListOf<food>(
-
     )
+    val data2 =  arrayListOf<food>(
+    )
+// // 즐겨찾기 반응이 느려서 생성할때 데이터를 가져오도록
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        foodFavoritesRoad(object : OnDataLoadedListener {
+//            override fun onDataLoaded(data: ArrayList<food>) {
+//                initRecyclerView(data)
+//            }
+//        })
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,16 +69,38 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
-        return binding!!.root
+        foodFavoritesRoad(object : OnDataLoadedListener {
+            override fun onDataLoaded(data: ArrayList<food>) {
+                initRecyclerView(data)
+            }
+        })
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.backToMain.setOnClickListener {
+            findNavController().navigateUp()
+        }
+//        foodFavoritesRoad()
+//        initRecyclerView()
+        binding.favoriteMeal.setOnClickListener {
+            binding.favoriteMeal.setTextColor(Color.parseColor("#FF000000"))
+            binding.mealSet.setTextColor(Color.parseColor("#FFAAAAAA"))
+            foodFavoritesRoad(object : OnDataLoadedListener {
+                override fun onDataLoaded(data: ArrayList<food>) {
+                    initRecyclerView(data)
+                }
+            })
+        }
+        binding.mealSet.setOnClickListener {
+            binding.mealSet.setTextColor(Color.parseColor("#FF000000"))
+            binding.favoriteMeal.setTextColor(Color.parseColor("#FFAAAAAA"))
+            initRecyclerView(data2)
 
-        foodFavoritesRoad()
-        initRecyclerView()
+        }
 
-        binding!!.editText.addTextChangedListener(object : TextWatcher {
+        binding.editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -80,10 +113,9 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
                         data.clear()
                         foodSearch(searchText)
                     } else {
-                        // 검색어가 비어있으면 모든 데이터 표시
                         handler.removeCallbacksAndMessages(null)
                         data.clear()
-                        foodFavoritesRoad()
+                        initRecyclerView(data)
                     }
                 }, 250)
 
@@ -91,7 +123,7 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
             }
         })
         //식단기입을 완료하고 싶을때
-        binding!!.endaddmeal.setOnClickListener {
+        binding.endaddmeal.setOnClickListener {
 
             val bundle = Bundle()
             bundle.putString("mealName", mealName)
@@ -108,11 +140,11 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
 
     }
 
-    private fun initRecyclerView(){
-        binding!!.recyclerview.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
-        Log.i("foodlist",data.toString())
-        adapter = AddFoodAdapter(data)
-        binding!!.recyclerview.adapter = adapter
+    private fun initRecyclerView(data1:ArrayList<food>){
+        binding.recyclerview.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+        Log.i("foodlist",data1.toString())
+        adapter = AddFoodAdapter(data1)
+        binding.recyclerview.adapter = adapter
 
         //음식목록 클릭시 어디 프래그먼ㅈㅈ트로 갈지 정하는 코드
         adapter!!.itemClickListener = object : AddFoodAdapter.OnItemClickListener{
@@ -142,11 +174,7 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
-    private fun foodFavoritesRoad() {
+    private fun foodFavoritesRoad(listener: OnDataLoadedListener): ArrayList<food> {
         val dataRoute = firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단 추천/자주먹는음식(즐겨찾기)")
         dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -168,14 +196,16 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
                     }
 
 
-
+                    listener.onDataLoaded(data)
                 }
             }
+
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
+        return data
     }
     private fun foodSearch(searchText:String) { // 함수로 쓰고 싶으면 내가 입력하는 검색어 즉 음식이름을 받아오면 되겠지
         GlobalScope.launch(Dispatchers.IO) {
@@ -226,7 +256,7 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
                     }
                     launch(Dispatchers.Main) {
                         Log.i("appendcomplete", data.toString())
-                        initRecyclerView()
+                        initRecyclerView(data)
                         //adapter?.setData(data)
 
                         //binding!!.recyclerview.adapter = adapter
@@ -245,6 +275,9 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
                 Log.e("foodSearch", "JSONException: ${e.message}")
             }
         }
+    }
+    interface OnDataLoadedListener {
+        fun onDataLoaded(data: ArrayList<food>)
     }
 
     override fun onNumberEntered(number: Int) {

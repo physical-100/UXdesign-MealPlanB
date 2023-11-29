@@ -2,61 +2,90 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="550dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".bottomnav.DailyweightFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#EA8B6D"
+        android:layout_height="400dp"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textview_today_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="나의 변화"
-            android:textColor="#FFFFFF"
-            android:textSize="28dp"
-            android:textStyle="bold"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:text="오늘의 체중"
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <TextView
             android:id="@+id/weight_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/pretendard_bold"
             android:text="오늘 내 체중은?"
             android:textAlignment="center"
-            android:textSize="15dp"
-            android:textColor="#FFFFFF"
-            />
-        <TextView
-            android:id="@+id/daily_weight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="00.0kg"
-            android:textAlignment="center"
-            android:textSize="50dp"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            />
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="2500dp"
-            android:layout_height="250dp"
-            android:src="@drawable/icon_scale"/>
+            android:textColor="@color/deep_violet"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_today_weight" />
 
         <Button
             android:id="@+id/addweightbutton"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="304dp"
+            android:layout_height="49dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/custom_shape"
-            android:backgroundTint="#EC6E46"
+            android:background="@drawable/diet_shape"
+            android:backgroundTint="@color/violet"
+            android:fontFamily="@font/pretendard_bold"
             android:text="기 록 하 기"
-            android:textColor="#FFFFFF"
-            />
-    </LinearLayout>
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scale_Frame" />
+
+        <FrameLayout
+            android:id="@+id/scale_Frame"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/weight_comment">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="170dp"
+                android:layout_gravity="center"
+                android:src="@drawable/scale"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="191dp" />
+
+            <TextView
+                android:id="@+id/daily_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:paddingTop="30dp"
+                android:text="00.0kg"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

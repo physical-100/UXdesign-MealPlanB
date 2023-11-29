@@ -2,8 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="450dp"
-    android:background="#BE050B4D"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
 
     tools:context=".fragment.MealhomeFragment">
 
@@ -16,24 +16,31 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="먹었어요"
-                    android:textColor="#FFFFFF"
-                    android:textSize="28dp"
+                    android:text="오늘의 끼니"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/pretendard_bold"
                     android:textStyle="bold" />
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
 
-                <ImageButton
+                <TextView
                     android:id="@+id/btnAddMeal"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginTop="24dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/baseline_add_24"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="한 끼 더 먹었어요"
+                    android:textColor="@color/gray"
+
                    />
         </LinearLayout>
         <HorizontalScrollView

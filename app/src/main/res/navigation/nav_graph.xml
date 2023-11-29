@@ -201,4 +201,18 @@
             android:id="@+id/action_mealDetailFragment_to_add_Diet_Fragment"
             app:destination="@id/add_Diet_Fragment" />
     </fragment>
+    <fragment
+        android:id="@+id/recommend_food_or_amount"
+        android:name="com.example.mealplanb.fragment.recommand.recommend_food_or_amount"
+        android:label="fragment_recommend_food_or_amount"
+        tools:layout="@layout/fragment_recommend_food_or_amount" >
+        <action
+            android:id="@+id/action_recommend_food_or_amount_to_recommendFragment"
+            app:destination="@id/recommendFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendFragment"
+        android:name="com.example.mealplanb.fragment.recommand.RecommendFragment"
+        android:label="fragment_recommend"
+        tools:layout="@layout/fragment_recommend" />
 </navigation>
