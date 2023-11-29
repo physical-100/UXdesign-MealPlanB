@@ -76,13 +76,14 @@
 
     <LinearLayout
         android:id="@+id/general"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview2"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp">
         <ImageView
             android:layout_width="140dp"
             android:layout_height="140dp"
@@ -109,14 +110,15 @@
 
     </LinearLayout>
     <LinearLayout
+        android:padding="10dp"
         android:id="@+id/hellchang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview2"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="40dp">
         <ImageView
             android:layout_width="140dp"
             android:layout_height="140dp"
@@ -147,10 +149,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/general"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp">
         <ImageView
             android:layout_width="140dp"
             android:layout_height="140dp"
@@ -178,13 +181,14 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/diabetes"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hellchang"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="40dp">
         <ImageView
             android:layout_width="140dp"
             android:layout_height="140dp"

@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_meal_selectFragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_meal_selectFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/todayFragment"
