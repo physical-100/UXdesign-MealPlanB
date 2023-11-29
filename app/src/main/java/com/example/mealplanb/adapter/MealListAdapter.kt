@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.TextView
 import com.example.mealplanb.MealData
 import com.example.mealplanb.R
@@ -18,14 +19,15 @@ class MealListAdapter(private val context: Context, private val mealList: List<M
 
         if (listItemView == null) {
             listItemView = LayoutInflater.from(context).inflate(
-                R.layout.fragment_meal_detail, parent, false
+                R.layout.meal_list_item, parent, false
             )
         }
 
         val currentMeal = getItem(position)
 
-        //val mealNameTextView = listItemView?.findViewById<TextView>(R.id.mealNameTextView)
-        //mealNameTextView?.text = currentMeal?.foodname
+        val mealNameTextView = listItemView?.findViewById<TextView>(R.id.meal_list_foodname)
+        mealNameTextView?.text=currentMeal?.foodname
+
 
 
 

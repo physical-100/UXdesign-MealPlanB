@@ -34,27 +34,22 @@ class MealDetailFragment : Fragment() {
         mealName = arguments?.getString("mealName").toString()
         UsermealdataList = UserManager.getMealData()!!
         binding = FragmentMealDetailBinding.inflate(inflater,container,false)
+        Log.i("확인2", UsermealdataList.toString())
         RoadMealData(UsermealdataList) //mealdetail 화면에 띄울때 사용자가 추가한 음식 정보들 다 더해서 화면에 띄우는 부분
-
-        binding.completeMealAdd.setOnClickListener {
-            saveMealDataToFirebase(UsermealdataList)
-            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
-            
-        }
 
         val mealsListView = binding.mealListView
         val adapter = MealListAdapter(requireContext(), UsermealdataList)
         mealsListView.adapter = adapter
 
-
-
+        binding.completeMealAdd.setOnClickListener {
+            saveMealDataToFirebase(UsermealdataList)
+            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
+            findNavController().navigate(R.id.action_mealDetailFragment_to_mainFragment)
+            
+        }
         binding.cancelDetailpage.setOnClickListener{
             findNavController().navigateUp()
         }
-
-
-
-
 
         return binding.root
     }
@@ -66,14 +61,24 @@ class MealDetailFragment : Fragment() {
         var wholefatview=binding.fat
         val wholefatviewpercent=binding.mealDetailFatPercent
         var wholekcalview=binding.detailmealKacl
+        var wholecarbo=0.0
+        var wholeprotein=0.0
+        var wholefat=0.0
+        var wholekcal=0.0
 
         for(mealData in UsermealdataList){
-//            wholecarboview=wholecarboview.toDouble()+mealData.foodcarbo
-//            wholeproteinview=mealData.foodprotein
-//            wholefatview=mealData.foodfat
-//            wholekcalview=mealData.foodcal
+            wholecarbo=wholecarbo+mealData.foodcarbo
+            wholeprotein=wholeprotein+mealData.foodprotein
+            wholefat=wholefat+mealData.foodfat
+            wholekcal=wholekcal+mealData.foodcal
         }
-
+        wholecarboview.text=String.format("%.1f",wholecarbo)
+        wholeproteinview.text=String.format("%.1f",wholeprotein)
+        wholefatview.text=String.format("%.1f",wholefat)
+        wholekcalview.text=String.format("%.1f",wholekcal)
+        wholecarboviewpercent.text=String.format("%.1f",wholecarbo*4/wholekcal*100)
+        wholeproteinviewpercent.text=String.format("%.1f",wholeprotein*4/wholekcal*100)
+        wholefatviewpercent.text=String.format("%.1f",wholefat*9/wholekcal*100)
 
     }
     private fun saveMealDataToFirebase(mealDataList: List<MealData>) {
