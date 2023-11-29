@@ -19,6 +19,10 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_left, parent, false)
                 LeftViewHolder(view)
             }
+            MessageType.LEFT_2.ordinal -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_left_2, parent, false)
+                LeftViewHolder2(view)
+            }
             MessageType.RIGHT.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_right, parent, false)
                 RightViewHolder(view)
@@ -46,6 +50,21 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
                     leftViewHolder.leftdetail.visibility = View.GONE
                 }
             }
+            MessageType.LEFT_2.ordinal -> {
+            // 오른쪽에 표시할 내용을 설정하세요
+            val LeftViewHolder2 = holder as LeftViewHolder2
+
+                LeftViewHolder2.advicetext.text = message.text
+                LeftViewHolder2.remainKcal.text = message.kcal
+                LeftViewHolder2.foodnametext.text = message.carb
+                LeftViewHolder2.foodkcal.text = message.protein
+                LeftViewHolder2.amount_name.text = message.fat
+                LeftViewHolder2.foodamount.text = message.text2
+
+
+
+            }
+
             MessageType.RIGHT.ordinal -> {
                 // 오른쪽에 표시할 내용을 설정하세요
                 val rightViewHolder = holder as RightViewHolder
@@ -76,6 +95,14 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
         val leftprotein: TextView = itemView.findViewById(R.id.remain_protein)
         val leftfat: TextView = itemView.findViewById(R.id.remain_fat)
 
+    }
+    class LeftViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val advicetext: TextView = itemView.findViewById(R.id.advice)
+        val remainKcal: TextView = itemView.findViewById(R.id.remain_kcal)
+        val foodnametext: TextView = itemView.findViewById(R.id.foodname)
+        val foodkcal: TextView = itemView.findViewById(R.id.food_Kcal)
+        val amount_name: TextView = itemView.findViewById(R.id.amount_name)
+        val foodamount: TextView = itemView.findViewById(R.id.food_amount)
     }
     class RightViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

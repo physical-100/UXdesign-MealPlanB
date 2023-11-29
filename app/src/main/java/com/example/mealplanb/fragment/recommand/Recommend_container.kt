@@ -11,6 +11,7 @@ import com.example.mealplanb.adapter.ChatAdapter
 import com.example.mealplanb.databinding.FragmentRecommendContainerBinding
 import com.example.mealplanb.dataclass.Message
 import com.example.mealplanb.dataclass.MessageType
+import com.example.mealplanb.dataclass.food
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -20,13 +21,14 @@ import java.util.Locale
 
 interface OnItemClickListener {
     fun onItemClick(result: String)
+    fun OnDataClick(food: food)
 }
 class Recommend_container : BottomSheetDialogFragment(),OnItemClickListener{
 
     lateinit var binding:FragmentRecommendContainerBinding
     lateinit var adapter:ChatAdapter
     val messages = mutableListOf(
-        Message("어떻게 식사를 추천해드릴까요??", MessageType.LEFT,null,null,null,null),
+        Message("어떻게 식사를 추천해드릴까요??", MessageType.LEFT,null,null,null,null,null)
         // 다른 메시지 추가
     )
 
@@ -67,34 +69,33 @@ class Recommend_container : BottomSheetDialogFragment(),OnItemClickListener{
         Log.d("BottomSheetFragment", "Received result: $result")
         if (result == "food") {
                 // 음식 선택에 대한 로직 수행
-                messages.add(Message("어떤 음식을 먹을까요?",MessageType.RIGHT,null,null,null,null))
+                messages.add(Message("어떤 음식을 먹을까요?",MessageType.RIGHT,null,null,null,null,null))
 
             // 여기서 오늘 남은 칼로리와 영양성분을 가져와서 추가 해줘야 함
 
 
-                messages.add(Message("오늘의 칼로리는 이만큼 남았어요",MessageType.LEFT,"500Kcal","50g","30g","20g"))
+                messages.add(Message("오늘의 칼로리는 이만큼 남았어요",MessageType.LEFT,"500Kcal","50g","30g","20g",null))
                 initrecyclerview()
             } else if (result == "amount") {
                 // 양 선택에 대한 로직 수행
+
+            messages.add(Message("얼마나 먹을까요?",MessageType.RIGHT,null,null,null,null,null))
+
+            messages.add(Message("어떤 음식을 먹고 싶으세요?",MessageType.LEFT,null,null,null,null,null))
+            initrecyclerview()
             }
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        parentFragmentManager.setFragmentResultListener("Result", this) { key, bundle ->
-//            Log.d("리스너", "Received result: $bundle")
-//            val choice = bundle.getString("choice", "")
-//            // 여기에서 선택한 값을 처리하거나 다른 로직 수행
-//            if (choice == "food") {
-//                // 음식 선택에 대한 로직 수행
-//                messages.add(Message("어떤 음식을 먹을까요?",MessageType.RIGHT))
-//                initrecyclerview()
-//            } else if (choice == "amount") {
-//                // 양 선택에 대한 로직 수행
-//            }
-//        }
-//
-//    }
+    override fun OnDataClick(food: food) {
+        // Handle the item click, you can use the food data to display the message
+        messages.add(Message(" ${food.foodname}을 먹을래", MessageType.LEFT, null, null, null, null,null))
+        //여기 왼쪽 추가를 수정하몀 됨
+        //kcal에 오늘 남은 칼로리, carb에 food 칼로리 성분 비교에서 뭘 넣을지는 차차 알고리즘 구현
+        messages.add(Message(" 200g 드세요", MessageType.LEFT_2,"300Kcal",food.foodname, food.foodcal.toString(), null, null))
+
+
+        initrecyclerview()
+    }
 
     private fun initrecyclerview(){
 
@@ -114,7 +115,7 @@ class Recommend_container : BottomSheetDialogFragment(),OnItemClickListener{
         val recommendationMessage = "식단 추천: 오늘은 샐러드와 닭가슴살이 좋을 것 같아요!"
 
         // 어댑터에 메시지 추가 및 갱신
-        val newMessage = Message(recommendationMessage, MessageType.LEFT,null,null,null,null)
+        val newMessage = Message(recommendationMessage, MessageType.LEFT,null,null,null,null,null)
         adapter.addMessage(newMessage)
         adapter.notifyDataSetChanged()
     }
