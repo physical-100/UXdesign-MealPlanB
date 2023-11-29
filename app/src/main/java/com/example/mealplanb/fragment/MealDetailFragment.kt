@@ -76,9 +76,9 @@ class MealDetailFragment : Fragment() {
         wholeproteinview.text=String.format("%.1f",wholeprotein)
         wholefatview.text=String.format("%.1f",wholefat)
         wholekcalview.text=String.format("%.1f",wholekcal)
-        wholecarboviewpercent.text=String.format("%.1f",wholecarbo*4/wholekcal*100)
-        wholeproteinviewpercent.text=String.format("%.1f",wholeprotein*4/wholekcal*100)
-        wholefatviewpercent.text=String.format("%.1f",wholefat*9/wholekcal*100)
+        wholecarboviewpercent.text=String.format("%.1f",wholecarbo*4/wholekcal*100)+"%"
+        wholeproteinviewpercent.text=String.format("%.1f",wholeprotein*4/wholekcal*100)+"%"
+        wholefatviewpercent.text=String.format("%.1f",wholefat*9/wholekcal*100)+"%"
 
     }
     private fun saveMealDataToFirebase(mealDataList: List<MealData>) {

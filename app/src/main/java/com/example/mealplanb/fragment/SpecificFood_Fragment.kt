@@ -130,8 +130,7 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         val plusmeal =binding.plusmeal
         plusmeal.setOnClickListener{
             saveDataToFirebase(editfoodamount) //데이터베이스 저장
-            //findNavController().navigate(R.id.action_specificFood_Fragment_to_add_Diet_Fragment)
-            //dismiss()
+            dismiss()
         }
 
 

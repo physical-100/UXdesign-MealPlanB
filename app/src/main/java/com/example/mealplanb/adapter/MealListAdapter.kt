@@ -25,10 +25,17 @@ class MealListAdapter(private val context: Context, private val mealList: List<M
 
         val currentMeal = getItem(position)
 
-        val mealNameTextView = listItemView?.findViewById<TextView>(R.id.meal_list_foodname)
+        val mealNameTextView = listItemView?.findViewById<TextView>(R.id.foodname)
         mealNameTextView?.text=currentMeal?.foodname
 
+        val mealBrandTextView=listItemView?.findViewById<TextView>(R.id.foodbrand)
+        mealBrandTextView?.text=currentMeal?.foodbrand
 
+        val mealKcalTextView=listItemView?.findViewById<TextView>(R.id.food_kcal)
+        mealKcalTextView?.text=String.format("%.1f",currentMeal?.foodcal)+"Kcal"
+
+        val mealamountTextView=listItemView?.findViewById<TextView>(R.id.foodamount)
+        mealamountTextView?.text=String.format("%.1f",currentMeal?.foodamount)+"g"
 
 
         // Set other TextViews as needed

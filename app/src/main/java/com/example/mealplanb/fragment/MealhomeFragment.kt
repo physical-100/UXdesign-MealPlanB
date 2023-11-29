@@ -75,6 +75,7 @@ class MealhomeFragment : Fragment() {
             //meallistfromDatabase로 부터 하나하나 정보를 다 받아온다.
             for(meal in meals){
                 meallistfromDatabase(meal)
+                Log.i("meal", meal)
             }
 
 
