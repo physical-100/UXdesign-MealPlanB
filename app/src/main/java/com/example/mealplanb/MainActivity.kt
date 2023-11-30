@@ -1,22 +1,18 @@
 package com.example.mealplanb
 
-import android.os.Build.VERSION_CODES.M
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.mealplanb.UserManager
 import android.util.Log
-import android.view.ViewTreeObserver
+
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.example.mealplanb.bottomnav.MainFragment
+
 import com.example.mealplanb.fragment.AnimationFragment
-import com.example.mealplanb.initset.Profile_fragment
-import com.google.firebase.auth.FirebaseUserMetadata
+
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
@@ -32,9 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         userdata = Userdata.clear()
         usercal = User_calory.clear()
-        val initFragment = AnimationFragment()
-
-                firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
+        firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             for (Fuserdata in dataSnapshot.children) {

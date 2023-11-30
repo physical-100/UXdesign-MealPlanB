@@ -13,9 +13,7 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mealplanb.R
-import com.example.mealplanb.adapter.ItemSpacingDecoration
 import com.example.mealplanb.adapter.MealaddAdapter
-import com.example.mealplanb.databinding.FragmentDailyweightBinding
 import com.example.mealplanb.databinding.FragmentMealhomeBinding
 
 import com.example.mealplanb.databinding.ItemMealBinding
@@ -26,14 +24,17 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.jayway.jsonpath.JsonPath
 import java.text.SimpleDateFormat
+import java.util.ArrayList
 import java.util.Calendar
 import java.util.Locale
 
 class MealhomeFragment : Fragment() {
     lateinit var binding: FragmentMealhomeBinding
     lateinit var bindingmeal: ItemMealBinding
-    lateinit var mealaddAdapter: MealaddAdapter
-    private var meals = mutableListOf("식단 1", "식단 2", "식단 3")
+    lateinit var Adapter: MealaddAdapter
+    var mealcount:Int=3
+    var meals = mutableListOf<String>(
+    )
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     val currentTime = Calendar.getInstance().time
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -46,30 +47,29 @@ class MealhomeFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
+            mealsUpdate(mealcount)
             binding = FragmentMealhomeBinding.inflate(inflater, container, false)
+            Adapter = MealaddAdapter(meals,
+                onItemClick = { clickedMeal ->
+                    // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
+                    // 예: Navigation Component를 사용한 화면 전환
+                    Log.i("식단은 무엇?", clickedMeal)
 
+                    // Bundle을 생성하고 클릭된 Meal의 이름을 전달
+                    val bundle = Bundle()
+                    bundle.putString("mealName", clickedMeal)
 
-            // Initialize RecyclerView for horizontal scrolling list of meals
-            val itemSpacingDecoration =
-                ItemSpacingDecoration(resources.getDimensionPixelSize(R.dimen.item_spacing))
-            binding.recyclerviewMeal.addItemDecoration(itemSpacingDecoration)
-            // 아이템 클릭 이벤트 처리
-            mealaddAdapter = MealaddAdapter(meals) { clickedMeal ->
-                // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
-                // 예: Navigation Component를 사용한 화면 전환
-
-                Log.i("식단은 무엇?", clickedMeal)
-
-                // Bundle을 생성하고 클릭된 Meal의 이름을 전달
-                val bundle = Bundle()
-                bundle.putString("mealName", clickedMeal)
-
-                // Navigation Component를 사용한 화면 전환 및 Bundle 전달
-                findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
-            }
-            binding.recyclerviewMeal.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            binding.recyclerviewMeal.adapter = mealaddAdapter
+                    // Navigation Component를 사용한 화면 전환 및 Bundle 전달
+                    findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
+                },
+                onDeleteClick = { deletedMeal ->
+                    // 삭제 버튼이 클릭되었을 때의 동작을 여기에 정의
+                    meals.remove(deletedMeal)
+                    mealcount= meals.size
+                    mealsUpdate(mealcount)
+                    initrecyclerview(mealsUpdate(mealcount))
+                })
+            initrecyclerview(meals)
 
             //식단 1~3까지 만약 사용자가 식단 4까지 추가했으면 식단 4까지 확인해서 for문 돌려서
             //meallistfromDatabase로 부터 하나하나 정보를 다 받아온다.
@@ -77,10 +77,6 @@ class MealhomeFragment : Fragment() {
                 meallistfromDatabase(meal)
                 Log.i("meal", meal)
             }
-
-
-
-
             return binding.root
         }
 
@@ -90,31 +86,29 @@ class MealhomeFragment : Fragment() {
             binding.btnAddMeal.setOnClickListener {
                 val newMeal = "식단 ${meals.size + 1}"
                 meals.add(newMeal)
-                mealaddAdapter = MealaddAdapter(meals) { clickedMeal ->
-                    // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
-                    // 예: Navigation Component를 사용한 화면 전환
-
-
-                    findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment)
-                }
-                binding.recyclerviewMeal.layoutManager =
-                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                binding.recyclerviewMeal.adapter = mealaddAdapter
-
-
+                Log.i("meals",meals.toString())
+                initrecyclerview(meals)
             }
+            return binding.root
+        }
+
+        private fun initrecyclerview(data: MutableList<String>){
+
+            // 아이템 클릭 이벤트 처리
+            binding.recyclerviewMeal.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            binding.recyclerviewMeal.adapter = Adapter
+            Adapter.notifyDataSetChanged()
         }
 
         // Function to dynamically add a new meal to the ScrollView
-        private fun addMealToScrollView(mealName: String) {
-            val newMealView = layoutInflater.inflate(R.layout.item_meal, null)
-            // Customize the newMealView with meal details if needed
-            // For example, you can find TextViews in newMealView and set their text
-
-            // Add the new meal view to the linear layout inside ScrollView
-
+        private fun mealsUpdate(count:Int): MutableList<String> {
+            meals.clear()
+            for (i in 1..count){
+                meals.add("식단 ${i}")
+            }
+            return meals
         }
-
 
         private fun meallistfromDatabase(clickedMeal:String) {
             val dataRoute = firebaseDatabase
@@ -148,15 +142,12 @@ class MealhomeFragment : Fragment() {
 
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
             })
         }
     }
-
-
 
 
 

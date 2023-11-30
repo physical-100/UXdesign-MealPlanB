@@ -8,11 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.mealplanb.R
-import com.example.mealplanb.adapter.AddFoodAdapter
 import com.example.mealplanb.adapter.FastrecordAdapter
-import com.example.mealplanb.adapter.ItemSpacingDecoration
 import com.example.mealplanb.databinding.FragmentFastRecordBinding
 import com.example.mealplanb.dataclass.fast_record
 import com.example.mealplanb.dataclass.food
