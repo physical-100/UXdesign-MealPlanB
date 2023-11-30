@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanb.R
 import com.example.mealplanb.dataclass.food
 
+import com.example.mealplanb.fragment.MealhomeFragment
+
 class MealaddAdapter(
-private val meals: MutableList<String>,
-private val onItemClick: (String) -> Unit,
-private val onDeleteClick: (String) -> Unit
+    private val meals: MutableList<String>,
+    private val mealData: Map<String,MealhomeFragment.onlyCarProFat>,
+    private val onItemClick: (String) -> Unit,
+    private val onDeleteClick: (String) -> Unit
 ) : RecyclerView.Adapter<MealaddAdapter.MealViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
@@ -22,7 +25,8 @@ private val onDeleteClick: (String) -> Unit
     }
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
-        val meal = meals[position]
+
+        val meal=meals[position]
         holder.bind(meal)
     }
 
@@ -32,10 +36,20 @@ private val onDeleteClick: (String) -> Unit
 
     inner class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val mealOrderTextView: TextView = itemView.findViewById(R.id.mealorder)
+        private val carboTextView: TextView = itemView.findViewById(R.id.carbotextView3)
+        private val proteinTextView: TextView = itemView.findViewById(R.id.proteintextView3)
+        private val fatTextView: TextView = itemView.findViewById(R.id.fattextView3)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
 
         fun bind(meal: String) {
             mealOrderTextView.text = meal
+
+            val mealData = mealData[meal]
+            if (mealData != null) {
+                carboTextView.text = String.format("%.1f", mealData.carbo)
+                proteinTextView.text = String.format("%.1f", mealData.protein)
+                fatTextView.text = String.format("%.1f", mealData.fat)
+            }
 
             // 아이템을 클릭할 때 호출할 함수
             itemView.setOnClickListener {

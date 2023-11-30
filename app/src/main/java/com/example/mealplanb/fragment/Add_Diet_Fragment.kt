@@ -175,6 +175,7 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
     }
 
     private fun foodFavoritesRoad(listener: OnDataLoadedListener): ArrayList<food> {
+        data.clear()
         val dataRoute = firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단 추천/자주먹는음식(즐겨찾기)")
         dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

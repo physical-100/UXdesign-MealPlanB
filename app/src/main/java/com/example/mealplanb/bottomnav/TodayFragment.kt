@@ -1,6 +1,7 @@
 package com.example.mealplanb.bottomnav
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.User_calory
 import com.example.mealplanb.databinding.FragmentTodayBinding
 import com.example.mealplanb.fragment.MealhomeFragment
+import java.lang.Math.abs
 
 
 class TodayFragment : Fragment() {
@@ -21,6 +24,9 @@ class TodayFragment : Fragment() {
     val userCal = UserManager.getUserCal()
     private lateinit var scrollView: ScrollView
     private var scrollPosition = 0
+    private var AllListNutritionList= arrayListOf<AllListNutrition>(
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,6 +46,18 @@ class TodayFragment : Fragment() {
         scrollView =binding.scrollView
 
         // 스크롤 위치를 복원
+        AllListNutritionList=UserManager.getAllListNutritionList()
+        var totalcarbo=0.0
+        var totalproteion=0.0
+        var totalfat=0.0
+        var totalkcal=0.0
+        for(eachNutrtion in AllListNutritionList){
+            totalcarbo+=eachNutrtion.carbo
+            totalproteion+=eachNutrtion.protein
+            totalfat+=eachNutrtion.fat
+            totalkcal+=eachNutrtion.kcal
+        }
+
         if (savedInstanceState != null) {
             scrollPosition = savedInstanceState.getInt("scroll_position", 0)
             scrollView.post { scrollView.scrollTo(0, scrollPosition) }
@@ -58,10 +76,44 @@ class TodayFragment : Fragment() {
         if (userCal != null) {
             // userCalory를 사용하여 필요한 작업 수행
             binding.apply {
-                carbohydrate.text = "순탄수\n${userCal.carb}g"
-                protein.text = "단백질\n${userCal.protein}g"
-                fat.text = "지방\n${userCal.fat}g"
-                leftoverCal.text= "오늘은 ${userCal.goal_calory}kcal 남았어요"
+                if(userCal.carb-totalcarbo>=0){
+                    carbohydrate.text = "순탄수\n${String.format("%.1f",userCal.carb-totalcarbo)}g"
+
+                }else{
+                    carbohydrate.text= "순단백질${String.format("%.1f",abs(userCal.carb-totalcarbo))}g만큼 초과하여 드셨어요"
+                }
+
+                if(userCal.protein-totalproteion>=0){
+                    protein.text = "순탄수\n${String.format("%.1f",userCal.protein-totalproteion)}g"
+
+                }else{
+                    protein.text= "순단백질${String.format("%.1f",abs(userCal.protein-totalproteion))}g만큼 초과하여 드셨어요"
+                }
+                if(userCal.fat-totalfat>=0){
+                    fat.text = "지방\n${String.format("%.1f",userCal.fat-totalfat)}g"
+                }
+                else{
+                    fat.text= "순지방${String.format("%.1f",abs(userCal.fat-totalfat))}g만큼 초과하여 드셨어요"
+
+                }
+                if (userCal.goal_calory-totalkcal>=0){
+                    leftoverCal.text= "오늘은 ${String.format("%.1f",userCal.goal_calory-totalkcal)}kcal 남았어요"
+
+                }
+                else{
+                    leftoverCal.text="목표열량에서 ${String.format("%.1f",abs(userCal.goal_calory-totalkcal))}kcal만큼 초과하여 드셨어요"
+
+                }
+                val remainingCalories = (userCal.goal_calory - totalkcal).toFloat()
+
+                calProgressBar.max=userCal.goal_calory
+
+                calProgressBar.progress = if (remainingCalories >= 0) (userCal.goal_calory - remainingCalories).toInt() else userCal.goal_calory
+
+
+
+
+
 
             }
 
