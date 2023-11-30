@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/male_btn">
+        app:layout_constraintTop_toBottomOf="@id/active_btn">
         <TextView
             android:id="@+id/textview3"
             android:layout_width="wrap_content"
@@ -177,7 +177,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/male_btn"
+        app:layout_constraintTop_toBottomOf="@id/active_btn"
         android:layout_marginEnd="20dp">
         <TextView
             android:id="@+id/textview4"
@@ -284,7 +284,7 @@
             android:id="@+id/textview6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="시작 체중"
+            android:text="목표 체중"
             android:textSize="16dp"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/pretendard_medium"
@@ -333,7 +333,7 @@
         android:layout_marginTop="15dp"
         android:fontFamily="@font/pretendard_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_s_weight"
+        app:layout_constraintTop_toBottomOf="@id/male_btn"
         android:layout_marginStart="20dp"
         android:paddingVertical="5dp"/>
     <Button
@@ -372,7 +372,7 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16dp"
-        android:text="활동 많음"
+        android:text="활동 적음"
         android:fontFamily="@font/pretendard_bold"
         android:background="@drawable/unselect_shape"/>
     <Button
@@ -389,6 +389,7 @@
         android:fontFamily="@font/pretendard_bold"
         android:textColor="@color/white"
         android:textAlignment="center"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

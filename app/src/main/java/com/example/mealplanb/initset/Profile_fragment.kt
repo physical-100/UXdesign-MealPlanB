@@ -100,7 +100,7 @@ class Profile_fragment : Fragment() {
         editTextList.forEach { editText ->
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    // 모든 EditText의 텍스트가 비어있지 않으면 버튼 활성화
+//                     모든 EditText의 텍스트가 비어있지 않으면 버튼 활성화
                     val allFieldsNotEmpty = editTextList.all { it.text.isNotEmpty() }
                     binding.next2.isEnabled = allFieldsNotEmpty&&isSexSelected&&isActivitySelected
                 }
@@ -112,7 +112,7 @@ class Profile_fragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 //                    // 모든 EditText의 텍스트가 비어있지 않으면 버튼 활성화
 //                    val allFieldsNotEmpty = editTextList.all { it.text.isNotEmpty() }
-//                    binding.nextButton.isEnabled = allFieldsNotEmpty&&isSexSelected&&isActivitySelected
+//                    binding.next2.isEnabled = allFieldsNotEmpty&&isSexSelected&&isActivitySelected
                 }
             })
         }
