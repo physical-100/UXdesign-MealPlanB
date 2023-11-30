@@ -19,6 +19,10 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_left, parent, false)
                 LeftViewHolder(view)
             }
+            MessageType.LEFT_2.ordinal -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_left_2, parent, false)
+                LeftViewHolder2(view)
+            }
             MessageType.RIGHT.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_right, parent, false)
                 RightViewHolder(view)
@@ -33,19 +37,48 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
             MessageType.LEFT.ordinal -> {
                 val leftViewHolder = holder as LeftViewHolder
                 // 메시지를 leftTextView에 설정
-                leftViewHolder.leftText.text = message.text
+                if (message.text!=null) {
+                    leftViewHolder.leftText.text =  message.text
+                }
+                else{
+                    leftViewHolder.leftText.visibility = View.GONE
+                }
+                if (message.text2!=null) {
+                    leftViewHolder.leftcomment.text =  message.text2
+                }
+                else{   leftViewHolder.leftcomment.visibility = View.GONE   }
+
                 // 이미지 설정 (이미지가 있다면 보이게, 없다면 숨기게 처리)
                 if (message.kcal!=null) {
                     leftViewHolder.leftcal.text = message.kcal
-                    leftViewHolder.leftcarb.text = message.carb
-                    leftViewHolder.leftprotein.text = message.protein
-                    leftViewHolder.leftfat.text =  message.fat
 
                 } else {
                     leftViewHolder.leftcal.visibility = View.GONE
+                }
+                if (message.carb!=null) {
+                    leftViewHolder.leftcarb.text = message.carb
+                    leftViewHolder.leftprotein.text = message.protein
+                    leftViewHolder.leftfat.text =  message.fat
+                }
+                else{
                     leftViewHolder.leftdetail.visibility = View.GONE
                 }
             }
+            MessageType.LEFT_2.ordinal -> {
+            // 오른쪽에 표시할 내용을 설정하세요
+            val LeftViewHolder2 = holder as LeftViewHolder2
+
+                LeftViewHolder2.advicetext.text = message.text
+                LeftViewHolder2.remainKcal.text = message.kcal
+                LeftViewHolder2.foodnametext.text = message.carb
+                LeftViewHolder2.foodkcal.text = message.protein
+                LeftViewHolder2.amount_name.text = message.fat
+                LeftViewHolder2.foodamount.text = message.text2
+
+
+
+            }
+
             MessageType.RIGHT.ordinal -> {
                 // 오른쪽에 표시할 내용을 설정하세요
                 val rightViewHolder = holder as RightViewHolder
@@ -75,7 +108,16 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
         val leftcarb: TextView = itemView.findViewById(R.id.remain_carb)
         val leftprotein: TextView = itemView.findViewById(R.id.remain_protein)
         val leftfat: TextView = itemView.findViewById(R.id.remain_fat)
+        val leftcomment: TextView = itemView.findViewById(R.id.comment)
 
+    }
+    class LeftViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val advicetext: TextView = itemView.findViewById(R.id.advice)
+        val remainKcal: TextView = itemView.findViewById(R.id.remain_kcal)
+        val foodnametext: TextView = itemView.findViewById(R.id.foodname)
+        val foodkcal: TextView = itemView.findViewById(R.id.food_Kcal)
+        val amount_name: TextView = itemView.findViewById(R.id.amount_name)
+        val foodamount: TextView = itemView.findViewById(R.id.food_amount)
     }
     class RightViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

@@ -6,23 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mealplanb.R
+import com.example.mealplanb.databinding.FragmentCheckBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class foodrecommend : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class checkFragment : Fragment() {
+  lateinit var binding:FragmentCheckBinding
+    private var itemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -30,7 +31,16 @@ class foodrecommend : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_foodrecommend, container, false)
+        binding= FragmentCheckBinding.inflate(inflater,container,false)
+        binding.add.setOnClickListener {
+            itemClickListener?.onItemClick("check")
+        }
+        binding.back.setOnClickListener {
+            itemClickListener?.onItemClick("backtosearch")
+        }
+
+
+        return binding.root
     }
 
     companion object {
@@ -40,12 +50,12 @@ class foodrecommend : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment foodrecommend.
+         * @return A new instance of fragment checkFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            foodrecommend().apply {
+            checkFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

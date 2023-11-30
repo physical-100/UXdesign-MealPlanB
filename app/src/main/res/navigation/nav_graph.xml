@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_meal_selectFragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_meal_selectFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/todayFragment"
@@ -86,6 +89,9 @@
         <action
             android:id="@+id/action_mainFragment_to_mealDetailFragment"
             app:destination="@id/mealDetailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_recommend_container2"
+            app:destination="@id/recommend_container2" />
 
     </fragment>
     <fragment
@@ -215,4 +221,17 @@
         android:name="com.example.mealplanb.fragment.recommand.RecommendFragment"
         android:label="fragment_recommend"
         tools:layout="@layout/fragment_recommend" />
+    <fragment
+        android:id="@+id/recommend_container2"
+        android:name="com.example.mealplanb.fragment.recommand.Recommend_container"
+        android:label="fragment_recommend_container"
+        tools:layout="@layout/fragment_recommend_container" >
+        <action
+            android:id="@+id/action_recommend_container2_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
+    </fragment>
 </navigation>
