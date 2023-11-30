@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.mealplanb.R
+import com.example.mealplanb.TodayWeight
+import com.example.mealplanb.UserManager
 import com.example.mealplanb.databinding.FragmentDailyweightBinding
 import com.example.mealplanb.databinding.FragmentStaticsBinding
 import com.example.mealplanb.fragment.editweightFragment
 
 class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListener  {
     lateinit var binding: FragmentDailyweightBinding
+    var todayWeight:TodayWeight?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,6 +27,8 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentDailyweightBinding.inflate(inflater, container, false)
+        todayWeight=UserManager.getUserTodayWeight()
+        binding.dailyWeight.text = "${todayWeight?.weight} Kg"
 
 
         binding.addweightbutton.setOnClickListener {
@@ -37,8 +42,9 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
         return binding.root
     }
 
-    override fun onNumberEntered(number: Int) {
-        binding.dailyWeight.text = "${number} Kg"
+    override fun onNumberEntered(number: Double) {
+        todayWeight=UserManager.getUserTodayWeight()
+        binding.dailyWeight.text = "${todayWeight?.weight} Kg"
         binding.weightComment.text= "어제보다 - 0.6kg"
     }
 

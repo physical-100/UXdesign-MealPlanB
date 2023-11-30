@@ -26,6 +26,7 @@ import com.jayway.jsonpath.JsonPath
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     private val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     val currentTime = Calendar.getInstance().time
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
+    val usertodayweight : TodayWeight?=null
 
 
 
@@ -92,9 +94,41 @@ class MainActivity : AppCompatActivity() {
                         }
                     })
         meallistfromDatabase()
+        weightRoadfromDatabase()
 
 
 
+    }
+    private fun weightRoadfromDatabase() {
+        val dataRoute =
+            firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/체중기입/$realTime")
+        dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.i("snap",snapshot.toString())
+                for (i in snapshot.children){
+                    if(i.value!=null){
+                        val weight=i.value.toString().toDouble()
+                        val userweight=TodayWeight(realTime, weight)
+                        UserManager.setUserTodayWeight(userweight)
+                    }
+                }
+                //val value=JsonPath.parse(snapshot.value)
+//                val value=snapshot.value
+//
+//                if(value!=null){
+//                    val weight = value.toDouble()
+//                    val userweight = TodayWeight(realTime, weight)
+//                    UserManager.setUserTodayWeight(userweight)
+//                }
+
+                //val weight=(value.read("$['현재 사용자 체중']") as String).toDouble()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
     private fun meallistfromDatabase() {
         val dataRoute = firebaseDatabase
@@ -164,11 +198,13 @@ class MainActivity : AppCompatActivity() {
         private var usermealdataList: ArrayList<MealData> = ArrayList()
         private var userAllListNutritionList: ArrayList<AllListNutrition> = ArrayList()
         private var usermealnumber:String?=null
-        fun setUserMealNumber(usermealnumber:String){
-            this.usermealnumber=usermealnumber
+        private var usertodayweight:TodayWeight?=null
+
+        fun getUserTodayWeight():TodayWeight?{
+            return usertodayweight
         }
-        fun getUserMealNumber():String{
-            return usermealnumber!!
+        fun setUserTodayWeight(usertodayweight:TodayWeight){
+            this.usertodayweight=usertodayweight
         }
         fun getUserCal(): User_calory? {
             return usercal

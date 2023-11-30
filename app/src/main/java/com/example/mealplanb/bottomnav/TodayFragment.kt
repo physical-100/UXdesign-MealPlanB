@@ -15,6 +15,7 @@ import com.example.mealplanb.UserManager
 import com.example.mealplanb.User_calory
 import com.example.mealplanb.databinding.FragmentTodayBinding
 import com.example.mealplanb.fragment.MealhomeFragment
+import java.lang.Math.abs
 
 
 class TodayFragment : Fragment() {
@@ -75,10 +76,44 @@ class TodayFragment : Fragment() {
         if (userCal != null) {
             // userCalory를 사용하여 필요한 작업 수행
             binding.apply {
-                carbohydrate.text = "순탄수\n${String.format("%.1f",userCal.carb-totalcarbo)}g"
-                protein.text = "단백질\n${String.format("%.1f",userCal.protein-totalproteion)}g"
-                fat.text = "지방\n${String.format("%.1f",userCal.fat-totalfat)}g"
-                leftoverCal.text= "오늘은 ${String.format("%.1f",userCal.goal_calory-totalkcal)}kcal 남았어요"
+                if(userCal.carb-totalcarbo>=0){
+                    carbohydrate.text = "순탄수\n${String.format("%.1f",userCal.carb-totalcarbo)}g"
+
+                }else{
+                    carbohydrate.text= "순단백질${String.format("%.1f",abs(userCal.carb-totalcarbo))}g만큼 초과하여 드셨어요"
+                }
+
+                if(userCal.protein-totalproteion>=0){
+                    protein.text = "순탄수\n${String.format("%.1f",userCal.protein-totalproteion)}g"
+
+                }else{
+                    protein.text= "순단백질${String.format("%.1f",abs(userCal.protein-totalproteion))}g만큼 초과하여 드셨어요"
+                }
+                if(userCal.fat-totalfat>=0){
+                    fat.text = "지방\n${String.format("%.1f",userCal.fat-totalfat)}g"
+                }
+                else{
+                    fat.text= "순지방${String.format("%.1f",abs(userCal.fat-totalfat))}g만큼 초과하여 드셨어요"
+
+                }
+                if (userCal.goal_calory-totalkcal>=0){
+                    leftoverCal.text= "오늘은 ${String.format("%.1f",userCal.goal_calory-totalkcal)}kcal 남았어요"
+
+                }
+                else{
+                    leftoverCal.text="목표열량에서 ${String.format("%.1f",abs(userCal.goal_calory-totalkcal))}kcal만큼 초과하여 드셨어요"
+
+                }
+                val remainingCalories = (userCal.goal_calory - totalkcal).toFloat()
+
+                calProgressBar.max=userCal.goal_calory
+
+                calProgressBar.progress = if (remainingCalories >= 0) (userCal.goal_calory - remainingCalories).toInt() else userCal.goal_calory
+
+
+
+
+
 
             }
 
