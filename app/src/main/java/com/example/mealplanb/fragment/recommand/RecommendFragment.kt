@@ -11,25 +11,18 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RecommendFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 class RecommendFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
-    lateinit var binding:FragmentRecommendBinding
+    lateinit var binding: FragmentRecommendBinding
+    private var itemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -44,19 +37,16 @@ class RecommendFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.cheat.setOnClickListener {  }
-        binding.like.setOnClickListener {  }
-        binding.popluar.setOnClickListener {  }
+        binding.cheat.setOnClickListener {
+            itemClickListener?.onItemClick("cheat")
+        }
+        binding.like.setOnClickListener {
+            itemClickListener?.onItemClick("like")
+        }
+        binding.popluar.setOnClickListener {
+            itemClickListener?.onItemClick("popular")
+        }
 
     }
 
-    companion object {
-        fun newInstance(param1: String, param2: String) =
-            RecommendFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

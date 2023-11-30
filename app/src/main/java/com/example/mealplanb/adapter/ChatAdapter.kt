@@ -37,16 +37,30 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
             MessageType.LEFT.ordinal -> {
                 val leftViewHolder = holder as LeftViewHolder
                 // 메시지를 leftTextView에 설정
-                leftViewHolder.leftText.text = message.text
+                if (message.text!=null) {
+                    leftViewHolder.leftText.text =  message.text
+                }
+                else{
+                    leftViewHolder.leftText.visibility = View.GONE
+                }
+                if (message.text2!=null) {
+                    leftViewHolder.leftcomment.text =  message.text2
+                }
+                else{   leftViewHolder.leftcomment.visibility = View.GONE   }
+
                 // 이미지 설정 (이미지가 있다면 보이게, 없다면 숨기게 처리)
                 if (message.kcal!=null) {
                     leftViewHolder.leftcal.text = message.kcal
-                    leftViewHolder.leftcarb.text = message.carb
-                    leftViewHolder.leftprotein.text = message.protein
-                    leftViewHolder.leftfat.text =  message.fat
 
                 } else {
                     leftViewHolder.leftcal.visibility = View.GONE
+                }
+                if (message.carb!=null) {
+                    leftViewHolder.leftcarb.text = message.carb
+                    leftViewHolder.leftprotein.text = message.protein
+                    leftViewHolder.leftfat.text =  message.fat
+                }
+                else{
                     leftViewHolder.leftdetail.visibility = View.GONE
                 }
             }
@@ -94,6 +108,7 @@ class ChatAdapter(private val messages: MutableList<Message>) : RecyclerView.Ada
         val leftcarb: TextView = itemView.findViewById(R.id.remain_carb)
         val leftprotein: TextView = itemView.findViewById(R.id.remain_protein)
         val leftfat: TextView = itemView.findViewById(R.id.remain_fat)
+        val leftcomment: TextView = itemView.findViewById(R.id.comment)
 
     }
     class LeftViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {

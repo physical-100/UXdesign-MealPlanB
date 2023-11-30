@@ -10,18 +10,14 @@ import com.example.mealplanb.R
 
 import com.example.mealplanb.databinding.FragmentRecommendFoodOrAmountBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class recommend_food_or_amount : Fragment() {
-    // TODO: Rename and change types of parameters
     lateinit var binding:FragmentRecommendFoodOrAmountBinding
     private var itemClickListener: OnItemClickListener? = null
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         itemClickListener = listener
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +41,6 @@ class recommend_food_or_amount : Fragment() {
                 parentFragmentManager.setFragmentResult("choiceResult", bundle)
             itemClickListener?.onItemClick("food")
 //            Log.i("bundle",bundle.toString())
-            val recommendFragment = RecommendFragment()
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.container, recommendFragment)
-            transaction?.commit()
             }
 
         binding.amount.setOnClickListener {
@@ -61,10 +53,6 @@ class recommend_food_or_amount : Fragment() {
             //얼마나 먹을지 골랐을떄
             itemClickListener?.onItemClick("amount")
 
-            val searchFragment = Amountrecommend()
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.container, searchFragment)
-            transaction?.commit()
         }
 
         return binding.root
