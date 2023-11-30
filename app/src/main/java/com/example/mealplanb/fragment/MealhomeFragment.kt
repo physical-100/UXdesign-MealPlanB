@@ -89,7 +89,6 @@ class MealhomeFragment : Fragment() {
                 Log.i("meals",meals.toString())
                 initrecyclerview(meals)
             }
-            return binding.root
         }
 
         private fun initrecyclerview(data: MutableList<String>){
