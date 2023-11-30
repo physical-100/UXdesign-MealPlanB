@@ -224,6 +224,10 @@
         tools:layout="@layout/fragment_recommend_container" >
         <action
             android:id="@+id/action_recommend_container2_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
     </fragment>
 </navigation>

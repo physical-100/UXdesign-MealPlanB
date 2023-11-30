@@ -50,6 +50,7 @@ class Amountrecommend : Fragment() {
 
         binding.back.setOnClickListener {
             //뒤로 가기는 일단 있다가 구현하겠음
+            itemClickListener?.onItemClick("backtofoodoramount")
         }
 
         binding.searchfood.addTextChangedListener(object : TextWatcher {
