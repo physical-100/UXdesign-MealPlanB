@@ -12,7 +12,7 @@ import android.widget.TextView
 
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mealplanb.EatTotalNutrition
+import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.adapter.ItemSpacingDecoration
@@ -45,7 +45,8 @@ class MealhomeFragment : Fragment() {
     lateinit var proteinview: TextView
     lateinit var fatview: TextView
     private val mealDataMap = mutableMapOf<String, onlyCarProFat>()
-    var EatTotalList=ArrayList<EatTotalNutrition>(
+    var mealNumber:Int=0
+    var AllListNutritionList=ArrayList<AllListNutrition>(
 
     )
 
@@ -102,8 +103,6 @@ class MealhomeFragment : Fragment() {
                 mealaddAdapter = MealaddAdapter(meals,mealDataMap) { clickedMeal ->
                     // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
                     // 예: Navigation Component를 사용한 화면 전환
-
-
                     findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment)
                 }
                 binding.recyclerviewMeal.layoutManager =
@@ -129,49 +128,71 @@ class MealhomeFragment : Fragment() {
         binding.recyclerviewMeal.adapter = mealaddAdapter
     }
     private fun meallistfromDatabase(clickedMeal: String) {
-        val dataRoute = firebaseDatabase
-            .getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime/$clickedMeal")
-        dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var totalCarbo = 0.0
-                var totalProtein = 0.0
-                var totalFat = 0.0
-                var totalkcal=0.0
+        //초기에 firebase에서 받아온거랑 내가 식단 기입해서 추가해준것도 추가해서 받아온다.
+        AllListNutritionList=UserManager.getAllListNutritionList()
+        var permealtotalCarbo = 0.0
+        var permealtotalProtein = 0.0
+        var permealtotalFat = 0.0
+        var permealtotalkcal=0.0
 
-                for (Fuserdata in dataSnapshot.children) {
-                    val key = Fuserdata.key.toString()
-                    val value1 = JsonPath.parse(Fuserdata.value)
-                    if (key != null) {
-                        val foodcarbo = (value1.read("$['탄수화물']") as String).toDouble()
-                        val foodprotein = (value1.read("$['단백질']") as String).toDouble()
-                        val foodfat = (value1.read("$['지방']") as String).toDouble()
-                        val foodkcal = (value1.read("$['열량']")as String).toDouble()
-
-                        totalCarbo += foodcarbo
-                        totalProtein += foodprotein
-                        totalFat += foodfat
-                        totalkcal+=foodkcal
-                    }
-                }
-                val eachmeal=EatTotalNutrition(clickedMeal,totalCarbo,totalProtein,totalFat,totalkcal)
-                UserManager.addEatTotalList(eachmeal)
-
-                Log.i("EatTotal", UserManager.getEatTotalList().toString())
-
-
-
-
-                // Update the mealDataMap with the totals for the clicked meal
-                mealDataMap[clickedMeal] = onlyCarProFat(totalCarbo, totalProtein, totalFat)
-
-                // Update the RecyclerView
-                updateRecyclerView()
+        for(allListNutrion in AllListNutritionList){
+            if(clickedMeal ==allListNutrion.mealname){
+                permealtotalCarbo+=allListNutrion.carbo
+                permealtotalProtein+=allListNutrion.protein
+                permealtotalFat+=allListNutrion.fat
+                permealtotalkcal+=allListNutrion.kcal
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+        }
+        mealDataMap[clickedMeal] = onlyCarProFat(permealtotalCarbo, permealtotalProtein, permealtotalFat)
+        Log.i("식단별 탄단지합량", permealtotalCarbo.toString()+" "+permealtotalProtein+" "+permealtotalFat+" "+permealtotalkcal)
+        updateRecyclerView()
+
+
+//        val dataRoute = firebaseDatabase
+//            .getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime/$clickedMeal")
+//        dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                var totalCarbo = 0.0
+//                var totalProtein = 0.0
+//                var totalFat = 0.0
+//                var totalkcal=0.0
+//
+//                for (Fuserdata in dataSnapshot.children) {
+//                    val key = Fuserdata.key.toString()
+//                    val value1 = JsonPath.parse(Fuserdata.value)
+//                    if (key != null) {
+//                        val foodcarbo = (value1.read("$['탄수화물']") as String).toDouble()
+//                        val foodprotein = (value1.read("$['단백질']") as String).toDouble()
+//                        val foodfat = (value1.read("$['지방']") as String).toDouble()
+//                        val foodkcal = (value1.read("$['열량']")as String).toDouble()
+//
+//                        totalCarbo += foodcarbo
+//                        totalProtein += foodprotein
+//                        totalFat += foodfat
+//                        totalkcal+=foodkcal
+//                    }
+//                }
+//                val eachmeal=EatTotalNutrition(clickedMeal,totalCarbo,totalProtein,totalFat,totalkcal)
+//                //UserManager.addEatTotalList(eachmeal)
+//                mealNumber+=1
+//                Log.i("mealnumber", mealNumber.toString())
+//
+//
+//
+//
+//
+//
+//                // Update the mealDataMap with the totals for the clicked meal
+//                mealDataMap[clickedMeal] = onlyCarProFat(totalCarbo, totalProtein, totalFat)
+//                // Update the RecyclerView
+//                updateRecyclerView()
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        })
     }
 
 

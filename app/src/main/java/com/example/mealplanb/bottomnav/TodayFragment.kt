@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
-import com.example.mealplanb.EatTotalNutrition
+import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
 import com.example.mealplanb.User_calory
@@ -23,7 +23,7 @@ class TodayFragment : Fragment() {
     val userCal = UserManager.getUserCal()
     private lateinit var scrollView: ScrollView
     private var scrollPosition = 0
-    private var UserTotalNutrition= arrayListOf<EatTotalNutrition>(
+    private var AllListNutritionList= arrayListOf<AllListNutrition>(
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,17 +45,16 @@ class TodayFragment : Fragment() {
         scrollView =binding.scrollView
 
         // 스크롤 위치를 복원
-        UserTotalNutrition=UserManager.getEatTotalList()
-        Log.i("통합식사", UserTotalNutrition.toString())
+        AllListNutritionList=UserManager.getAllListNutritionList()
         var totalcarbo=0.0
         var totalproteion=0.0
         var totalfat=0.0
         var totalkcal=0.0
-        for(eachNutrtion in UserTotalNutrition){
-            totalcarbo+=eachNutrtion.totalcarbo
-            totalproteion+=eachNutrtion.totalprotein
-            totalfat+=eachNutrtion.totalfat
-            totalkcal+=eachNutrtion.totalkcal
+        for(eachNutrtion in AllListNutritionList){
+            totalcarbo+=eachNutrtion.carbo
+            totalproteion+=eachNutrtion.protein
+            totalfat+=eachNutrtion.fat
+            totalkcal+=eachNutrtion.kcal
         }
 
         if (savedInstanceState != null) {

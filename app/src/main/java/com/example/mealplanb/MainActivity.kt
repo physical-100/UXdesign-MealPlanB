@@ -10,8 +10,11 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mealplanb.adapter.MealaddAdapter
 import com.example.mealplanb.bottomnav.MainFragment
 import com.example.mealplanb.fragment.AnimationFragment
+import com.example.mealplanb.fragment.MealhomeFragment
 import com.example.mealplanb.initset.Profile_fragment
 import com.google.firebase.auth.FirebaseUserMetadata
 import com.google.firebase.database.DataSnapshot
@@ -19,12 +22,21 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.jayway.jsonpath.JsonPath
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     var userdata: Userdata? = null
     var usercomplete: String? = null
     var usercal: User_calory? = null
+    var userEatMealNumber :Int=0
+    val currentTime = Calendar.getInstance().time
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,24 +91,85 @@ class MainActivity : AppCompatActivity() {
                             TODO("Not yet implemented")
                         }
                     })
+        meallistfromDatabase()
+
+
+
     }
+    private fun meallistfromDatabase() {
+        val dataRoute = firebaseDatabase
+            .getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime")
+        dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var totalCarbo = 0.0
+                var totalProtein = 0.0
+                var totalFat = 0.0
+                var totalkcal=0.0
+                for (Fuserdata in dataSnapshot.children) {
+                    val key = Fuserdata.key.toString()
+                    Log.i("key", key)
+                    if(Fuserdata.children!=null){
+                        userEatMealNumber+=1
+                    }
+                    for(Fuserdata2 in Fuserdata.children){
+                        val key2= Fuserdata2.key.toString()
+                        Log.i("key2",key2)
+                        val value1 = JsonPath.parse(Fuserdata2.value)
+                        if (key2 != null) {
+                            val foodcarbo = (value1.read("$['탄수화물']") as String).toDouble()
+                            val foodprotein = (value1.read("$['단백질']") as String).toDouble()
+                            val foodfat = (value1.read("$['지방']") as String).toDouble()
+                            val foodkcal = (value1.read("$['열량']")as String).toDouble()
+
+                            totalCarbo += foodcarbo
+                            totalProtein += foodprotein
+                            totalFat += foodfat
+                            totalkcal+=foodkcal
+                            val permealeachfood=AllListNutrition(key,key2,foodcarbo,foodprotein,foodfat,foodkcal)
+                            UserManager.addAllListNutrionList(permealeachfood)
+
+                        }
+
+                    }
+
+                }
+                Log.i("mealnumber111", userEatMealNumber.toString())
+                }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+
+
+
     private fun handleDataAfterFirebase(navController: NavController) {
         if (usercomplete == null) {
             navController.navigate(R.id.action_animationFragment_to_profile_fragment)
-        } else {
+        } else{
             // 초기 설정이 이미 완료된 경우
             UserManager.setUserData(userdata!!)
             UserManager.setUserCal(usercal!!)
             navController.navigate(R.id.action_animationFragment_to_mainFragment)
         }
     }
+
 }
 
     object UserManager {
         private var userdata: Userdata? = null
         private var usercal: User_calory? = null
         private var usermealdataList: ArrayList<MealData> = ArrayList()
-        private var userEatTotalNutritionList: ArrayList<EatTotalNutrition> = ArrayList()
+        private var userAllListNutritionList: ArrayList<AllListNutrition> = ArrayList()
+        private var usermealnumber:String?=null
+        fun setUserMealNumber(usermealnumber:String){
+            this.usermealnumber=usermealnumber
+        }
+        fun getUserMealNumber():String{
+            return usermealnumber!!
+        }
         fun getUserCal(): User_calory? {
             return usercal
         }
@@ -109,11 +182,11 @@ class MainActivity : AppCompatActivity() {
         fun setUserData(userData: Userdata) {
             this.userdata = userData
         }
-        fun getEatTotalList(): ArrayList<EatTotalNutrition>{
-            return userEatTotalNutritionList
+        fun getAllListNutritionList(): ArrayList<AllListNutrition>{
+            return userAllListNutritionList
         }
-        fun addEatTotalList(eatTotalNutrition: EatTotalNutrition){
-            userEatTotalNutritionList.add(eatTotalNutrition)
+        fun addAllListNutrionList(allListNutrition: AllListNutrition){
+            userAllListNutritionList.add(allListNutrition)
         }
 
         fun getMealData(): ArrayList<MealData> {
