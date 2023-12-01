@@ -66,6 +66,6 @@ dependencies {
     implementation 'com.nineoldandroids:library:2.4.0'
     implementation 'com.airbnb.android:lottie:5.0.2'
 
-
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation("com.jayway.jsonpath:json-path:2.5.0")
 }
