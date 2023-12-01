@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.MealData
@@ -20,8 +21,11 @@ import com.google.firebase.database.FirebaseDatabase
 class MealDetailFragment : Fragment() {
     lateinit var binding:FragmentMealDetailBinding
     lateinit var mealName:String
-    lateinit var UsermealdataList:ArrayList<MealData>
+    lateinit var UserdataList:ArrayList<MealData>
+    var UsermealdataList=ArrayList<MealData>()
     private val firebaseDatabase=FirebaseDatabase.getInstance()
+    var AllListNutritionList= java.util.ArrayList<AllListNutrition>(
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,7 +37,13 @@ class MealDetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
-        UsermealdataList = UserManager.getMealData()!!
+        UserdataList = UserManager.getMealData()!!
+        //meal 이름에 해당하는 거만 가져옴
+        for ( i in UserdataList){
+            if(i.mealname==mealName){
+                UsermealdataList.add(i)
+            }
+        }
         binding = FragmentMealDetailBinding.inflate(inflater,container,false)
         Log.i("확인2", UsermealdataList.toString())
         RoadMealData(UsermealdataList) //mealdetail 화면에 띄울때 사용자가 추가한 음식 정보들 다 더해서 화면에 띄우는 부분
@@ -44,7 +54,7 @@ class MealDetailFragment : Fragment() {
 
         binding.completeMealAdd.setOnClickListener {
             saveMealDataToFirebase(UsermealdataList)
-            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
+//            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
             findNavController().navigate(R.id.action_mealDetailFragment_to_mainFragment)
             
         }

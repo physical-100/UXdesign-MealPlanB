@@ -40,8 +40,6 @@ class Recommend_container : Fragment(),OnItemClickListener{
         super.onCreate(savedInstanceState)
         val childFragment = recommend_food_or_amount()
         childFragment.setOnItemClickListener(this)
-        val Fragment = Amountrecommend()
-          Fragment.setOnItemClickListener(this)
     }
 
     override fun onCreateView(

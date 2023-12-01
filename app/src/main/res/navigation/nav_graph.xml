@@ -92,6 +92,9 @@
         <action
             android:id="@+id/action_mainFragment_to_recommend_container2"
             app:destination="@id/recommend_container2" />
+        <action
+            android:id="@+id/action_mainFragment_to_mealDetailFragment2"
+            app:destination="@id/mealDetailFragment" />
 
     </fragment>
     <fragment
