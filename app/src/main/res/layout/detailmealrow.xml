@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:padding="10dp">
     <LinearLayout
+        android:id="@+id/meal_detail_item"
         android:layout_width="0dp"
         android:orientation="vertical"
         android:layout_height="wrap_content"
@@ -15,7 +16,9 @@
             android:id="@+id/foodname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="음식이름"/>
+            android:text="음식이름"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
         <TextView
             android:id="@+id/foodamout"
             android:layout_width="wrap_content"
@@ -24,6 +27,7 @@
 
     </LinearLayout>
     <TextView
+        android:id="@id/food_Kcal"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:layout_width="0dp"
@@ -31,7 +35,9 @@
         android:text="칼로리"
         android:textAlignment="textEnd"
         android:layout_marginEnd="10dp"/>
+
     <ImageButton
+        android:id="@+id/deleteitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_cancel_24"

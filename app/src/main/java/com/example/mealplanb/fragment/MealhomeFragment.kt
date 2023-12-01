@@ -61,12 +61,13 @@ class MealhomeFragment : Fragment() {
                 onItemClick = { clickedMeal ->
                     // 클릭된 아이템에 대한 화면 전환 로직을 여기에 작성
                     // 예: Navigation Component를 사용한 화면 전환
-                    Log.i("식단은 무엇?", clickedMeal)
+                    Log.i("식단은 무엇?", mealDataMap[clickedMeal].toString())
 
                     // Bundle을 생성하고 클릭된 Meal의 이름을 전달
                     val bundle = Bundle()
                     bundle.putString("mealName", clickedMeal)
-                    if(mealDataMap[clickedMeal]!=onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
+//                    if(mealDataMap[clickedMeal]!=onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
+                    if(mealDataMap[clickedMeal]!=null||mealDataMap[clickedMeal]!=onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
                         findNavController().navigate(R.id.action_mainFragment_to_mealDetailFragment, bundle)
 
                     }else{
