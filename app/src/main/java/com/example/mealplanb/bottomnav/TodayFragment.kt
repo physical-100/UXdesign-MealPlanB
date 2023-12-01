@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RemoteViews
 import android.widget.ScrollView
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.R
@@ -21,7 +20,8 @@ import com.example.mealplanb.User_calory
 import com.example.mealplanb.databinding.FragmentTodayBinding
 import com.example.mealplanb.fragment.MealhomeFragment
 import java.lang.Math.abs
-
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 
 class TodayFragment : Fragment() {
     private lateinit var notificationManager: NotificationManagerCompat
@@ -179,39 +179,47 @@ class TodayFragment : Fragment() {
         }
         notificationManager.notify(1, builder.build())
     }
-    private fun updateNotification(totalCalories: Double , goalCalories: Int) {
+    // Remove this function
+// private fun NotificationCompat.Builder.setCustomBigContentView(notificationLayout: Int) {}
+
+    // Update your updateNotification function
+    private fun updateNotification(totalCalories: Double, goalCalories: Int) {
         val channelId = "your_channel_id"
-        val builder = NotificationCompat.Builder(requireContext(), channelId)
+        val notificationLayout = RemoteViews(requireContext().packageName, R.layout.notification_layout)
+
+        // Apply the layouts to the notification
+        val customNotification = NotificationCompat.Builder(requireContext(), channelId)
             .setSmallIcon(R.drawable.character)
-//            .setCustomBigContentView(R.layout.notification_layout)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(notificationLayout)
+            .build()
 
         // Calculate the percentage completion
         val percentage = (totalCalories / goalCalories) * 100
-        Log.i("퍼센트",percentage.toString())
+        Log.i("퍼센트", percentage.toString())
 
         // Different notifications based on the percentage
         when {
             percentage > 103 -> {
-                builder.setContentTitle("그만좀 먹어라!")
-                    .setContentText("제발!!")
+                notificationLayout.setImageViewResource(R.id.notification_image, R.drawable.character)
+                notificationLayout.setTextViewText(R.id.notification_title, "그만좀 먹어라!")
+                notificationLayout.setTextViewText(R.id.notification_text, "제발!!")
             }
             percentage >= 100 -> {
-                builder.setContentTitle("목표 달성 축하해요!!")
-                    .setContentText("내일도 열심히 해봅시다!!!")
+                notificationLayout.setTextViewText(R.id.notification_title, "목표 달성 축하해요!!")
+                notificationLayout.setTextViewText(R.id.notification_text, "내일도 열심히 해봅시다!!!")
             }
             percentage > 80 -> {
-                builder.setContentTitle("거의 다왔어요!!")
-                    .setContentText("화이팅!")
+                notificationLayout.setTextViewText(R.id.notification_title, "거의 다왔어요!!")
+                notificationLayout.setTextViewText(R.id.notification_text, "화이팅!")
             }
             percentage > 60 -> {
-                builder.setContentTitle("오늘 하루도 열심히 가봅시다 !!")
-                    .setContentText("힘내세요!")
+                notificationLayout.setTextViewText(R.id.notification_title, "오늘 하루도 열심히 가봅시다 !!")
+                notificationLayout.setTextViewText(R.id.notification_text, "힘내세요!")
             }
             percentage > 30 -> {
-                builder.setContentTitle("활기찬 식단 기록을 해보아요!!")
-                    .setContentText("자신을 믿어요!")
+                notificationLayout.setTextViewText(R.id.notification_title, "활기찬 식단 기록을 해보아요!!")
+                notificationLayout.setTextViewText(R.id.notification_text, "자신을 믿어요!")
             }
             else -> {
                 // Do nothing for other percentages
@@ -228,13 +236,16 @@ class TodayFragment : Fragment() {
             return
         }
 
-        notificationManager.notify(1, builder.build())
+        notificationManager.notify(1, customNotification)
     }
+
+
 
 
 
 }
 
-//private fun NotificationCompat.Builder.setCustomBigContentView(notificationLayout: Int): NotificationCompat.Builder {
-//
-//}
+private fun NotificationCompat.Builder.setCustomBigContentView(notificationLayout: Int) {
+
+}
+

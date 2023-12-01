@@ -9,12 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.mealplanb.MealData
-import com.example.mealplanb.R
-import com.example.mealplanb.UserManager
-import com.example.mealplanb.Userdata
-import com.example.mealplanb.adapter.AddFoodAdapter
-import com.example.mealplanb.databinding.FragmentDailyStaticBinding
-import com.example.mealplanb.databinding.FragmentEditweightBinding
 import com.example.mealplanb.databinding.FragmentSpecificFoodBinding
 import com.example.mealplanb.dataclass.food
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

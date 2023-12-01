@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/notification_image"
-        android:layout_width="200dp"
+        android:layout_width="100dp"
         android:layout_height="200dp"
         android:src="@drawable/character"
         android:layout_alignParentLeft="true"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/notification_title"
             android:layout_marginTop="10dp"
-            android:text="다이어트가 장난입니까..?\n 어서 식단을 기록해 시발년아"
+            android:text="다이어트가 장난입니까..?\n 어서 식단을 기록해야만해"
             android:textSize="15dp" />
 
 
