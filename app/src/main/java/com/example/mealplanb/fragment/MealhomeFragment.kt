@@ -49,13 +49,19 @@ class MealhomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mealcount  =getMealCount()
+        getMealCount()
     }
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
-            meals=mealsUpdate(mealcount)
+//            meals=mealsUpdate(mealcount)
+            if(meals.size<3){
+                meals.clear()
+                meals.add("식단 1")
+                meals.add("식단 2")
+                meals.add("식단 3")
+            }
             binding = FragmentMealhomeBinding.inflate(inflater,container,false)
             Adapter = MealaddAdapter(meals,mealDataMap,
                 onItemClick = { clickedMeal ->
@@ -101,8 +107,8 @@ class MealhomeFragment : Fragment() {
             //meallistfromDatabase로 부터 하나하나 정보를 다 받아온다.
 //           getmealcout()
 
-            for(i in  1..getMealCount()){
-                meallistfromDatabase("식단 ${i}")
+            for(i in  meals){
+                meallistfromDatabase("${i}")
             }
             return binding.root
         }
@@ -120,7 +126,7 @@ class MealhomeFragment : Fragment() {
                 initrecyclerview(meals)
             }
         }
-    private fun getMealCount(): Int {
+    private fun getMealCount(){
         AllListNutritionList = UserManager.getAllListNutritionList()
         var count: Int = 0
         var prevMealName: String? = null
@@ -131,13 +137,10 @@ class MealhomeFragment : Fragment() {
             // 이전 식단 이름과 현재 식단 이름이 다르면 count 증가
             if (mealName != prevMealName) {
                 count++
+                meals.add(i.mealname)
                 prevMealName = mealName
             }
         }
-        if (count<=3){
-            return 3
-        }
-        else return count
     }
     private fun mealsUpdate(count:Int): MutableList<String> {
         meals.clear()

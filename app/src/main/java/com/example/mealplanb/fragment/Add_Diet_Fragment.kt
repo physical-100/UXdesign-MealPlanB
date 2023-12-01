@@ -43,7 +43,7 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
     var adapter: AddFoodAdapter?=null
     lateinit var mealName:String
     private val firebaseDatabase = FirebaseDatabase.getInstance()
-    var usermealData=arrayListOf<MealData>()
+    var temporarymealdatalist=arrayListOf<MealData>()
     var data = arrayListOf<food>(
     )
     val data2 =  arrayListOf<food>(
@@ -64,6 +64,7 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
     ): View? {
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
+        temporarymealdatalist=arguments?.getParcelableArrayList<MealData>("temporary")?: ArrayList()
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
         foodFavoritesRoad(object : OnDataLoadedListener {
             override fun onDataLoaded(data: ArrayList<food>) {
@@ -73,12 +74,7 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
         return binding.root
     }
 
-    override fun onfoodEntered(mealData: MealData) {
-        // meal data 리스트에  저장해서 번들로 넘기면 됨
 
-        usermealData.add(mealData)
-        Log.i("임시", usermealData.toString())
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -128,9 +124,10 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
         //식단기입을 완료하고 싶을때
         binding.endaddmeal.setOnClickListener {
 
-            val bundle = Bundle()
-            bundle.putString("mealName", mealName)
-            findNavController().navigate(R.id.action_add_Diet_Fragment_to_mealDetailFragment,bundle)
+
+            val bundle1=bundleOf("temporarymealdatalist" to temporarymealdatalist)
+            bundle1.putString("mealName", mealName)
+            findNavController().navigate(R.id.action_add_Diet_Fragment_to_mealDetailFragment,bundle1)
             //식단1에 대한 정보를 보내고!!
 
 
@@ -164,8 +161,8 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
                 bottomSheetFragment.arguments = bundle1
                 bottomSheetFragment.setOnNumberEnteredListener(object : SpecificFood_Fragment.OnfoodEnteredListener {
                     override fun onfoodEntered(mealData: MealData) {
-                        usermealData.add(mealData)
-                        Log.i("임시", usermealData.toString())
+                        temporarymealdatalist.add(mealData)
+                        Log.i("임시", temporarymealdatalist.toString())
                     }
                 })
                 // Show the fragment
@@ -284,6 +281,10 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
     }
     interface OnDataLoadedListener {
         fun onDataLoaded(data: ArrayList<food>)
+    }
+
+    override fun onfoodEntered(mealData: MealData) {
+        TODO("Not yet implemented")
     }
 
 }
