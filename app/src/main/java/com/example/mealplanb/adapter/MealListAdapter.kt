@@ -33,10 +33,10 @@ class MealListAdapter(private val context: Context, private val mealList: List<M
 //        val mealBrandTextView=listItemView?.findViewById<TextView>(R.id.foodbrand)
 //        mealBrandTextView?.text=currentMeal?.foodbrand
 
-        val mealKcalTextView=listItemView?.findViewById<TextView>(R.id.food_kcal)
+        val mealKcalTextView=listItemView?.findViewById<TextView>(R.id.food_Kcal)
         mealKcalTextView?.text=String.format("%.1f",currentMeal?.foodcal)+"Kcal"
 
-        val mealamountTextView=listItemView?.findViewById<TextView>(R.id.foodamount)
+        val mealamountTextView=listItemView?.findViewById<TextView>(R.id.foodamout)
         mealamountTextView?.text=String.format("%.1f",currentMeal?.foodamount)+"g"
         val clickitem = listItemView?.findViewById<LinearLayout>(R.id.meal_detail_item)
         clickitem?.setOnClickListener {

@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mealplanb.MealData
 import com.example.mealplanb.R
 import com.example.mealplanb.adapter.AddFoodAdapter
 import com.example.mealplanb.databinding.AddfoodrowBinding
@@ -40,14 +41,17 @@ import java.io.InputStreamReader
 
 import kotlin.math.log
 import kotlin.reflect.typeOf
-
-class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListener {
+interface OnfoodEnteredListener {
+    fun onfoodEntered(mealData: MealData)
+}
+class Add_Diet_Fragment : Fragment(),OnfoodEnteredListener {
     // 즐겨찾기 반응이 느려서 이전 프레그먼트에서 저장하고 불러오는 식으로 해야할거 같다 수정 필요
     lateinit var binding:FragmentAddDietBinding
     val handler=Handler()
     var adapter: AddFoodAdapter?=null
     lateinit var mealName:String
     private val firebaseDatabase = FirebaseDatabase.getInstance()
+    var usermealData=arrayListOf<MealData>()
     var data = arrayListOf<food>(
     )
     val data2 =  arrayListOf<food>(
@@ -68,6 +72,8 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
     ): View? {
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
+        val fragment= SpecificFood_Fragment()
+        fragment.setOnItemClickListener(this)
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
         foodFavoritesRoad(object : OnDataLoadedListener {
             override fun onDataLoaded(data: ArrayList<food>) {
@@ -75,6 +81,13 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
             }
         })
         return binding.root
+    }
+
+    override fun onfoodEntered(mealData: MealData) {
+        // meal data 리스트에  저장해서 번들로 넘기면 됨
+
+        usermealData.add(mealData)
+        Log.i("임시", usermealData.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -281,7 +294,4 @@ class Add_Diet_Fragment : Fragment(),SpecificFood_Fragment.OnNumberEnteredListen
         fun onDataLoaded(data: ArrayList<food>)
     }
 
-    override fun onNumberEntered(number: Int) {
-
-    }
 }

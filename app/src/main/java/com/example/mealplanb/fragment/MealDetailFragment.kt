@@ -24,6 +24,7 @@ class MealDetailFragment : Fragment() {
     lateinit var mealName:String
     lateinit var UserdataList:ArrayList<MealData>
     var UsermealdataList=ArrayList<MealData>()
+    var TemporarymealdataList=ArrayList<MealData>()
     private val firebaseDatabase=FirebaseDatabase.getInstance()
     var AllListNutritionList= java.util.ArrayList<AllListNutrition>(
     )
@@ -41,17 +42,22 @@ class MealDetailFragment : Fragment() {
         mealName = arguments?.getString("mealName").toString()
         Log.i("mealDatalist", UserManager.getMealData().toString())
         UserdataList = UserManager.getMealData()!!
+        Log.i("what?", UserdataList.toString())
+        UsermealdataList.clear()
         //meal 이름에 해당하는 거만 가져옴
         for ( i in UserdataList){
             if(i.mealname==mealName){
                 UsermealdataList.add(i)
+                TemporarymealdataList.add(i)
             }
         }
+        Log.i("what??", UsermealdataList.toString())
         binding = FragmentMealDetailBinding.inflate(inflater,container,false)
         Log.i("확인2", UsermealdataList.toString())
         RoadMealData(UsermealdataList) //mealdetail 화면에 띄울때 사용자가 추가한 음식 정보들 다 더해서 화면에 띄우는 부분
-
         initrecyclerview(UsermealdataList)
+
+
         binding.addMeal.setOnClickListener {
             // 식단추가를 누르면 add diet로 이동
             //date 와  mealname을 넘겨야함
@@ -61,7 +67,6 @@ class MealDetailFragment : Fragment() {
         }
 
         binding.completeMealAdd.setOnClickListener {
-
             //복사된 List를 UsermealdataList로 만듬
             saveMealDataToFirebase(UsermealdataList)
 //            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
@@ -78,19 +83,12 @@ class MealDetailFragment : Fragment() {
      private fun initrecyclerview(mealList: List<MealData>) {
         adapter = MealListAdapter(requireContext(), mealList,{
                 clickedMeal->
-//            val bundle1= bundleOf("add food" to data)
-//            bundle1.putString("mealName", mealName)
-//            val bottomSheetFragment =  SpecificFood_Fragment()
-//            // 리스너 설정
-//            bottomSheetFragment.arguments = bundle1
-//
-//            // Show the fragment
-//            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
         },
             {
                     deletedMeal ->
                     UsermealdataList.remove(deletedMeal)
                     // 이부분을  파이어베이스에서도 삭제
+                    RoadMealData(UsermealdataList)
                     initrecyclerview(UsermealdataList)
         })
         binding.mealListView.adapter = adapter
@@ -125,9 +123,38 @@ class MealDetailFragment : Fragment() {
 
     }
     private fun saveMealDataToFirebase(mealDataList: List<MealData>) {
-        val dataRoute = firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/${UsermealdataList[0].date}/${UsermealdataList[0].mealname}")
+        val dataRoute = firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/${mealDataList[0].date}/${mealDataList[0].mealname}")
+        dataRoute.removeValue()
+        val alldatalist = UserManager.getAllListNutritionList()
+        val alldatalist2 = UserManager.getMealData()
+
+        // Create lists to store items to be removed
+        val nutrionToRemove = mutableListOf<AllListNutrition>()
+        val mealDataToRemove = mutableListOf<MealData>()
+
+        for (i in alldatalist) {
+            if (i.mealname == TemporarymealdataList[0].mealname) {
+                nutrionToRemove.add(i)
+            }
+        }
+
+        for (i in alldatalist2) {
+            if (i.mealname == TemporarymealdataList[0].mealname) {
+                mealDataToRemove.add(i)
+            }
+        }
+
+        // Remove items after the iteration
+        for (item in nutrionToRemove) {
+            UserManager.removeAllListNutrion(item)
+        }
+
+        for (item in mealDataToRemove) {
+            UserManager.removeMealdata(item)
+        }
         for(mealData in UsermealdataList){
             val foodkey=dataRoute.child("${mealData.foodname}").push().key
+
             val newData=mapOf(
                 "식품이름" to "${mealData.foodname}",
                 "열량" to "${mealData.foodcal}",
@@ -138,17 +165,25 @@ class MealDetailFragment : Fragment() {
                 "지방" to "${mealData.foodfat}"
             )
             //AllListNutrition에 추가
+//            val permealeachfood =AllListNutrition(mealData.mealname,foodkey,mealData.foodcarbo,mealData.foodprotein,mealData.foodfat,mealData.foodcal)
             val permealeachfood =AllListNutrition(mealData.mealname,foodkey,mealData.foodcarbo,mealData.foodprotein,mealData.foodfat,mealData.foodcal)
             UserManager.addAllListNutrionList(permealeachfood)
 
+            val permealeachfood2=MealData(TemporarymealdataList[0].date,TemporarymealdataList[0].mealname,mealData.foodname,mealData.foodbrand,mealData.foodcal,mealData.foodamount,mealData.foodcarbo,mealData.foodprotein,mealData.foodfat)
+            UserManager.addMealData(permealeachfood2)
             if(foodkey!=null){
                 dataRoute.child(foodkey).updateChildren(newData)
             }
 
 
+
+
         }
+            }
 
 
-    }
+
+
+
 
 }
