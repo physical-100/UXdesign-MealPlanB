@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import com.example.mealplanb.MealData
@@ -31,14 +34,14 @@ class MealListAdapter(private val context: Context, private val mealList: List<M
 //        val mealBrandTextView=listItemView?.findViewById<TextView>(R.id.foodbrand)
 //        mealBrandTextView?.text=currentMeal?.foodbrand
 
-        val mealKcalTextView=listItemView?.findViewById<TextView>(R.id.food_kcal)
+        val mealKcalTextView=listItemView?.findViewById<TextView>(R.id.food_Kcal)
         mealKcalTextView?.text=String.format("%.1f",currentMeal?.foodcal)+"Kcal"
 
-        val mealamountTextView=listItemView?.findViewById<TextView>(R.id.foodamount)
+        val mealamountTextView=listItemView?.findViewById<TextView>(R.id.foodamout)
         mealamountTextView?.text=String.format("%.1f",currentMeal?.foodamount)+"g"
 
-        val deleteButton = listItemView?.findViewById<TextView>(R.id.deleteitem)
-        val clickitem = listItemView?.findViewById<TextView>(R.id.meal_detail_item)
+        val deleteButton = listItemView?.findViewById<ImageButton>(R.id.deleteitem)
+        val clickitem = listItemView?.findViewById<LinearLayout>(R.id.meal_detail_item)
         clickitem?.setOnClickListener {
             val clickeditem = getItem(position)
             onitemClick(clickeditem!!)

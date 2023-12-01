@@ -230,12 +230,18 @@ class MainActivity : AppCompatActivity() {
         fun addAllListNutrionList(allListNutrition: AllListNutrition){
             userAllListNutritionList.add(allListNutrition)
         }
+        fun removeAllListNutrion(allListNutrition: AllListNutrition){
+            userAllListNutritionList.remove(allListNutrition)
+        }
 
         fun getMealData(): ArrayList<MealData> {
             return usermealdataList
         }
         fun addMealData(mealData: MealData) {
             usermealdataList.add(mealData)
+        }
+        fun removeMealdata(mealData: MealData){
+            usermealdataList.remove(mealData)
         }
         fun clearMealData(){
             usermealdataList.clear()

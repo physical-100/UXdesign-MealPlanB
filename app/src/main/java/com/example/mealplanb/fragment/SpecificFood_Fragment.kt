@@ -30,11 +30,10 @@ import java.util.Date
 import java.util.Locale
 
 class SpecificFood_Fragment : BottomSheetDialogFragment()  {
-    interface OnNumberEnteredListener {
-        fun onNumberEntered(number: Int)
-    }
-    private var listener: OnNumberEnteredListener? = null
-    private var Usermealdata: MealData? = null
+
+    private var foodaddlistener: OnfoodEnteredListener?=null
+    private var temporalmealdata: MealData? = null
+    private var temporalmealdatalist= arrayListOf<MealData>()
     lateinit var binding: FragmentSpecificFoodBinding
     private lateinit var specificfooddata: food
     private val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -45,6 +44,10 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
 
 
+
+    fun setOnItemClickListener(listener: OnfoodEnteredListener){
+        foodaddlistener = listener
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -151,15 +154,37 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
     private fun saveDataToFirebase(editfoodamount:Double) {
         // Get a reference to the database
-        UserManager.addMealData(MealData( realTime,
-            mealName,
+
+//
+//        UserManager.addMealData(MealData( realTime,
+//            mealName,
+//            specificfooddata.foodname,
+//            specificfooddata.foodbrand,
+//            editfoodamount*specificfooddata.foodcal,
+//            editfoodamount*specificfooddata.foodamount,
+//            editfoodamount*specificfooddata.foodcarbo,
+//            editfoodamount*specificfooddata.foodprotein,
+//            editfoodamount*specificfooddata.foodfat ))
+//
+//        foodaddlistener?.onfoodEntered(
+//            MealData(realTime,mealName,
+//            specificfooddata.foodname,
+//            specificfooddata.foodbrand,
+//            editfoodamount*specificfooddata.foodcal,
+//            editfoodamount*specificfooddata.foodamount,
+//            editfoodamount*specificfooddata.foodcarbo,
+//            editfoodamount*specificfooddata.foodprotein,
+//            editfoodamount*specificfooddata.foodfat )
+//        )
+        temporalmealdata= MealData(realTime,mealName,
             specificfooddata.foodname,
             specificfooddata.foodbrand,
             editfoodamount*specificfooddata.foodcal,
             editfoodamount*specificfooddata.foodamount,
             editfoodamount*specificfooddata.foodcarbo,
             editfoodamount*specificfooddata.foodprotein,
-            editfoodamount*specificfooddata.foodfat ))
+            editfoodamount*specificfooddata.foodfat)
+        temporalmealdatalist.add(temporalmealdata!!)
 
         Log.i("확인",UserManager.getMealData().toString())
 //        val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime")
@@ -215,9 +240,6 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         super.onViewCreated(view, savedInstanceState)
 
         }
-    fun setOnNumberEnteredListener(listener: OnNumberEnteredListener) {
-        this.listener = listener
-    }
     }
 
 
