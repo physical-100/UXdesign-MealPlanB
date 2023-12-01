@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -39,8 +38,6 @@ class MealListAdapter(private val context: Context, private val mealList: List<M
 
         val mealamountTextView=listItemView?.findViewById<TextView>(R.id.foodamout)
         mealamountTextView?.text=String.format("%.1f",currentMeal?.foodamount)+"g"
-
-        val deleteButton = listItemView?.findViewById<ImageButton>(R.id.deleteitem)
         val clickitem = listItemView?.findViewById<LinearLayout>(R.id.meal_detail_item)
         clickitem?.setOnClickListener {
             val clickeditem = getItem(position)
@@ -48,6 +45,7 @@ class MealListAdapter(private val context: Context, private val mealList: List<M
             notifyDataSetChanged()
         }
 
+        val deleteButton = listItemView?.findViewById<ImageButton>(R.id.deleteitem)
         // 삭제 버튼 클릭 시 onDeleteClick 호출
         deleteButton?.setOnClickListener {
             val mealToDelete = getItem(position)

@@ -83,14 +83,6 @@ class MealDetailFragment : Fragment() {
      private fun initrecyclerview(mealList: List<MealData>) {
         adapter = MealListAdapter(requireContext(), mealList,{
                 clickedMeal->
-            //val bundle1= bundleOf("add food" to data)
-            //bundle1.putString("mealName", mealName)
-            //val bottomSheetFragment =  SpecificFood_Fragment()
-            // 리스너 설정
-            //bottomSheetFragment.arguments = bundle1
-
-            // Show the fragment
-            //bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
         },
             {
                     deletedMeal ->

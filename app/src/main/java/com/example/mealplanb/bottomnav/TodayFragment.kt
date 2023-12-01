@@ -1,5 +1,7 @@
 package com.example.mealplanb.bottomnav
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.activity.addCallback
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.R
@@ -19,6 +24,7 @@ import java.lang.Math.abs
 
 
 class TodayFragment : Fragment() {
+    private lateinit var notificationManager: NotificationManagerCompat
     lateinit var binding: FragmentTodayBinding
     val userData = UserManager.getUserData()
     val userCal = UserManager.getUserCal()
@@ -44,6 +50,7 @@ class TodayFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentTodayBinding.inflate(inflater, container, false)
         scrollView =binding.scrollView
+        // 알림 띄우기 위한 설정  오늘의 목표치 30%,60%,80%에서 알람을 보냄
 
         // 스크롤 위치를 복원
         AllListNutritionList=UserManager.getAllListNutritionList()
@@ -109,39 +116,12 @@ class TodayFragment : Fragment() {
                 calProgressBar.max=userCal.goal_calory
 
                 calProgressBar.progress = if (remainingCalories >= 0) (userCal.goal_calory - remainingCalories).toInt() else userCal.goal_calory
-
-
-
-
-
-
             }
-
-//            val pieChart: PieChart = binding.chart
-//
-//            // 목표 칼로리와 현재 칼로리 (예: 사용자가 섭취한 칼로리)를 가져옵니다.
-//            val goalCalories = userCalory.goal_calory.toFloat()
-//            val currentCalories = 0 // 현재 칼로리
-//
-//            // 목표 칼로리에 얼마나 근접했는지 계산합니다.
-//            val remainingCalories = (goalCalories - currentCalories)
-//            val achievedCalories = if (remainingCalories >= 0) currentCalories else currentCalories + remainingCalories
-//
-//            // 원형 그래프에 표시할 데이터를 생성합니다.
-//            val pieEntries = listOf(
-//                PieEntry(achievedCalories, "섭취한 칼로리"),
-//                PieEntry(remainingCalories, "남은 칼로리")
-//            )
-//
-//            val dataSet = PieDataSet(pieEntries, "칼로리")
-//            dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
-//
-//            val data = PieData(dataSet)
-//            pieChart.data = data
-//            // 그래프 업데이트
-//            pieChart.invalidate()
-
-
+            notificationManager = NotificationManagerCompat.from(requireContext())
+//            createAndShowNotification()
+            Log.i("총 칼로리",totalkcal.toString())
+            Log.i("목표 칼로리",userCal.goal_calory.toString())
+            updateNotification(totalkcal,userCal.goal_calory)
         }
         val mealhomeFragment = MealhomeFragment()
         childFragmentManager.beginTransaction()
@@ -158,6 +138,7 @@ class TodayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // Disable back press
         binding.scrollView.setOnClickListener {
             scrollPosition = binding.scrollView.scrollY
@@ -170,5 +151,90 @@ class TodayFragment : Fragment() {
         binding.scrollView.post() { binding.scrollView.scrollTo(0, scrollPosition) }
     }
 
+    // 알림띄우는 코드
+    private fun createAndShowNotification() {
+        // 알림 생성
+        val channelId = "your_channel_id"
+        val builder = NotificationCompat.Builder(requireContext(), channelId)
+            .setSmallIcon(R.drawable.character)
+            .setContentTitle("두번째 식단을 입력하세요")
+            .setContentText("다이어트가 장난입니까..? 어서 식단을 기록해 시발년아")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
 
+        // 알림 띄우기
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        notificationManager.notify(1, builder.build())
     }
+    private fun updateNotification(totalCalories: Double , goalCalories: Int) {
+        val channelId = "your_channel_id"
+        val builder = NotificationCompat.Builder(requireContext(), channelId)
+            .setSmallIcon(R.drawable.character)
+//            .setCustomBigContentView(R.layout.notification_layout)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+
+        // Calculate the percentage completion
+        val percentage = (totalCalories / goalCalories) * 100
+        Log.i("퍼센트",percentage.toString())
+
+        // Different notifications based on the percentage
+        when {
+            percentage > 103 -> {
+                builder.setContentTitle("그만좀 먹어라!")
+                    .setContentText("제발!!")
+            }
+            percentage >= 100 -> {
+                builder.setContentTitle("목표 달성 축하해요!!")
+                    .setContentText("내일도 열심히 해봅시다!!!")
+            }
+            percentage > 80 -> {
+                builder.setContentTitle("거의 다왔어요!!")
+                    .setContentText("화이팅!")
+            }
+            percentage > 60 -> {
+                builder.setContentTitle("오늘 하루도 열심히 가봅시다 !!")
+                    .setContentText("힘내세요!")
+            }
+            percentage > 30 -> {
+                builder.setContentTitle("활기찬 식단 기록을 해보아요!!")
+                    .setContentText("자신을 믿어요!")
+            }
+            else -> {
+                // Do nothing for other percentages
+                return
+            }
+        }
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Handle the case where permissions are not granted
+            return
+        }
+
+        notificationManager.notify(1, builder.build())
+    }
+
+
+
+}
+
+//private fun NotificationCompat.Builder.setCustomBigContentView(notificationLayout: Int): NotificationCompat.Builder {
+//
+//}
