@@ -69,6 +69,7 @@ class MealhomeFragment : Fragment() {
                     if(mealDataMap[clickedMeal]==null){//onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
                         findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
 
+
                     }else if(mealDataMap[clickedMeal]==onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
                         findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
                     }

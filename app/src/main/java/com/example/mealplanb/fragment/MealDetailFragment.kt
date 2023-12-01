@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.MealData
@@ -26,6 +27,7 @@ class MealDetailFragment : Fragment() {
     private val firebaseDatabase=FirebaseDatabase.getInstance()
     var AllListNutritionList= java.util.ArrayList<AllListNutrition>(
     )
+    lateinit var adapter:MealListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,11 +51,18 @@ class MealDetailFragment : Fragment() {
         Log.i("확인2", UsermealdataList.toString())
         RoadMealData(UsermealdataList) //mealdetail 화면에 띄울때 사용자가 추가한 음식 정보들 다 더해서 화면에 띄우는 부분
 
-        val mealsListView = binding.mealListView
-        val adapter = MealListAdapter(requireContext(), UsermealdataList)
-        mealsListView.adapter = adapter
+        initrecyclerview(UsermealdataList)
+        binding.addMeal.setOnClickListener {
+            // 식단추가를 누르면 add diet로 이동
+            //date 와  mealname을 넘겨야함
+            val bundle = Bundle()
+            bundle.putString("mealName", mealName)
+            findNavController().navigate(R.id.action_mealDetailFragment_to_add_Diet_Fragment,bundle)
+        }
 
         binding.completeMealAdd.setOnClickListener {
+
+            //복사된 List를 UsermealdataList로 만듬
             saveMealDataToFirebase(UsermealdataList)
 //            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
             findNavController().navigate(R.id.action_mealDetailFragment_to_mainFragment)
@@ -61,9 +70,31 @@ class MealDetailFragment : Fragment() {
         }
         binding.cancelDetailpage.setOnClickListener{
             findNavController().navigateUp()
+
         }
 
         return binding.root
+    }
+     private fun initrecyclerview(mealList: List<MealData>) {
+        adapter = MealListAdapter(requireContext(), mealList,{
+                clickedMeal->
+            val bundle1= bundleOf("add food" to data)
+            bundle1.putString("mealName", mealName)
+            val bottomSheetFragment =  SpecificFood_Fragment()
+            // 리스너 설정
+            bottomSheetFragment.arguments = bundle1
+
+            // Show the fragment
+            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+        },
+            {
+                    deletedMeal ->
+                    UsermealdataList.remove(deletedMeal)
+                    // 이부분을  파이어베이스에서도 삭제
+                    initrecyclerview(UsermealdataList)
+        })
+        binding.mealListView.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
     private fun RoadMealData(mealData: List<MealData>){
         var wholecarboview=binding.carb
