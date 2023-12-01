@@ -37,6 +37,7 @@ class MealDetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
+        Log.i("mealDatalist", UserManager.getMealData().toString())
         UserdataList = UserManager.getMealData()!!
         //meal 이름에 해당하는 거만 가져옴
         for ( i in UserdataList){
