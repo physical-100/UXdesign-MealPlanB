@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     private fun weightRoadfromDatabase() {
         val dataRoute =
             firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/체중기입/$realTime")
@@ -131,13 +132,15 @@ class MainActivity : AppCompatActivity() {
             .getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime")
         dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val date=dataSnapshot.key.toString()
+                Log.i("key33", dataSnapshot.key.toString())
                 var totalCarbo = 0.0
                 var totalProtein = 0.0
                 var totalFat = 0.0
                 var totalkcal=0.0
                 for (Fuserdata in dataSnapshot.children) {
                     val key = Fuserdata.key.toString()
-                    Log.i("key", key)
+                    Log.i("key22", key)
                     if(Fuserdata.children!=null){
                         userEatMealNumber+=1
                     }
@@ -146,6 +149,9 @@ class MainActivity : AppCompatActivity() {
                         Log.i("key2",key2)
                         val value1 = JsonPath.parse(Fuserdata2.value)
                         if (key2 != null) {
+                            val foodname=value1.read("$['식품이름']")as String
+                            val foodbrand=value1.read("$['가공업체']")as String
+                            val foodamount=(value1.read("$['섭취량']")as String).toDouble()
                             val foodcarbo = (value1.read("$['탄수화물']") as String).toDouble()
                             val foodprotein = (value1.read("$['단백질']") as String).toDouble()
                             val foodfat = (value1.read("$['지방']") as String).toDouble()
@@ -156,6 +162,10 @@ class MainActivity : AppCompatActivity() {
                             totalFat += foodfat
                             totalkcal+=foodkcal
                             val permealeachfood=AllListNutrition(key,key2,foodcarbo,foodprotein,foodfat,foodkcal)
+                            val permealeachfood2=MealData(date,key,foodname,foodbrand,foodkcal,foodamount,foodcarbo,foodprotein,foodfat)
+                            Log.i("permeal", permealeachfood.toString())
+                            Log.i("permeal2", permealeachfood2.toString())
+                            UserManager.addMealData(permealeachfood2)
                             UserManager.addAllListNutrionList(permealeachfood)
 
                         }

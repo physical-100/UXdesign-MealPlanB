@@ -66,13 +66,17 @@ class MealhomeFragment : Fragment() {
                     // Bundle을 생성하고 클릭된 Meal의 이름을 전달
                     val bundle = Bundle()
                     bundle.putString("mealName", clickedMeal)
-//                    if(mealDataMap[clickedMeal]!=onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
-                    if(mealDataMap[clickedMeal]!=null||mealDataMap[clickedMeal]!=onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
-                        findNavController().navigate(R.id.action_mainFragment_to_mealDetailFragment, bundle)
+                    if(mealDataMap[clickedMeal]==null){//onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
+                        findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
 
-                    }else{
+
+                    }else if(mealDataMap[clickedMeal]==onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
+                        findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
+                    }
+
+                    else{
                     // Navigation Component를 사용한 화면 전환 및 Bundle 전달
-                    findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)}
+                    findNavController().navigate(R.id.action_mainFragment_to_mealDetailFragment, bundle)}
                 },
                 onDeleteClick = { deletedMeal ->
                     // 삭제 버튼이 클릭되었을 때의 동작을 여기에 정의
