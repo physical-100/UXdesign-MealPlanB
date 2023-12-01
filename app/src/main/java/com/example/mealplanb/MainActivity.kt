@@ -1,9 +1,25 @@
 package com.example.mealplanb
 
 
+import android.Manifest
+import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 
 import androidx.navigation.NavController
 
@@ -27,6 +43,7 @@ import java.util.Locale
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
+    private val NOTIFICATION_PERMISSION_CODE = 123
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     var userdata: Userdata? = null
     var usercomplete: String? = null
@@ -91,7 +108,6 @@ class MainActivity : AppCompatActivity() {
                     })
         meallistfromDatabase()
         weightRoadfromDatabase()
-
 
 
     }
@@ -184,7 +200,23 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    private fun createNotificationChannel() {
+        // Android 버전이 Oreo(26) 이상인 경우에만 채널을 생성합니다.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "your_channel_id"
+            val channelName = "Your Channel Name"
+            val importance = NotificationManager.IMPORTANCE_HIGH
 
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = "Your channel description"
+                // 다양한 설정을 추가할 수 있습니다.
+            }
+
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
     private fun handleDataAfterFirebase(navController: NavController) {
         if (usercomplete == null) {
             navController.navigate(R.id.action_animationFragment_to_profile_fragment)
@@ -197,8 +229,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-    object UserManager {
+object UserManager {
         private var userdata: Userdata? = null
         private var usercal: User_calory? = null
         private var usermealdataList: ArrayList<MealData> = ArrayList()
@@ -240,4 +271,11 @@ class MainActivity : AppCompatActivity() {
         fun clearMealData(){
             usermealdataList.clear()
         }
+//    <com.airbnb.lottie.LottieAnimationView
+//    android:layout_width="100dp"
+//    android:layout_height="100dp"
+//    app:lottie_rawRes="@raw/muscle"
+//    app:lottie_loop="true"
+//    app:lottie_autoPlay="true"
+//    app:lottie_repeatCount="2"/>
     }
