@@ -1,6 +1,5 @@
 package com.example.mealplanb.fragment
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -12,14 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanb.MealData
 import com.example.mealplanb.R
 import com.example.mealplanb.adapter.AddFoodAdapter
-import com.example.mealplanb.databinding.AddfoodrowBinding
 import com.example.mealplanb.databinding.FragmentAddDietBinding
 import com.example.mealplanb.dataclass.food
 import com.google.firebase.database.DataSnapshot
@@ -39,12 +36,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
-import kotlin.math.log
-import kotlin.reflect.typeOf
-interface OnfoodEnteredListener {
-    fun onfoodEntered(mealData: MealData)
-}
-class Add_Diet_Fragment : Fragment(),OnfoodEnteredListener {
+class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListener {
     // 즐겨찾기 반응이 느려서 이전 프레그먼트에서 저장하고 불러오는 식으로 해야할거 같다 수정 필요
     lateinit var binding:FragmentAddDietBinding
     val handler=Handler()
@@ -72,8 +64,6 @@ class Add_Diet_Fragment : Fragment(),OnfoodEnteredListener {
     ): View? {
         // Inflate the layout for this fragment
         mealName = arguments?.getString("mealName").toString()
-        val fragment= SpecificFood_Fragment()
-        fragment.setOnItemClickListener(this)
         binding = FragmentAddDietBinding.inflate(layoutInflater,container,false)
         foodFavoritesRoad(object : OnDataLoadedListener {
             override fun onDataLoaded(data: ArrayList<food>) {
@@ -160,22 +150,24 @@ class Add_Diet_Fragment : Fragment(),OnfoodEnteredListener {
         binding.recyclerview.adapter = adapter
 
         //음식목록 클릭시 어디 프래그먼ㅈㅈ트로 갈지 정하는 코드
-        adapter!!.itemClickListener = object : AddFoodAdapter.OnItemClickListener{
+        adapter!!.itemClickListener = object: AddFoodAdapter.OnItemClickListener{
             override fun OnItemClick(data: food, holder: AddFoodAdapter.ViewHolder) {
                 Log.i("food1234", "$data")
                 //adapter!!.notifyItemChanged(holder.adapterPosition)
-                    // Handle the click on the item
+                // Handle the click on the item
 
                 val bundle1= bundleOf("add food" to data)
                 Log.i("szzzz", "$bundle1 ")
                 bundle1.putString("mealName", mealName)
-
-//                findNavController().navigate(R.id.action_add_Diet_Fragment_to_specificFood_Fragment,bundle)
                 val bottomSheetFragment =  SpecificFood_Fragment()
-
                 // 리스너 설정
                 bottomSheetFragment.arguments = bundle1
-
+                bottomSheetFragment.setOnNumberEnteredListener(object : SpecificFood_Fragment.OnfoodEnteredListener {
+                    override fun onfoodEntered(mealData: MealData) {
+                        usermealData.add(mealData)
+                        Log.i("임시", usermealData.toString())
+                    }
+                })
                 // Show the fragment
                 bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
             }
