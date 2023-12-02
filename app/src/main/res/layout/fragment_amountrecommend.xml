@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.recommand.Amountrecommend"
     android:orientation="vertical"
+    android:background="@color/BG"
     android:padding="12dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +26,8 @@
                 android:layout_height="48dp"
                 android:background="@drawable/custom_shape"
                 android:backgroundTint="@color/white"
-                android:hint=" 음식을 입력하세요"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint=" 음식을 입력해주세요"
                 android:textAlignment="center"/>
     </LinearLayout>
     <FrameLayout

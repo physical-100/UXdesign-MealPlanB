@@ -17,20 +17,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="체중 입력"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_gravity="center"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textColor="@color/black"
+                android:textSize="24dp"/>
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
-            <TextView
-                android:id="@+id/cancel_add_weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="x"
-                android:textStyle="bold"
-                android:textSize="30dp"/>
+            <ImageView
+                android:id="@+id/back_to_main"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/x_btn" />
     </LinearLayout>
 
         <EditText
@@ -38,6 +40,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="00.0 kg."
+            android:textSize="20dp"
+            android:textColor="@color/gray"
+            android:fontFamily="@font/pretendard_bold"
             android:textAlignment="center"
             android:inputType="number" />
 
@@ -46,6 +51,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="완료"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/pretendard_bold"
+            android:background="@drawable/select_shape"
             android:enabled="false"/>
 
     </LinearLayout>

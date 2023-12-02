@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clickfood"
@@ -22,8 +26,9 @@
                 android:id="@+id/brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:paddingLeft="10dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginBottom="21dp"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="brand"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -34,9 +39,11 @@
 
             <TextView
                 android:id="@+id/amount"
+                android:fontFamily="@font/pretendard_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="21dp"
                 android:text="amount"
                 android:textColor="@color/gray"
                 android:textSize="18dp"
@@ -47,44 +54,33 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/pretendard_bold"
                 android:text="foodname"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/brand"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/addbutton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_add_24" />
             <TextView
                 android:id="@+id/cal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:paddingRight="20dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="18dp"
                 android:text="cal"
                 android:textColor="@color/gray"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                android:textSize="20dp"
 
-
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#4f4f4f" />
 </LinearLayout>

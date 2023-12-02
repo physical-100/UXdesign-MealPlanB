@@ -14,25 +14,98 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cheat"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_thing"
                 android:layout_weight="1"
-                android:text="치팅"/>
+                android:layout_margin="5dp"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/textview1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="치팅 식단"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textColor="@color/violet"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-            <Button
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:text="맛있는 음식을\n칼로리에\n맞춰 먹어요"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview1"
+                    android:layout_marginHorizontal="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/like"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_thing"
                 android:layout_weight="1"
-                android:text="자주 먹는"/>
+                android:layout_margin="5dp"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/textview2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="자주 먹는"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textColor="@color/violet"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-            <Button
-                android:id="@+id/popluar"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:text="가장 많이\n먹은 메뉴를\n알려주세요!"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview2"
+                    android:layout_marginHorizontal="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/popular"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_thing"
                 android:layout_weight="1"
-                android:text="인기있는"/>
+                android:layout_margin="5dp"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/textview3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="인기 있는"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textColor="@color/violet"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:text="남들은\n어떤 음식을\n먹나요?"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview3"
+                    android:layout_marginHorizontal="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 </FrameLayout>

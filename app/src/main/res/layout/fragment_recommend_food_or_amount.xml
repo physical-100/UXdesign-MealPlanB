@@ -16,21 +16,84 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <Button
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/recommend"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/select_thing"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="어떤 음식을 먹을까요?"/>
+                    android:layout_margin="5dp"
+                    android:padding="20dp">
+                    <TextView
+                        android:id="@+id/textview1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="어떤 음식"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textColor="@color/violet"
+                        android:layout_marginHorizontal="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                    <TextView
+                        android:id="@+id/textview3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="먹을까요?"
+                        android:textSize="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textview1"
+                        android:layout_marginHorizontal="10dp"/>
 
-                <Button
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:text="남은 칼로리에 맞는\n음식을 추천드려요"
+                        android:textSize="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textview3"
+                        android:layout_marginHorizontal="10dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/amount"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/select_thing"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="얼마나 먹을까요?"/>
+                    android:layout_margin="5dp"
+                    android:padding="20dp">
+                    <TextView
+                        android:id="@+id/textview2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="얼마나"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textColor="@color/violet"
+                        android:layout_marginHorizontal="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                    <TextView
+                        android:id="@+id/textview4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:text="먹을까요?"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textview2"
+                        android:layout_marginHorizontal="10dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:text="음식의 양을\n추천해드릴게요"
+                        android:textSize="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textview4"
+                        android:layout_marginHorizontal="10dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </LinearLayout>
