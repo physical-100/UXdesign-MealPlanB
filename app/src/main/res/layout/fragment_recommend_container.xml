@@ -11,19 +11,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/cancle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@color/white"
-            android:src="@drawable/baseline_cancel_24" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/x_btn" />
 
         <TextView
             android:id="@+id/date"
+            android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_shape"
+            android:background="@drawable/select_shape"
+            android:backgroundTint="@color/light_purple"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="14dp"
+            android:textColor="@color/deep_violet"
             android:padding="9dp"
             android:text="날짜"
             android:textAlignment="center" />
@@ -33,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_margin="10dp" />
+            android:layout_margin="20dp" />
 
         <androidx.fragment.app.FragmentContainerView
             android:layout_marginTop="10dp"

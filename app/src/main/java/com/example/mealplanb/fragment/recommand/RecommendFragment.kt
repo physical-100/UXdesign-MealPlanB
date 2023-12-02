@@ -43,7 +43,7 @@ class RecommendFragment : Fragment() {
         binding.like.setOnClickListener {
             itemClickListener?.onItemClick("like")
         }
-        binding.popluar.setOnClickListener {
+        binding.popular.setOnClickListener {
             itemClickListener?.onItemClick("popular")
         }
 
