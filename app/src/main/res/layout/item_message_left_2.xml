@@ -4,24 +4,26 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/custom_shape"
-    android:backgroundTint="@color/violet"
-    android:padding="10dp">
+    android:background="@drawable/chat_violet"
+    android:padding="15dp">
     <TextView
         android:id="@+id/advice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:paddingVertical="10dp"
         android:text="이정도 드세요"
-        android:textSize="15dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/pretendard_bold"
         android:textStyle="bold"
         android:textColor="@color/white" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="5dp">
         <TextView
             android:text="오늘 남은 칼로리"
+            android:fontFamily="@font/pretendard_medium"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -29,7 +31,9 @@
             android:textAlignment="textEnd"
             android:text="200kcal"
             android:id="@+id/remain_kcal"
+            android:fontFamily="@font/pretendard_medium"
             android:textColor="@color/white"
+            android:layout_marginStart="50dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
@@ -37,16 +41,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="5dp">
         <TextView
             android:id="@+id/foodname"
             android:text="음식 이름"
+            android:fontFamily="@font/pretendard_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"/>
         <TextView
             android:textAlignment="textEnd"
             android:text="200kcal"
+            android:fontFamily="@font/pretendard_medium"
             android:id="@+id/food_Kcal"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -56,16 +63,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="5dp">
         <TextView
             android:id="@+id/amount_name"
             android:text="음식 양"
+            android:fontFamily="@font/pretendard_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"/>
         <TextView
             android:textAlignment="textEnd"
             android:text="100g"
+            android:fontFamily="@font/pretendard_medium"
             android:id="@+id/food_amount"
             android:layout_width="0dp"
             android:layout_weight="1"
