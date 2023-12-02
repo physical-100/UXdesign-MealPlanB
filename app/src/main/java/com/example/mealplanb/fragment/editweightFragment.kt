@@ -57,7 +57,7 @@ class editweightFragment : BottomSheetDialogFragment() {
             }
         })
         // 확인 버튼 클릭시
-        binding.cancelAddWeight.setOnClickListener{
+        binding.backToMain.setOnClickListener{
             dismiss()
         }
         val dataRoute=firedatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/체중기입")
