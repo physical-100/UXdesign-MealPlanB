@@ -19,8 +19,13 @@ import com.example.mealplanb.databinding.FragmentRecommendContainerBinding
 import com.example.mealplanb.dataclass.Message
 import com.example.mealplanb.dataclass.MessageType
 import com.example.mealplanb.dataclass.food
+import com.example.mealplanb.fragment.Add_Diet_Fragment
 import com.google.android.play.integrity.internal.c
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.jayway.jsonpath.JsonPath
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -48,6 +53,8 @@ class Recommend_container : Fragment(),OnItemClickListener{
     var AllListNutritionList= ArrayList<AllListNutrition>(
     )
     var UserdataList=ArrayList<MealData>()
+    var favoritefood = arrayListOf<food>(
+    )
 
     val currentTime = Calendar.getInstance().time
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -67,6 +74,7 @@ class Recommend_container : Fragment(),OnItemClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        foodFavoritesRoad()
         val childFragment = recommend_food_or_amount()
         childFragment.setOnItemClickListener(this)
     }
@@ -273,7 +281,8 @@ class Recommend_container : Fragment(),OnItemClickListener{
 
                     }
                     "즐겨 먹는"->{
-
+                            recommendlikeMeal()
+                            initrecyclerview()
                     }
                 }
             }
@@ -340,6 +349,7 @@ class Recommend_container : Fragment(),OnItemClickListener{
             messages.add(Message("즐겨 먹는 음식으로 추천해줘",MessageType.RIGHT,null,null,null,null,null))
             // 즐겨찾기 음식 가져오기 구현
             // 즐겨 먹는 목록을 가져와서 구현
+            recommendlikeMeal()
             initrecyclerview()
             //child를 바꾸고 리스너 위치를 바꿈
             val childFragment = MealcheckFragment()
@@ -419,14 +429,70 @@ class Recommend_container : Fragment(),OnItemClickListener{
     }
     // 식단 추천 로직 추가
     private fun recommendlikeMeal() {
-        // 즐겨 찾는 음식으로 추
-        // 추천 메시지를 생성
-        val recommendationMessage = "식단 추천: 오늘은 샐러드와 닭가슴살이 좋을 것 같아요!"
+        // 즐겨 찾는 음식으로 추가
+        recommendmeal=null
+        getremaincal()
+        val difflist = mutableListOf<Double>()
+        for(i in favoritefood){
+            val aviailablequantity = remaindata.total_calory/i.foodcal
+            val foodcarb= i.foodcarbo*aviailablequantity
+            val foodprotein= i.foodprotein*aviailablequantity
+            val foodfat= i.foodfat*aviailablequantity
+            val diff = Math.abs(
+                        (remaindata.total_carb - foodcarb) +
+                        (remaindata.total_protein - foodprotein) +
+                        (remaindata.total_fat - foodfat)
+            )
+            difflist.add(diff)
+        }
+        val indexOfMinDiff = difflist.indexOf(difflist.minOrNull())
+        val likefood = favoritefood[indexOfMinDiff]
+        val maxNForkcal = calculateMaxN(likefood.foodcal, remaindata.total_calory)
+        val maxNForCarb = calculateMaxN(likefood.foodcarbo, remaindata.total_carb)
+        val maxNForProtein = calculateMaxN(likefood.foodprotein, remaindata.total_protein)
+        val maxNForFat = calculateMaxN(likefood.foodfat, remaindata.total_fat)
 
-        // 어댑터에 메시지 추가 및 갱신
-        val newMessage = Message(recommendationMessage, MessageType.LEFT,null,null,null,null,null)
-        adapter.addMessage(newMessage)
-        adapter.notifyDataSetChanged()
+        val maxN = minOf(maxNForkcal,maxNForCarb, maxNForProtein, maxNForFat)
+        if (maxN > 0) {
+            // Add the message with the calculated nutritional values
+            messages.add(
+                Message(
+                    "즐겨찾는 식단!!",
+                    MessageType.LEFT,
+                    likefood.foodname,
+                    likefood.foodcarbo.toInt().toString() + "g",
+                    likefood.foodprotein.toInt().toString() + "g",
+                    likefood.foodfat.toInt().toString() + "g",
+                    "이 음식으로 남은 영양성분을 채울 수 있어요"
+                )
+            )
+
+            // Update the remaining nutritional values based on the selected cheat meal
+            val recommendcal = likefood.foodcal*maxN
+            val recommendcarb = likefood.foodcarbo * maxN
+            val recommendprotein = likefood.foodprotein * maxN
+            val recommendfat = likefood.foodfat * maxN
+            val availableamount = maxN*likefood.foodamount
+            recommendmeal=food(likefood.foodname,likefood.foodbrand,recommendcal,availableamount,recommendcarb,recommendprotein,recommendfat)
+
+            messages.add(
+                Message(
+                    likefood.foodname+"을 "+"${availableamount.toInt()}g만큼 드실 수 있어요!",
+                    MessageType.LEFT,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            )
+        } else {
+            // 영양성분으로 비교했을때 너무 작으면  남은 영양소로 해당 음식 못먹음을 알려줌
+            // 일정량을 해서 구한다
+            messages.add(Message("남은 영양소로는 치팅 음식을 먹을 수 없어요!", MessageType.LEFT, null, null, null, null, null))
+            messages.add(Message("남은 영양소에 맞는 음식을 섭취해서 목표를 달성해 보아요", MessageType.LEFT, null, null, null, null, null))
+        }
+
     }
 
     private fun recommenCheatMeal() {
@@ -586,10 +652,39 @@ class Recommend_container : Fragment(),OnItemClickListener{
                 dataRoute.child(foodkey).updateChildren(newData)
             }
 
-
-
-
         }
     }
+    private fun foodFavoritesRoad(): ArrayList<food> {
+        favoritefood.clear()
+        val dataRoute = firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단 추천/자주먹는음식(즐겨찾기)")
+        dataRoute.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (Fuserdata in dataSnapshot.children) {
+                    val key = Fuserdata.key.toString()
+                    val value1 = JsonPath.parse(Fuserdata.value)
+                    if(key!=null){
+                        val foodname=value1.read("$['식품이름']") as String
+                        Log.i("ssexx", "onDataChange: $foodname")
+                        val foodbrand=value1.read("$['가공업체']")as String
+                        val foodcarbo=(value1.read("$['탄수화물']")as String).toDouble()
+                        val foodprotein=(value1.read("$['단백질']")as String).toDouble()
+                        val foodfat=(value1.read("$['지방']")as String).toDouble()
+                        val foodamount=(value1.read("$['섭취량']")as String).toDouble()
+                        Log.i("ssexx1", "onDataChange: $foodamount")
+                        val foodkcal=(value1.read("$['열량']")as String).toDouble()
+                        val appendFood=food(foodname,foodbrand,foodkcal,foodamount,foodcarbo,foodprotein,foodfat)
+                        favoritefood.add(appendFood)
+                    }
+                }
+            }
+
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        return favoritefood
+    }
+
 
 }
