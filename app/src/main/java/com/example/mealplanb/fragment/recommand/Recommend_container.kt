@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mealplanb.R
+import com.example.mealplanb.Totalcal
+import com.example.mealplanb.UserManager
 import com.example.mealplanb.adapter.ChatAdapter
 import com.example.mealplanb.databinding.FragmentRecommendContainerBinding
 import com.example.mealplanb.dataclass.Message
@@ -21,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.random.Random
 
 interface OnItemClickListener {
     fun onItemClick(result: String)
@@ -30,6 +33,17 @@ class Recommend_container : Fragment(),OnItemClickListener{
 
     lateinit var binding:FragmentRecommendContainerBinding
     lateinit var adapter:ChatAdapter
+    lateinit var recommendmode:String
+    val userCal = UserManager.getUserCal()
+    val totalCal = UserManager.getTotalcal()
+    lateinit var remaindata:Totalcal
+    val cheatMealsampledata =arrayListOf<food> (
+            food("고추 바사삭","굽네 치킨",1302.0,600.0,76.0,126.7,54.5),
+            food("와퍼","버거킹",619.0,278.0,10.5,29.0,13.0),
+            food("옥수수새우 피자","노모어 피자",225.0,100.0,25.5,11.9,8.4),
+             food("육회 비빔밥",null,442.0,300.0,68.8,19.2,10.1)
+    )
+
 
     val messages = mutableListOf(
         Message("어떻게 식사를 추천해드릴까요??", MessageType.LEFT,null,null,null,null,null)
@@ -75,34 +89,80 @@ class Recommend_container : Fragment(),OnItemClickListener{
         Log.d("BottomSheetFragment", "Received result: $result")
         if (result == "food") {
                 // 음식 선택에 대한 로직 수행
-                messages.add(Message("어떤 음식을 먹을까요?",MessageType.RIGHT,null,null,null,null,null))
+            getremaincal()
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(500)  // 1000 밀리초 (1초) 지연
+                messages.add(
+                    Message(
+                        "어떤 음식을 먹을까요?",
+                        MessageType.RIGHT,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                )
 
-            // 여기서 오늘 남은 칼로리와 영양성분을 가져와서 추가 해줘야 함
+                // 여기서 오늘 남은 칼로리와 영양성분을 가져와서 추가 해줘야 함
 
 
-                messages.add(Message("오늘의 칼로리는 이만큼 남았어요",MessageType.LEFT,"500Kcal","50g","30g","20g",null))
+                messages.add(
+                    Message(
+                        "오늘의 칼로리는 이만큼 남았어요",
+                        MessageType.LEFT,
+                        remaindata.total_calory.toInt().toString()+"kcal",
+                        remaindata.total_carb.toInt().toString()+"g",
+                        remaindata.total_protein.toInt().toString()+"g",
+                        remaindata.total_fat.toInt().toString()+"g",
+                        null
+                    )
+                )
                 initrecyclerview()
-            //child를 바꾸고 리스너 위치를 바꿈
-            val childFragment = RecommendFragment()
-            childFragment.setOnItemClickListener(this)
-            childFragmentManager.beginTransaction()
-                .replace(R.id.container, childFragment)
-                .commit()
+             }
+                //child를 바꾸고 리스너 위치를 바꿈
+                val childFragment = RecommendFragment()
+                childFragment.setOnItemClickListener(this)
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.container, childFragment)
+                    .commit()
 
             } else if (result == "amount") {
                 // 양 선택에 대한 로직 수행
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(500)
+                    messages.add(
+                        Message(
+                            "얼마나 먹을까요?",
+                            MessageType.RIGHT,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                        )
+                    )
 
-            messages.add(Message("얼마나 먹을까요?",MessageType.RIGHT,null,null,null,null,null))
+                    messages.add(
+                        Message(
+                            "어떤 음식을 먹고 싶으세요?",
+                            MessageType.LEFT,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                        )
+                    )
+                    initrecyclerview()
+                }
 
-            messages.add(Message("어떤 음식을 먹고 싶으세요?",MessageType.LEFT,null,null,null,null,null))
-            initrecyclerview()
-
-            //child를 바꾸고 리스너 위치를 바꿈
-            val childFragment = Amountrecommend()
-            childFragment.setOnItemClickListener(this)
-            childFragmentManager.beginTransaction()
-                .replace(R.id.container, childFragment)
-                .commit()
+                    //child를 바꾸고 리스너 위치를 바꿈
+                    val childFragment = Amountrecommend()
+                    childFragment.setOnItemClickListener(this)
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.container, childFragment)
+                        .commit()
             }
         else if (result == "check") {
             // 양 선택에 대한 로직 수행
@@ -121,26 +181,69 @@ class Recommend_container : Fragment(),OnItemClickListener{
 
             messages.add(Message("이 음식으로 먹을게요",MessageType.RIGHT,null,null,null,null,null))
             // 위에서 저장한 음식 값을 가져옴
+
             messages.add(Message(null,MessageType.LEFT,"음식 이름",null,null,null,"자동으로 식단을 입력해드릴게요!"))
             initrecyclerview()
 
             //식단 기록후 화면 전환
-            findNavController().navigate(R.id.action_recommend_container2_to_mainFragment)
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(1000)  // 1000 밀리초 (1초) 지연
+                findNavController().navigate(R.id.action_recommend_container2_to_mainFragment)
+            }
         }
-        else if (result == "othermeal") {
+        else if (result == "다른 음식 추천") {
             // 양 선택에 대한 로직 수행
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(500)
+                messages.add(
+                    Message(
+                        "다시 추천해주세요!!",
+                        MessageType.RIGHT,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                )
+                // 위에서 저장한 음식 값을 가져옴
+                messages.add(
+                    Message(
+                        "다시 ${recommendmode}식단을 추천해드리겠습니다.",
+                        MessageType.LEFT,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                )
+                initrecyclerview()
+            }
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(500)
 
-            messages.add(Message("다시 추천해주세요!!",MessageType.RIGHT,null,null,null,null,null))
-            // 위에서 저장한 음식 값을 가져옴
-            messages.add(Message("다시 식단을 추천해드리겠습니다.",MessageType.LEFT,null,null,null,null,null))
-            initrecyclerview()
+                //모드에 따라  새로 음식을 추천 해줌
+                when (recommendmode) {
+                    "치팅"-> {
+                                // 위에서 저장한 음식 값을 가져옴
+                                recommenCheatMeal()
+                                initrecyclerview()
+                            }
+                    "인기 있는"->{
 
-            //식단 기록후 화면 전환
-            val childFragment = MealcheckFragment()
-            childFragment.setOnItemClickListener(this)
-            childFragmentManager.beginTransaction()
-                .replace(R.id.container, childFragment)
-                .commit()
+                    }
+                    "즐겨 먹는"->{
+
+                    }
+                }
+            }
+                //식단 기록후 화면 전환
+                val childFragment = MealcheckFragment()
+                childFragment.setOnItemClickListener(this)
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.container, childFragment)
+                    .commit()
 
         }
 
@@ -173,12 +276,13 @@ class Recommend_container : Fragment(),OnItemClickListener{
         }
         else if (result == "cheat") {
             // 양 선택에 대한 로직 수행
+            recommendmode="치팅"
             messages.add(Message("치팅 식단으로 추천해줘!!",MessageType.RIGHT,null,null,null,null,null))
             // 치팅 밀 표시 함수 구현
-            // 남은 칼로리랑  영양성분 가져와서 랜덤 음식 추천
-            // 변수에 저장
-            messages.add(Message("맛있는 치팅 식단!!",MessageType.LEFT,"음식 이름","50g","30g","20g","이 음식은 어떠세요?"))
 
+            // 변수에 저장
+            //messages.add(Message("맛있는 치팅 식단!!",MessageType.LEFT,"음식 이름","50g","30g","20g","이 음식은 어떠세요?"))
+            recommenCheatMeal()
             // 치팅 밀 표시 함수 구현
             // 남은 칼로리랑  영양성분 가져와서 랜덤 음식 추천
 
@@ -193,6 +297,7 @@ class Recommend_container : Fragment(),OnItemClickListener{
         }
         else if (result == "like") {
             // 양 선택에 대한 로직 수행
+            recommendmode = "즐겨 먹는"
             messages.add(Message("즐겨 먹는 음식으로 추천해줘",MessageType.RIGHT,null,null,null,null,null))
             // 즐겨찾기 음식 가져오기 구현
             // 즐겨 먹는 목록을 가져와서 구현
@@ -207,6 +312,8 @@ class Recommend_container : Fragment(),OnItemClickListener{
         }
         else if (result == "popular") {
             // 양 선택에 대한 로직 수행
+            recommendmode="인기 있는"
+
             messages.add(Message("인기 있는 식단으로 추천 해줘",MessageType.RIGHT,null,null,null,null,null))
 
             initrecyclerview()
@@ -256,6 +363,20 @@ class Recommend_container : Fragment(),OnItemClickListener{
             .replace(R.id.container, childFragment)
             .commit()
     }
+    private fun getremaincal(){
+        val remaincal = userCal!!.goal_calory - totalCal!!.total_calory
+        val remaincarb = userCal!!.carb - totalCal!!.total_carb
+        val remainprotein = userCal!!.protein - totalCal!!.total_protein
+        val remainfat = userCal!!.fat - totalCal!!.total_fat
+
+// 각 변수가 0보다 작으면 0으로 설정
+        val remaincalNonNegative = if (remaincal < 0) 0 else remaincal
+        val remaincarbNonNegative = if (remaincarb < 0) 0.0 else remaincarb
+        val remainproteinNonNegative = if (remainprotein < 0) 0.0 else remainprotein
+        val remainfatNonNegative = if (remainfat < 0) 0.0 else remainfat
+
+        remaindata=Totalcal(remaincalNonNegative.toDouble(),remaincarbNonNegative,remainproteinNonNegative,remainfatNonNegative)
+    }
 
     private fun initrecyclerview(){
 
@@ -264,12 +385,86 @@ class Recommend_container : Fragment(),OnItemClickListener{
         adapter = ChatAdapter(messages)
         binding.chatbot.adapter = adapter
         adapter.notifyDataSetChanged()
+        binding.chatbot.scrollToPosition(adapter.itemCount - 1)
     }
     // 식단 추천 로직 추가
     private fun recommendMeal() {
-        // 여기에 식단 추천 로직을 추가하세요.
-        // 예를 들어, 어떤 데이터를 가져와서 추천 식단을 결정하고,
-        // 그 결과를 메시지로 RecyclerView에 추가하는 등의 작업을 수행합니다.
+        // 즐겨 찾는 음식으로 추
+        // 추천 메시지를 생성
+        val recommendationMessage = "식단 추천: 오늘은 샐러드와 닭가슴살이 좋을 것 같아요!"
+
+        // 어댑터에 메시지 추가 및 갱신
+        val newMessage = Message(recommendationMessage, MessageType.LEFT,null,null,null,null,null)
+        adapter.addMessage(newMessage)
+        adapter.notifyDataSetChanged()
+    }
+    private fun recommenCheatMeal() {
+        val randomIndex = Random.nextInt(cheatMealsampledata.size)
+        val cheatmeal = cheatMealsampledata[randomIndex]
+
+        val maxNForkcal = calculateMaxN(cheatmeal.foodcal, remaindata.total_calory)
+        val maxNForCarb = calculateMaxN(cheatmeal.foodcarbo, remaindata.total_carb)
+        val maxNForProtein = calculateMaxN(cheatmeal.foodprotein, remaindata.total_protein)
+        val maxNForFat = calculateMaxN(cheatmeal.foodfat, remaindata.total_fat)
+
+        val maxN = minOf(maxNForkcal,maxNForCarb, maxNForProtein, maxNForFat)
+
+        if (maxN > 0) {
+            // Add the message with the calculated nutritional values
+            messages.add(
+                Message(
+                    "맛있는 치팅 식단!!",
+                    MessageType.LEFT,
+                    cheatmeal.foodname,
+                    cheatmeal.foodcarbo.toInt().toString() + "g",
+                    cheatmeal.foodprotein.toInt().toString() + "g",
+                    cheatmeal.foodfat.toInt().toString() + "g",
+                    "이 음식은 어떠세요?"
+                )
+            )
+//            messages.add(
+//                Message(
+//                    "맛있는 치팅 식단!!",
+//                    MessageType.LEFT,
+//                    cheatmeal.foodname,
+//                    (cheatmeal.foodcarbo * maxN).toInt().toString() + "g",
+//                    (cheatmeal.foodprotein * maxN).toInt().toString() + "g",
+//                    (cheatmeal.foodfat * maxN).toInt().toString() + "g",
+//                    "이 음식은 어떠세요?"
+//                )
+//            )
+            // Update the remaining nutritional values based on the selected cheat meal
+//            remaincarb -= cheatmeal.foodcarbo * maxN
+//            remainprotein -= cheatmeal.foodprotein * maxN
+//            remainfat -= cheatmeal.foodfat * maxN
+            val availableamount = maxN*cheatmeal.foodamount
+            messages.add(
+                Message(
+                    cheatmeal.foodname+"을 "+"${availableamount.toInt()}g만큼 드실 수 있어요!",
+                    MessageType.LEFT,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            )
+        } else {
+            // 영양성분으로 비교했을때 너무 작으면  남은 영양소로 해당 음식 못먹음을 알려줌
+            // 일정량을 해서 구한다
+            messages.add(Message("남은 영양소로는 해당 음식을 먹을 수 없어요!", MessageType.LEFT, null, null, null, null, null))
+        }
+    }
+
+    private fun calculateMaxN(foodValue: Double, remainValue: Double): Double {
+        return if (foodValue > 0 && remainValue > 0) {
+            remainValue / foodValue
+        } else {
+            0.0
+        }
+    }
+
+    private fun recommendpopluarMeal() {
 
         // 추천 메시지를 생성
         val recommendationMessage = "식단 추천: 오늘은 샐러드와 닭가슴살이 좋을 것 같아요!"

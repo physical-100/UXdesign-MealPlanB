@@ -275,6 +275,7 @@ object UserManager {
         private var userAllListNutritionList: ArrayList<AllListNutrition> = ArrayList()
         private var usermealnumber:String?=null
         private var usertodayweight:TodayWeight?=null
+
         private var userFavoriteMealDataList: ArrayList<FavoriteMealData> = ArrayList()
 
         fun getFavoriteMealDataList() : ArrayList<FavoriteMealData> {
@@ -287,11 +288,22 @@ object UserManager {
             userFavoriteMealDataList.remove(favoriteMealData)
         }
 
+        private var totaldata:Totalcal?=null
+
+
+
         fun getUserTodayWeight():TodayWeight?{
             return usertodayweight
         }
+
         fun setUserTodayWeight(usertodayweight:TodayWeight){
             this.usertodayweight=usertodayweight
+        }
+        fun getTotalcal():Totalcal?{
+            return totaldata
+        }
+        fun setTotalcal(totaldata: Totalcal){
+            this.totaldata= totaldata
         }
         fun getUserCal(): User_calory? {
             return usercal

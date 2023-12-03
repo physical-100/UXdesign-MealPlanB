@@ -76,7 +76,7 @@ class MealhomeFragment : Fragment() {
                         findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
 
 
-                    }else if(mealDataMap[clickedMeal]==onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0)){
+                    }else if(mealDataMap[clickedMeal]==onlyCarProFat(carbo=0.0, protein=0.0, fat=0.0,kcal=0.0)){
                         findNavController().navigate(R.id.action_mainFragment_to_add_Diet_Fragment, bundle)
                     }
 
@@ -173,7 +173,7 @@ class MealhomeFragment : Fragment() {
             // Function to dynamically add a new meal to the ScrollView
 
             mealDataMap[clickedMeal] =
-                onlyCarProFat(permealtotalCarbo, permealtotalProtein, permealtotalFat)
+                onlyCarProFat(permealtotalCarbo, permealtotalProtein, permealtotalFat,permealtotalkcal)
             Log.i(
                 "확인",mealDataMap[clickedMeal].toString()
             )
@@ -182,7 +182,7 @@ class MealhomeFragment : Fragment() {
     }
 
 
-        data class onlyCarProFat(val carbo: Double, val protein: Double, val fat: Double)
+        data class onlyCarProFat(val carbo: Double, val protein: Double, val fat: Double,var kcal:Double)
     }
 
 
