@@ -17,8 +17,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanb.FavoriteMealData
 import com.example.mealplanb.MealData
 import com.example.mealplanb.R
+import com.example.mealplanb.UserManager
 import com.example.mealplanb.databinding.FragmentSpecificFoodBinding
 import com.example.mealplanb.dataclass.food
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -47,6 +49,7 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
     lateinit var mealName:String
     val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
     var isBookmarked = false
+    private var userFavoriteMealDataList :ArrayList<FavoriteMealData> = ArrayList()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -89,6 +92,11 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         super.onCreate(savedInstanceState)
 //        Log.i("CurrentTime", "Formatted Time: $realTime")
         //인자를 받아와서 저장
+        isBookmarked= arguments?.getBoolean("bookmark") == true
+
+        Log.i("tre", isBookmarked.toString())
+
+
         if (arguments != null) {
             specificfooddata= arguments?.getParcelable<food>("add food")
             // detail에서 수정된 값을 받아옴
@@ -122,6 +130,13 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
     ): View? {
         binding= FragmentSpecificFoodBinding.inflate(inflater, container, false)
+        val bookmark=binding.bookmark
+
+        if(isBookmarked){
+            bookmark.setImageResource(R.drawable.bookmark_checked)
+
+
+        }
 
 //        if (arguments != null) {
 //            specificfooddata= arguments?.getParcelable<food>("add food")!!
@@ -143,17 +158,22 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         }
 
 
-        val bookmark=binding.bookmark
         bookmark.setOnClickListener {
             if(!isBookmarked){
                 bookmark.setImageResource(R.drawable.bookmark_checked)
                 //파이어베이스에 즐겨찾기 추가
                 favoritesFoodToFirebase()
                 isBookmarked = true
-            }else{
+            }else if(isBookmarked){
                 bookmark.setImageResource(R.drawable.bookmark_unchecked)
-                //파이어베이스에서 즐겨찾기 제거
-                //코드
+                userFavoriteMealDataList=UserManager.getFavoriteMealDataList()
+                for(i in userFavoriteMealDataList){
+                    if(i.foodname==specificfooddata!!.foodname){
+                        UserManager.removeFavoriteMealDataList(i)
+                        favoritesFooddelete(i.foodkey)
+                    }
+                }
+
                 isBookmarked = false
             }
 
@@ -166,6 +186,7 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         val kcalview=binding.kcaltextView
         val foodamountview=binding.edtgram
         val perpersonbutton=binding.editamountfood
+        val foodnameview=binding.bundlefood
 
 
         // specificfooddata로 수정
@@ -175,13 +196,16 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         val fatperg=specificfooddata!!.foodfat/specificfooddata!!.foodamount
         val kcalperg=specificfooddata!!.foodcal/specificfooddata!!.foodamount
         val foodamount=specificfooddata!!.foodamount
+        val foodname=specificfooddata!!.foodname
 
         foodamountview?.hint=String.format("%.1f",foodamount/foodamount)
-        carboview?.text=String.format("%.1f",carboperg*foodamount)
-        proteinview?.text=String.format("%.1f",proteinperg*foodamount)
-        fatview?.text=String.format("%.1f",fatperg*foodamount)
+        carboview?.text=String.format("%.1f",carboperg*foodamount)+"g"
+        proteinview?.text=String.format("%.1f",proteinperg*foodamount)+"g"
+        fatview?.text=String.format("%.1f",fatperg*foodamount)+"g"
+        foodnameview?.text="음식이름은(는)"+foodname
 
-        kcalview?.text=String.format("%.1f",kcalperg*foodamount)
+
+        kcalview?.text=String.format("%.1f",kcalperg*foodamount)+"Kcal"
         perpersonbutton?.text="1인분 ("+String.format("%.1f",foodamount)+")"
 
         var editfoodamount=foodamount/specificfooddata!!.foodamount
@@ -303,6 +327,10 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         // Inflate the layout for this fragment
         return binding.root
     }
+    private fun favoritesFooddelete(foodkey:String){
+        val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단 추천/자주먹는음식(즐겨찾기)")
+        dataRoute.child(foodkey).removeValue()
+    }
 
     private fun saveDataToFirebase(editfoodamount:Double) {
         // Get a reference to the database
@@ -332,8 +360,6 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
     private fun favoritesFoodToFirebase(){
         val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단 추천/자주먹는음식(즐겨찾기)")
         val foodkey=dataRoute.child("${specificfooddata!!.foodname}").push().key
-
-
         val newData=mapOf(
             "식품이름" to "${specificfooddata!!.foodname}",
             "열량" to "${specificfooddata!!.foodcal}",
@@ -346,6 +372,8 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         if (foodkey != null) {
             dataRoute.child(foodkey).updateChildren(newData)
         }
+        val perFavoriteMealData=FavoriteMealData(foodkey!!, specificfooddata!!.foodname,specificfooddata!!.foodbrand,specificfooddata!!.foodcal,specificfooddata!!.foodamount,specificfooddata!!.foodcarbo,specificfooddata!!.foodprotein,specificfooddata!!.foodfat)
+        UserManager.addFavoriteMealDataList(perFavoriteMealData)
 
     }
 

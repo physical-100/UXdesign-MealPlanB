@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
     val usertodayweight : TodayWeight?=null
+    var userFavoriteMealDataList:ArrayList<FavoriteMealData> = ArrayList()
 
 
 
@@ -108,6 +109,8 @@ class MainActivity : AppCompatActivity() {
                     })
         meallistfromDatabase()
         weightRoadfromDatabase()
+        favoritedataFromfirebase()
+        Log.i("진짜확인", UserManager.getFavoriteMealDataList().toString())
 
 
     }
@@ -142,6 +145,42 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+    private fun favoritedataFromfirebase(){
+        val dataRoute= firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단 추천/자주먹는음식(즐겨찾기)")
+        dataRoute.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(userdata in snapshot.children){
+                    val foodkey=userdata.key.toString()
+                    Log.i("왜왜왜1", userdata.key.toString())
+                    val value1 = JsonPath.parse(userdata.value)
+                    if(foodkey!=null){
+                        val foodname=value1.read("$['식품이름']")as String
+                        Log.i("왜왜왜3", foodname )
+                        val foodbrand=value1.read("$['가공업체']")as String
+                        val foodamount=(value1.read("$['섭취량']")as String).toDouble()
+                        val foodcarbo = (value1.read("$['탄수화물']") as String).toDouble()
+                        val foodprotein = (value1.read("$['단백질']") as String).toDouble()
+                        val foodfat = (value1.read("$['지방']") as String).toDouble()
+                        val foodkcal = (value1.read("$['열량']")as String).toDouble()
+
+                        val perFavoriteMealData =FavoriteMealData(foodkey,foodname,foodbrand,foodkcal,foodamount,foodcarbo,foodprotein,foodfat)
+                        Log.i("진짜확인333", perFavoriteMealData.toString())
+                        UserManager.addFavoriteMealDataList(perFavoriteMealData)
+                        Log.i("진짜확인444",UserManager.getFavoriteMealDataList().toString())
+
+                    }
+
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
     }
     private fun meallistfromDatabase() {
         val dataRoute = firebaseDatabase
@@ -236,7 +275,21 @@ object UserManager {
         private var userAllListNutritionList: ArrayList<AllListNutrition> = ArrayList()
         private var usermealnumber:String?=null
         private var usertodayweight:TodayWeight?=null
+
+        private var userFavoriteMealDataList: ArrayList<FavoriteMealData> = ArrayList()
+
+        fun getFavoriteMealDataList() : ArrayList<FavoriteMealData> {
+            return userFavoriteMealDataList
+        }
+        fun addFavoriteMealDataList(favoriteMealData:FavoriteMealData) {
+            userFavoriteMealDataList.add(favoriteMealData)
+        }
+        fun removeFavoriteMealDataList(favoriteMealData: FavoriteMealData){
+            userFavoriteMealDataList.remove(favoriteMealData)
+        }
+
         private var totaldata:Totalcal?=null
+
 
 
         fun getUserTodayWeight():TodayWeight?{
