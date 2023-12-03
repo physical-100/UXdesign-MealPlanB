@@ -173,7 +173,7 @@
         android:padding="10dp">
     <Button
         android:layout_weight="1"
-        android:id="@+id/switch100g"
+        android:id="@+id/editamountfood"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_bold"
@@ -181,6 +181,7 @@
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/unselect_shape"
         android:text="인분(100g)" />
+
 
 
     <Button

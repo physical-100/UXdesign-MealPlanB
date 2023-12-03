@@ -23,7 +23,7 @@ import java.util.Calendar
 import java.util.Locale
 
 
-class MealDetailFragment : Fragment() {
+class MealDetailFragment : Fragment(),SpecificFood_Fragment.OnfoodEnteredListener {
     lateinit var binding:FragmentMealDetailBinding
     lateinit var mealName:String
     lateinit var UserdataList:ArrayList<MealData>
@@ -93,6 +93,39 @@ class MealDetailFragment : Fragment() {
      private fun initrecyclerview(mealList: List<MealData>) {
         adapter = MealListAdapter(requireContext(), mealList,{
                 clickedMeal->
+            // 번들로 값을 보내고 수정된 값을 받아옴
+            val bundle1= bundleOf("modify food" to clickedMeal)
+            bundle1.putString("mealName", mealName)
+            val bottomSheetFragment =  SpecificFood_Fragment()
+            bottomSheetFragment.arguments = bundle1
+            bottomSheetFragment.setOnNumberEnteredListener(object : SpecificFood_Fragment.OnfoodEnteredListener {
+                override fun onfoodEntered(mealData: MealData) {
+                    Log.i("아이템 수정",mealData.toString())
+                    if(clickedMeal in UserdataList){
+
+                        val indexOfClickedMeal =  UsermealdataList.indexOf(clickedMeal)
+                        if (indexOfClickedMeal != -1) {
+                            // 새로운 값을 할당하거나 변경하고자 하는 로직을 여기에 작성합니다.
+                            val newMeal = mealData
+                            // 리스트에서 해당 인덱스의 값을 변경합니다.
+                            UsermealdataList.set(indexOfClickedMeal, newMeal)
+                        }
+                    }else{
+                        val indexOfClickedMeal =  temporarymealdataList.indexOf(clickedMeal)
+                        if (indexOfClickedMeal != -1) {
+                            // 새로운 값을 할당하거나 변경하고자 하는 로직을 여기에 작성합니다.
+                            val newMeal = mealData
+                            // 리스트에서 해당 인덱스의 값을 변경합니다.
+                            temporarymealdataList.set(indexOfClickedMeal, newMeal)
+                        }
+                    }
+                    RoadMealData(UsermealdataList+temporarymealdataList)
+                    initrecyclerview(UsermealdataList+temporarymealdataList)
+                }
+            })
+            // Show the fragment
+            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+
         },
             {
                     deletedMeal ->
@@ -198,9 +231,9 @@ class MealDetailFragment : Fragment() {
         }
             }
 
-
-
-
+    override fun onfoodEntered(mealData: MealData) {
+        TODO("Not yet implemented")
+    }
 
 
 }
