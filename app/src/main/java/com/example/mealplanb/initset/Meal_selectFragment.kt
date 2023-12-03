@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
+import com.example.mealplanb.UserManager
 import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentMealSelectBinding
 import com.google.firebase.database.FirebaseDatabase
@@ -83,8 +84,11 @@ class Meal_selectFragment : Fragment() {
                     findNavController().navigate(
                         R.id.action_meal_selectFragment_to_calorySettingFragment,
                         bundle
+
                     )
                 }else{
+                    val dataRoute =firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
+                    dataRoute.child("초기설정여부").setValue("완료")
                     findNavController().navigate(R.id.action_meal_selectFragment_to_mainFragment,bundle)
                 }
             }

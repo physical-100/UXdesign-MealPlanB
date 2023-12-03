@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                             if (navHostFragment != null) {
                                 val navController = navHostFragment.navController
                                 handleDataAfterFirebase(navController)
+                                Log.i("", "onDataChange: ")
                             } else {
                                 // NavHostFragment not found에 대한 예외 처리
                                 Log.e("MainActivity", "NavHostFragment not found")

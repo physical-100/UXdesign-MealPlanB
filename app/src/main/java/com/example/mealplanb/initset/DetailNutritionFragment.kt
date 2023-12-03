@@ -193,8 +193,7 @@ class DetailNutritionFragment : Fragment() {
                     dataRoute.child("목표 단백질(%)").setValue(protein_percent)
                     dataRoute.child("목표 지방").setValue(init_fat_cal)
                     dataRoute.child("목표 지방(%)").setValue(fat_percent)
-
-                    firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/초기설정여부").setValue("완료")
+                    dataRoute.child("초기설정여부").setValue("완료")
 
 
 
@@ -202,6 +201,8 @@ class DetailNutritionFragment : Fragment() {
                     val bundle = bundleOf(
                         "user_calory" to userCalory
                     )
+
+
                     findNavController().navigate(R.id.action_detailNutritionFragment_to_mainFragment,bundle)
                     //목표 칼로리를 인자로 넘김
 

@@ -106,6 +106,10 @@ class TodayFragment : Fragment() {
                     leftoverCal.text="목표열량에서 ${String.format("%.1f",abs(userCal.goal_calory-totalkcal))}kcal만큼 초과하여 드셨어요"
 
                 }
+                val usernameview=binding.nameDate
+                usernameview?.text=userData?.username+"님의 1일차"
+
+
                 val remainingCalories = (userCal.goal_calory - totalkcal).toFloat()
 
                 calProgressBar.max=userCal.goal_calory

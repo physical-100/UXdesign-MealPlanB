@@ -50,7 +50,10 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
     private var userFavoriteMealDataList:ArrayList<FavoriteMealData> = ArrayList()
     var data = arrayListOf<food>(
     )
-    val data2 =  arrayListOf<food>(
+    val data2 = arrayListOf<food>(
+        food(foodname="닭고기샌드위치", foodbrand="", foodcal=283.0, foodamount=100.0, foodcarbo=21.3, foodprotein=13.2, foodfat=16.2),
+        food(foodname="바나나,생것", foodbrand="", foodcal=80.0, foodamount=100.0, foodcarbo=21.2, foodprotein=1.0, foodfat=0.0),
+        food(foodname="초콜렛우유", foodbrand="", foodcal=572.0, foodamount=100.0, foodcarbo=51.8, foodprotein=8.1, foodfat=36.9)
     )
 // // 즐겨찾기 반응이 느려서 생성할때 데이터를 가져오도록
 //    override fun onCreate(savedInstanceState: Bundle?) {
