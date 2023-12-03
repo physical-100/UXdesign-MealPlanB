@@ -33,7 +33,7 @@ class MealcheckFragment : Fragment() {
             itemClickListener?.onItemClick("식단 확정")
         }
         binding.othermeal.setOnClickListener {
-            itemClickListener?.onItemClick("othermeal")
+            itemClickListener?.onItemClick("다른 음식 추천")
 
         }
         return binding.root

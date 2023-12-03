@@ -24,7 +24,7 @@
                         android:id="@+id/cancel_detailpage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/violet"
+                        android:backgroundTint="@color/light_purple"
                         android:src="@drawable/baseline_cancel_24" />
                         <View
                             android:layout_width="0dp"
@@ -38,7 +38,7 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/violet"
+                        android:backgroundTint="@color/light_purple"
                         android:src="@drawable/baseline_arrow_forward_ios_24"/>
                 </LinearLayout>
                 <ImageView
