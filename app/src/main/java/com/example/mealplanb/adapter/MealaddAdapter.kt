@@ -36,9 +36,10 @@ class MealaddAdapter(
 
     inner class MealViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val mealOrderTextView: TextView = itemView.findViewById(R.id.mealorder)
-        private val carboTextView: TextView = itemView.findViewById(R.id.carbotextView3)
-        private val proteinTextView: TextView = itemView.findViewById(R.id.proteintextView3)
-        private val fatTextView: TextView = itemView.findViewById(R.id.fattextView3)
+//        private val carboTextView: TextView = itemView.findViewById(R.id.carbotextView3)
+//        private val proteinTextView: TextView = itemView.findViewById(R.id.proteintextView3)
+//        private val fatTextView: TextView = itemView.findViewById(R.id.fattextView3)
+        private val totalkcal: TextView = itemView.findViewById(R.id.totalkcal)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
 
         fun bind(meal: String) {
@@ -46,9 +47,10 @@ class MealaddAdapter(
 
             val mealData = mealData[meal]
             if (mealData != null) {
-                carboTextView.text = String.format("%.1f", mealData.carbo)
-                proteinTextView.text = String.format("%.1f", mealData.protein)
-                fatTextView.text = String.format("%.1f", mealData.fat)
+                totalkcal.text = String.format("%d", mealData.kcal.toInt()) +" kcal"
+//                carboTextView.text = String.format("%.1f", mealData.carbo)
+//                proteinTextView.text = String.format("%.1f", mealData.protein)
+//                fatTextView.text = String.format("%.1f", mealData.fat)
             }
 
             // 아이템을 클릭할 때 호출할 함수
