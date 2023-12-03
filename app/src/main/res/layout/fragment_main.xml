@@ -32,12 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/bottom_navigation_view"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/pink"
-            android:textStyle="bold"
-            app:shapeAppearanceOverlay="@style/CustomShapeAppearance.FloatingActionButton"
-            tools:text="추천"/>
+            android:background="@color/deep_violet"
+            android:backgroundTint="@color/deep_violet"
+            app:useCompatPadding="true"
+            app:fabSize="normal"
+            android:src="@drawable/fab1"
+             />
 
     </RelativeLayout>
 </layout>
