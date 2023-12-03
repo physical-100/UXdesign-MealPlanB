@@ -1,99 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SpecificFood_Fragment"
-    android:orientation="vertical">
+    android:background="@color/BG"
+    tools:context=".fragment.SpecificFood_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
+    <ImageView
+        android:id="@+id/cancle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/x_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:id="@+id/bookmark"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/bookmark_unchecked"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/bundlefood"
-        android:text="음식이름" />
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_gravity="center">
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-        <TextView
-            android:id="@+id/carbotextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="탄"
-            android:layout_marginRight="10dp"/>
-
-        <TextView
-            android:id="@+id/carbotextView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="10g"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:id="@+id/proteintextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="단백질"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:id="@+id/proteintextView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="15g"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:id="@+id/fattextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="지방"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:id="@+id/fattextView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="7g"
-            android:layout_marginRight="10dp"/>
-
-
-
-    </LinearLayout>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="음식이름은(는)"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cancle"
+        />
     <TextView
         android:id="@+id/kcaltextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="165kcal"
+        android:text="165kcal이에요"
+        android:layout_marginStart="20dp"
         android:textAlignment="center"
-        android:textStyle="bold"
-        android:textSize="25dp"/>
+        android:textColor="@color/black"
+        android:fontFamily="@font/pretendard_bold"
+        android:textSize="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bundlefood"/>
 
-
+    <LinearLayout
+        android:id="@+id/carbohydrate"
+        android:layout_width="88dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/carbo_textview"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/protein"
+        app:layout_constraintTop_toBottomOf="@id/kcaltextView">
+        <TextView
+            android:id="@+id/carbotextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="순탄수"
+            android:textSize="14dp"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_medium"/>
+        <TextView
+            android:id="@+id/carbotextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10g"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_gravity="center"/>
 
 </LinearLayout>
-    <Button
-        android:id="@+id/oftenfood"
-        android:layout_width="238dp"
+    <LinearLayout
+        android:id="@+id/protein"
+        android:layout_width="88dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/protein_textview"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kcaltextView">
+        <TextView
+            android:id="@+id/proteintextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="단백질"
+            android:textSize="14dp"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_medium"/>
+        <TextView
+            android:id="@+id/proteintextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15g"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/fat"
+        android:layout_width="88dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/fat_textview"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/protein"
+        app:layout_constraintTop_toBottomOf="@id/kcaltextView">
+        <TextView
+            android:id="@+id/fattextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="지방"
+            android:textSize="14dp"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/pretendard_medium"/>
+        <TextView
+            android:id="@+id/fattextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7g"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/quantitytextview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="즐겨찾기!" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="5dp">
+        android:text="얼마나 먹었나요?"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/pretendard_bold"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/carbohydrate"/>
+    <LinearLayout
+        android:id="@+id/selectunit"
+        android:background="@drawable/unselect_shape"
+        android:backgroundTint="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quantitytextview"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
     <Button
         android:layout_weight="1"
         android:id="@+id/switch100g"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="인븐(100g)" />
+        android:fontFamily="@font/pretendard_bold"
+        android:textSize="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/unselect_shape"
+        android:text="인분(100g)" />
 
 
     <Button
@@ -101,48 +188,142 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_bold"
+        android:textSize="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/unselect_shape"
         android:text="g"
         />
-
-</LinearLayout>
+    </LinearLayout>
     <LinearLayout
+        android:id="@+id/editquantity"
+        android:background="@drawable/unselect_shape"
+        android:backgroundTint="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectunit"
+        android:layout_marginTop="5dp"
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             app:srcCompat="@drawable/baseline_remove_24"
             android:layout_gravity="center_vertical"/>
 
 
         <EditText
+            android:layout_marginHorizontal="20dp"
             android:id="@+id/edtgram"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="1"
+            android:textSize="20dp"
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:inputType="number" />
         <ImageView
             android:id="@+id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             app:srcCompat="@drawable/baseline_add_24"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/plusmeal"
+
+    <TextView
+        android:id="@+id/next_2"
+        android:background="@drawable/diet_shape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" 빠른 추가"
-        android:textSize="15dp"
-        />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="6dp"
+        android:layout_marginHorizontal="20dp"
+        android:text="추가하기"
+        android:textSize="20dp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--
+    </LinearLayout>
+        <Button
+            android:id="@+id/oftenfood"
+            android:layout_width="238dp"
+            android:layout_height="wrap_content"
+            android:text="즐겨찾기!" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/switch100g"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="인븐(100g)" />
+
+
+        <Button
+            android:id="@+id/editgramfood"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="g"
+            />
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/baseline_remove_24"
+                android:layout_gravity="center_vertical"/>
+
+
+            <EditText
+                android:id="@+id/edtgram"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="1"
+                android:textAlignment="center"
+                android:inputType="number" />
+            <ImageView
+                android:id="@+id/plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/baseline_add_24"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/plusmeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" 빠른 추가"
+            android:textSize="15dp"
+            />
+    -->
 
 
 
 
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

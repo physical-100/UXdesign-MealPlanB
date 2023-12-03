@@ -17,7 +17,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cheat"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="170dp"
                 android:background="@drawable/select_thing"
                 android:layout_weight="1"
@@ -45,7 +45,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/like"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="170dp"
                 android:background="@drawable/select_thing"
                 android:layout_weight="1"
@@ -76,7 +76,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/popular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="170dp"
                 android:background="@drawable/select_thing"
                 android:layout_weight="1"
