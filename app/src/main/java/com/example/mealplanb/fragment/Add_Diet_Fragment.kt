@@ -14,8 +14,10 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mealplanb.FavoriteMealData
 import com.example.mealplanb.MealData
 import com.example.mealplanb.R
+import com.example.mealplanb.UserManager
 import com.example.mealplanb.adapter.AddFoodAdapter
 import com.example.mealplanb.databinding.FragmentAddDietBinding
 import com.example.mealplanb.dataclass.food
@@ -35,6 +37,7 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.security.KeyStore.TrustedCertificateEntry
 
 class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListener {
     // 즐겨찾기 반응이 느려서 이전 프레그먼트에서 저장하고 불러오는 식으로 해야할거 같다 수정 필요
@@ -44,6 +47,7 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
     lateinit var mealName:String
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     var temporarymealdatalist=arrayListOf<MealData>()
+    private var userFavoriteMealDataList:ArrayList<FavoriteMealData> = ArrayList()
     var data = arrayListOf<food>(
     )
     val data2 =  arrayListOf<food>(
@@ -156,6 +160,19 @@ class Add_Diet_Fragment : Fragment(), SpecificFood_Fragment.OnfoodEnteredListene
                 val bundle1= bundleOf("add food" to data)
                 Log.i("szzzz", "$bundle1 ")
                 bundle1.putString("mealName", mealName)
+                userFavoriteMealDataList=UserManager.getFavoriteMealDataList()
+                var count=0
+                for(i in userFavoriteMealDataList){
+                    if (i.foodname==data.foodname){
+                        count=1
+                    }
+                }
+                if(count==1){
+                    bundle1.putBoolean("bookmark",true)
+                }else{
+                    bundle1.putBoolean("bookmark",false)
+                }
+
                 val bottomSheetFragment =  SpecificFood_Fragment()
                 // 리스너 설정
                 bottomSheetFragment.arguments = bundle1

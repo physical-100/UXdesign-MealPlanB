@@ -18,7 +18,7 @@ class Mypagefragment : Fragment() {
     lateinit var binding: FragmentMypagefragmentBinding
     val userData = UserManager.getUserData()
     val userCal = UserManager.getUserCal()
-
+    val usertodayweight =UserManager.getUserTodayWeight()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,6 +44,7 @@ class Mypagefragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_profile_modifyingFragment)
 
         }
+        Log.i("체중", "오늘의 체중 $usertodayweight"+"목표 체중 ${userData?.goal_weight.toString()}")
         if (userCal != null&&userData!=null) {
             binding.apply {
                 mypageGoalWeight.text = "${userData.goal_weight}Kg"
