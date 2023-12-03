@@ -47,9 +47,16 @@ class Mypagefragment : Fragment() {
         Log.i("체중", "오늘의 체중 $usertodayweight"+"목표 체중 ${userData?.goal_weight.toString()}")
         if (userCal != null&&userData!=null) {
             binding.apply {
+                nickname.text="{${userData.username}"
                 mypageGoalWeight.text = "${userData.goal_weight}Kg"
                 mypageGoalCal.text = "${userCal.goal_calory}Kcal"
                 mypageGoalPercent.text ="${userCal.carb_percent}:${userCal.protein_percent}:${userCal.fat_percent}"
+                val differenceweight=usertodayweight!!.weight.toDouble()-userData.goal_weight.toDouble()
+                if(differenceweight>=0) {
+                    changeWeight.text = "+${differenceweight}kg}"
+                }else{
+                    changeWeight.text="${differenceweight}kg"
+                }
             }
         }
         return  binding.root

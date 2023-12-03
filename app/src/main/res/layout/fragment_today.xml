@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
-                android:text="진철님의 3일차"
+                android:text="진철님의 1일차"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
