@@ -11,8 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:fontFamily="@font/pretendard_medium"
+        android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" />
 
@@ -20,7 +24,11 @@
         android:id="@+id/foodbrand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_medium"
+        android:textColor="@color/black"
+        android:textSize="16dp"
         android:text="제조사"
+        android:layout_marginStart="10dp"
         android:layout_below="@+id/foodname" />
 
     <TextView
@@ -28,6 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Amount"
+        android:fontFamily="@font/pretendard_medium"
+        android:textColor="@color/black"
+        android:textSize="16dp"
         android:layout_toRightOf="@+id/foodbrand"
         android:layout_marginLeft="20dp"
         android:layout_below="@+id/foodname"/>
@@ -40,6 +51,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="13dp"
         android:layout_marginRight="31dp"
-        android:text="칼로리"
-        android:textSize="17dp" />
+        android:fontFamily="@font/pretendard_medium"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:text="칼로리" />
 </RelativeLayout>

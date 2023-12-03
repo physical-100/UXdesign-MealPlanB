@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
@@ -45,7 +46,7 @@ class MealListAdapter(private val context: Context, private val mealList: List<M
             notifyDataSetChanged()
         }
 
-        val deleteButton = listItemView?.findViewById<ImageButton>(R.id.deleteitem)
+        val deleteButton = listItemView?.findViewById<ImageView>(R.id.deleteitem)
         // 삭제 버튼 클릭 시 onDeleteClick 호출
         deleteButton?.setOnClickListener {
             val mealToDelete = getItem(position)

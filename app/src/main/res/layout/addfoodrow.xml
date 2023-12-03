@@ -31,6 +31,7 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:text="brand"
                 android:textSize="18dp"
+                android:textColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/amount"
@@ -59,6 +60,7 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="foodname"
                 android:textSize="20dp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/brand"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -69,12 +71,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_bold"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="18dp"
                 android:text="cal"
                 android:textColor="@color/gray"
                 android:textSize="20dp"
-
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -82,5 +83,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#4f4f4f" />
+        android:background="#eee" />
 </LinearLayout>

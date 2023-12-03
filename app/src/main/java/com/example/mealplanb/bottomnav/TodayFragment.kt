@@ -80,24 +80,24 @@ class TodayFragment : Fragment() {
                     carbohydrate.text = "순탄수\n${String.format("%.1f",userCal.carb-totalcarbo)}g"
 
                 }else{
-                    carbohydrate.text= "순단백질${String.format("%.1f",abs(userCal.carb-totalcarbo))}g만큼 초과하여 드셨어요"
+                    carbohydrate.text= "순탄수\n${String.format("%.1f",abs(userCal.carb-totalcarbo))}g 초과"
                 }
 
                 if(userCal.protein-totalproteion>=0){
                     protein.text = "순탄수\n${String.format("%.1f",userCal.protein-totalproteion)}g"
 
                 }else{
-                    protein.text= "순단백질${String.format("%.1f",abs(userCal.protein-totalproteion))}g만큼 초과하여 드셨어요"
+                    protein.text= "단백질\n${String.format("%.1f",abs(userCal.protein-totalproteion))}g 초과"
                 }
                 if(userCal.fat-totalfat>=0){
                     fat.text = "지방\n${String.format("%.1f",userCal.fat-totalfat)}g"
                 }
                 else{
-                    fat.text= "순지방${String.format("%.1f",abs(userCal.fat-totalfat))}g만큼 초과하여 드셨어요"
+                    fat.text= "지방\n${String.format("%.1f",abs(userCal.fat-totalfat))}g 초과"
 
                 }
                 if (userCal.goal_calory-totalkcal>=0){
-                    leftoverCal.text= "오늘은 ${String.format("%.1f",userCal.goal_calory-totalkcal)}kcal 남았어요"
+                    leftoverCal.text= "오늘은 ${String.format("%d",(userCal.goal_calory-totalkcal).toInt())}kcal 남았어요"
 
                 }
                 else{
