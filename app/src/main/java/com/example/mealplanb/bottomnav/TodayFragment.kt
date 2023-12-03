@@ -22,6 +22,7 @@ import com.example.mealplanb.fragment.MealhomeFragment
 import java.lang.Math.abs
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.mealplanb.TodayWeight
 import com.example.mealplanb.Totalcal
 
 class TodayFragment : Fragment() {
@@ -30,6 +31,7 @@ class TodayFragment : Fragment() {
     val userData = UserManager.getUserData()
     val userCal = UserManager.getUserCal()
     val Totalcal:Totalcal?=null
+    var todayWeight: TodayWeight?=null
     private lateinit var scrollView: ScrollView
     private var scrollPosition = 0
     private var AllListNutritionList= arrayListOf<AllListNutrition>(
@@ -97,7 +99,7 @@ class TodayFragment : Fragment() {
 
                 }
                 if (userCal.goal_calory-totalkcal>=0){
-                    leftoverCal.text= "오늘은 ${String.format("%d",(userCal.goal_calory-totalkcal).toInt())}kcal 남았어요"
+                    leftoverCal.text= "${String.format("%d",(userCal.goal_calory-totalkcal).toInt())}kcal"
 
                 }
                 else{
@@ -135,8 +137,15 @@ class TodayFragment : Fragment() {
         // Disable back press
         binding.scrollView.setOnClickListener {
             scrollPosition = binding.scrollView.scrollY
+
+            todayWeight=UserManager.getUserTodayWeight()
+            val dailyWeightFragment =
+                childFragmentManager.findFragmentById(R.id.addweight) as? DailyweightFragment
+            dailyWeightFragment?.updateWeightText(todayWeight!!.weight)
             // Perform your screen transition here...
         }
+
+
     }
     override fun onResume() {
         super.onResume()
