@@ -56,6 +56,8 @@ class editweightFragment : BottomSheetDialogFragment() {
                 binding.btnConfirm.isEnabled = s.toString().toDoubleOrNull() != null
             }
         })
+
+
         // 확인 버튼 클릭시
         binding.backToMain.setOnClickListener{
             dismiss()

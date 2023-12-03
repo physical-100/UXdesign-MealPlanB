@@ -77,6 +77,7 @@ class MealDetailFragment : Fragment(),SpecificFood_Fragment.OnfoodEnteredListene
 
         binding.completeMealAdd.setOnClickListener {
             //복사된 List를 UsermealdataList로 만듬
+
             saveMealDataToFirebase(UsermealdataList+temporarymealdataList)
 
 //            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
