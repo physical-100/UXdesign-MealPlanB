@@ -36,6 +36,7 @@ class MealDetailFragment : Fragment(),SpecificFood_Fragment.OnfoodEnteredListene
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
     lateinit var adapter:MealListAdapter
+    var isBookmarked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -83,8 +84,22 @@ class MealDetailFragment : Fragment(),SpecificFood_Fragment.OnfoodEnteredListene
             findNavController().navigate(R.id.action_mealDetailFragment_to_mainFragment)
             
         }
-        binding.cancelDetailpage.setOnClickListener{
+        binding.backToMain.setOnClickListener{
             findNavController().navigateUp()
+
+        }
+        val bookmark=binding.bookmark
+        bookmark.setOnClickListener {
+            if(!isBookmarked){
+                bookmark.setImageResource(R.drawable.bookmark_checked)
+                //파이어베이스에 즐겨찾기 추가
+                isBookmarked = true
+            }else{
+                bookmark.setImageResource(R.drawable.bookmark_unchecked)
+                //파이어베이스에서 즐겨찾기 제거
+                //코드
+                isBookmarked = false
+            }
 
         }
 

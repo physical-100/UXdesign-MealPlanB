@@ -20,12 +20,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:id="@+id/cancel_detailpage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/light_purple"
-                        android:src="@drawable/baseline_cancel_24" />
+                    <ImageView
+                        android:id="@+id/back_to_main"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="20dp"
+                        android:src="@drawable/x_btn" />
                         <View
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -34,12 +34,24 @@
                         android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
                         android:text="영양소 상세"/>
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20dp"
                         android:backgroundTint="@color/light_purple"
                         android:src="@drawable/baseline_arrow_forward_ios_24"/>
+                    <ImageView
+                        android:id="@+id/bookmark"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/bookmark_unchecked"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="20dp"/>
                 </LinearLayout>
                 <ImageView
                     android:id="@+id/food_image"
@@ -58,12 +70,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textSize="20dp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textSize="24dp"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
                         android:text="Kcal 먹었어요"
                         android:textStyle="bold"/>
                 </LinearLayout>
@@ -90,12 +107,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="순탄수" />
                             <TextView
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/meal_detail_carb_percent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="0%"/>
                         </LinearLayout>
 
@@ -110,6 +134,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="0"
+                                android:fontFamily="@font/pretendard_bold"
+                                android:textColor="@color/black"
                                 android:textSize="20dp"
                                 android:textAlignment="textEnd" />
 
@@ -117,6 +143,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="g" />
 
                         </LinearLayout>
@@ -138,12 +167,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
+
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="단백질" />
                             <TextView
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/meal_detail_protein_percent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="0%"/>
                         </LinearLayout>
 
@@ -157,6 +194,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:fontFamily="@font/pretendard_bold"
+                                android:textColor="@color/black"
                                 android:text="0"
                                 android:textSize="20dp"
                                 android:textAlignment="textEnd" />
@@ -165,6 +204,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="g" />
 
                         </LinearLayout>
@@ -186,12 +229,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
+
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="지방" />
                             <TextView
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/meal_detail_fat_percent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="0%"/>
                         </LinearLayout>
 
@@ -206,6 +257,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="0"
+                                android:fontFamily="@font/pretendard_bold"
+                                android:textColor="@color/black"
                                 android:textSize="20dp"
                                 android:textAlignment="textEnd" />
 
@@ -213,6 +266,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+
+                                android:fontFamily="@font/pretendard_medium"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"
                                 android:text="g" />
 
                         </LinearLayout>
@@ -224,21 +281,25 @@
             <ListView
                 android:id="@+id/meal_list_view"
                 android:layout_weight="1"
+                android:layout_marginVertical="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="20dp">
 
             <Button
                 android:id="@+id/add_meal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="@color/white"
+                android:textSize="16dp"
                 android:background="@drawable/diet_shape"
-                android:backgroundTint="#1F39DE"
+                android:backgroundTint="@color/violet"
                 android:text="식단 추가" />
 
             <Button
@@ -247,6 +308,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="4"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="16dp"
                 android:background="@drawable/diet_shape"
                 android:backgroundTint="@color/black"
                 android:text="식단 기록 완료"

@@ -23,6 +23,9 @@
 
 
         <TextView
+            android:background="@drawable/unselect_shape"
+            android:backgroundTint="@color/purple"
+            android:padding="5dp"
             android:id="@+id/totalkcal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
