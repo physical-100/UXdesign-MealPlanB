@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mealplanb.AllListNutrition
+import com.example.mealplanb.MealData
 import com.example.mealplanb.R
 import com.example.mealplanb.Totalcal
 import com.example.mealplanb.UserManager
@@ -16,11 +19,15 @@ import com.example.mealplanb.databinding.FragmentRecommendContainerBinding
 import com.example.mealplanb.dataclass.Message
 import com.example.mealplanb.dataclass.MessageType
 import com.example.mealplanb.dataclass.food
+import com.google.android.play.integrity.internal.c
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.ArrayList
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlin.random.Random
@@ -30,13 +37,21 @@ interface OnItemClickListener {
     fun onDataClick(food: food)
 }
 class Recommend_container : Fragment(),OnItemClickListener{
-
     lateinit var binding:FragmentRecommendContainerBinding
     lateinit var adapter:ChatAdapter
     lateinit var recommendmode:String
     val userCal = UserManager.getUserCal()
     val totalCal = UserManager.getTotalcal()
     lateinit var remaindata:Totalcal
+    private val firebaseDatabase= FirebaseDatabase.getInstance()
+    var recommendmeal:food?=null
+    var AllListNutritionList= ArrayList<AllListNutrition>(
+    )
+    var UserdataList=ArrayList<MealData>()
+
+    val currentTime = Calendar.getInstance().time
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
     val cheatMealsampledata =arrayListOf<food> (
             food("고추 바사삭","굽네 치킨",1302.0,600.0,76.0,126.7,54.5),
             food("와퍼","버거킹",619.0,278.0,10.5,29.0,13.0),
@@ -90,6 +105,7 @@ class Recommend_container : Fragment(),OnItemClickListener{
         if (result == "food") {
                 // 음식 선택에 대한 로직 수행
             getremaincal()
+            var available = true
             GlobalScope.launch(Dispatchers.Main) {
                 delay(500)  // 1000 밀리초 (1초) 지연
                 messages.add(
@@ -118,14 +134,34 @@ class Recommend_container : Fragment(),OnItemClickListener{
                         null
                     )
                 )
+
+                if(remaindata.total_carb.toInt()==0||remaindata.total_protein.toInt()==0||remaindata.total_fat.toInt()==0){
+                    messages.add(
+                        Message(
+                            "치팅 식단이나 인기 있는 식단은 추천해줄 수 없어요!!",
+                            MessageType.LEFT,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null
+                        )
+                    )
+                    available=false
+                }
+
                 initrecyclerview()
              }
-                //child를 바꾸고 리스너 위치를 바꿈
-                val childFragment = RecommendFragment()
-                childFragment.setOnItemClickListener(this)
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.container, childFragment)
-                    .commit()
+                // 치팅 식단이나 인기 있는이 가능한지 번들을 넘긴다
+            // 일단 왜 안넘어가는지 모르겠음..
+            val bundle = bundleOf("available_cheat" to available )
+        //child를 바꾸고 리스너 위치를 바꿈
+            val childFragment = RecommendFragment()
+            childFragment.arguments = bundle  // Attach the bundle to the fragment
+            childFragment.setOnItemClickListener(this)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.container, childFragment)
+                .commit()
 
             } else if (result == "amount") {
                 // 양 선택에 대한 로직 수행
@@ -174,6 +210,7 @@ class Recommend_container : Fragment(),OnItemClickListener{
             //식단 기록후 화면 전환
             GlobalScope.launch(Dispatchers.Main) {
                     delay(1000)  // 1000 밀리초 (1초) 지연
+                savemeal()
                 findNavController().navigate(R.id.action_recommend_container2_to_mainFragment)
             }
         }else if (result == "식단 확정") {
@@ -182,12 +219,14 @@ class Recommend_container : Fragment(),OnItemClickListener{
             messages.add(Message("이 음식으로 먹을게요",MessageType.RIGHT,null,null,null,null,null))
             // 위에서 저장한 음식 값을 가져옴
 
-            messages.add(Message(null,MessageType.LEFT,"음식 이름",null,null,null,"자동으로 식단을 입력해드릴게요!"))
+            messages.add(Message(null,MessageType.LEFT,recommendmeal!!.foodname,null,null,null,"자동으로 식단을 입력해드릴게요!"))
+
             initrecyclerview()
 
             //식단 기록후 화면 전환
             GlobalScope.launch(Dispatchers.Main) {
                 delay(1000)  // 1000 밀리초 (1초) 지연
+                savemeal()
                 findNavController().navigate(R.id.action_recommend_container2_to_mainFragment)
             }
         }
@@ -344,18 +383,8 @@ class Recommend_container : Fragment(),OnItemClickListener{
                 )
             )
             //여기 왼쪽 추가를 수정하몀 됨
-            //kcal에 오늘 남은 칼로리, carb에 food 칼로리 성분 비교에서 뭘 넣을지는 차차 알고리즘 구애
-            messages.add(
-                Message(
-                    " 200g 드세요",
-                    MessageType.LEFT_2,
-                    "300Kcal",
-                    food.foodname,
-                    food.foodcal.toString(),
-                    null,
-                    null
-                )
-            )
+            getremaincal()
+            calculateamountfood(food,remaindata)
             initrecyclerview()
         val childFragment = checkFragment()
         childFragment.setOnItemClickListener(this)
@@ -385,10 +414,11 @@ class Recommend_container : Fragment(),OnItemClickListener{
         adapter = ChatAdapter(messages)
         binding.chatbot.adapter = adapter
         adapter.notifyDataSetChanged()
+
         binding.chatbot.scrollToPosition(adapter.itemCount - 1)
     }
     // 식단 추천 로직 추가
-    private fun recommendMeal() {
+    private fun recommendlikeMeal() {
         // 즐겨 찾는 음식으로 추
         // 추천 메시지를 생성
         val recommendationMessage = "식단 추천: 오늘은 샐러드와 닭가슴살이 좋을 것 같아요!"
@@ -398,7 +428,9 @@ class Recommend_container : Fragment(),OnItemClickListener{
         adapter.addMessage(newMessage)
         adapter.notifyDataSetChanged()
     }
+
     private fun recommenCheatMeal() {
+        recommendmeal=null
         val randomIndex = Random.nextInt(cheatMealsampledata.size)
         val cheatmeal = cheatMealsampledata[randomIndex]
 
@@ -422,22 +454,15 @@ class Recommend_container : Fragment(),OnItemClickListener{
                     "이 음식은 어떠세요?"
                 )
             )
-//            messages.add(
-//                Message(
-//                    "맛있는 치팅 식단!!",
-//                    MessageType.LEFT,
-//                    cheatmeal.foodname,
-//                    (cheatmeal.foodcarbo * maxN).toInt().toString() + "g",
-//                    (cheatmeal.foodprotein * maxN).toInt().toString() + "g",
-//                    (cheatmeal.foodfat * maxN).toInt().toString() + "g",
-//                    "이 음식은 어떠세요?"
-//                )
-//            )
+
             // Update the remaining nutritional values based on the selected cheat meal
-//            remaincarb -= cheatmeal.foodcarbo * maxN
-//            remainprotein -= cheatmeal.foodprotein * maxN
-//            remainfat -= cheatmeal.foodfat * maxN
+            val recommendcal = cheatmeal.foodcal*maxN
+            val recommendcarb = cheatmeal.foodcarbo * maxN
+            val recommendprotein = cheatmeal.foodprotein * maxN
+            val recommendfat = cheatmeal.foodfat * maxN
             val availableamount = maxN*cheatmeal.foodamount
+            recommendmeal=food(cheatmeal.foodname,cheatmeal.foodbrand,recommendcal,availableamount,recommendcarb,recommendprotein,recommendfat)
+
             messages.add(
                 Message(
                     cheatmeal.foodname+"을 "+"${availableamount.toInt()}g만큼 드실 수 있어요!",
@@ -452,10 +477,53 @@ class Recommend_container : Fragment(),OnItemClickListener{
         } else {
             // 영양성분으로 비교했을때 너무 작으면  남은 영양소로 해당 음식 못먹음을 알려줌
             // 일정량을 해서 구한다
-            messages.add(Message("남은 영양소로는 해당 음식을 먹을 수 없어요!", MessageType.LEFT, null, null, null, null, null))
+            messages.add(Message("남은 영양소로는 치팅 음식을 먹을 수 없어요!", MessageType.LEFT, null, null, null, null, null))
+            messages.add(Message("남은 영양소에 맞는 음식을 섭취해서 목표를 달성해 보아요", MessageType.LEFT, null, null, null, null, null))
         }
     }
 
+    private fun calculateamountfood(food:food,remaindata:Totalcal) {
+        recommendmeal=null
+        val calculate_meal = food
+        val maxNForkcal = calculateMaxN(calculate_meal.foodcal, remaindata.total_calory)
+        val maxNForCarb = calculateMaxN(calculate_meal.foodcarbo, remaindata.total_carb)
+        val maxNForProtein = calculateMaxN(calculate_meal.foodprotein, remaindata.total_protein)
+        val maxNForFat = calculateMaxN(calculate_meal.foodfat, remaindata.total_fat)
+
+        val maxN = minOf(maxNForkcal,maxNForCarb, maxNForProtein, maxNForFat)
+        if (maxN > 0) {
+            // Add the message with the calculated nutritional values
+            messages.add(
+                Message(
+                    " ${(calculate_meal.foodamount*maxN).toInt()} g 드세요",
+                    MessageType.LEFT_2,
+                    remaindata.total_calory.toInt().toString()+"Kcal",
+                    food.foodname,
+                    (food.foodcal*maxN).toInt().toString()+"Kcal",
+                    null,
+                    null
+                )
+            )
+
+            // Update the remaining nutritional values based on the selected cheat meal
+            val recommendcal = calculate_meal.foodcal*maxN
+            val recommendcarb = calculate_meal.foodcarbo * maxN
+            val recommendprotein = calculate_meal.foodprotein * maxN
+            val recommendfat = calculate_meal.foodfat * maxN
+            val availableamount = maxN*calculate_meal.foodamount
+            recommendmeal=food(calculate_meal.foodname,calculate_meal.foodbrand,recommendcal,availableamount,recommendcarb,recommendprotein,recommendfat)
+
+        } else {
+            // 영양성분으로 비교했을때 너무 작으면  남은 영양소로 해당 음식 못먹음을 알려줌
+            // 일정량을 해서 구한다
+            messages.add(Message("남은 영양소로는 해당 음식을 먹을 수 없어요!", MessageType.LEFT, null, null, null, null, null))
+            messages.add(Message("남은 영양소에 맞는 음식을 섭취해서 목표를 달성해 보아요", MessageType.LEFT, null, null, null, null, null))
+        }
+
+
+
+
+    }
     private fun calculateMaxN(foodValue: Double, remainValue: Double): Double {
         return if (foodValue > 0 && remainValue > 0) {
             remainValue / foodValue
@@ -473,6 +541,55 @@ class Recommend_container : Fragment(),OnItemClickListener{
         val newMessage = Message(recommendationMessage, MessageType.LEFT,null,null,null,null,null)
         adapter.addMessage(newMessage)
         adapter.notifyDataSetChanged()
+    }
+    private fun savemeal(){
+        AllListNutritionList = UserManager.getAllListNutritionList()
+        var count: Int = 0
+        var prevMealName: String? = null
+        //meal개수를 가져옴
+                for (i in AllListNutritionList) {
+                    val mealName = i.mealname
+
+                    // 이전 식단 이름과 현재 식단 이름이 다르면 count 증가
+                    if (mealName != prevMealName) {
+                        count++
+                        prevMealName = mealName
+                    }
+                }
+        count++
+        UserdataList.add(MealData(realTime,"식단 ${count}",recommendmeal!!.foodname,recommendmeal!!.foodbrand,recommendmeal!!.foodcal,recommendmeal!!.foodamount,recommendmeal!!.foodcarbo,recommendmeal!!.foodprotein,recommendmeal!!.foodfat))
+        saveMealDataToFirebase(UserdataList,count)
+    }
+    private fun saveMealDataToFirebase(mealDataList: List<MealData>,count:Int) {
+        val mealName = "식단 ${count}"
+        val dataRoute = firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id/기능/식단기입/$realTime/$mealName")
+        dataRoute.removeValue()
+        for(mealData in mealDataList){
+            val foodkey=dataRoute.child("${mealData.foodname}").push().key
+
+            val newData=mapOf(
+                "식품이름" to "${mealData.foodname}",
+                "열량" to "${mealData.foodcal}",
+                "섭취량" to "${mealData.foodamount}",
+                "가공업체" to "${mealData.foodbrand}",
+                "탄수화물" to "${mealData.foodcarbo}",
+                "단백질" to "${mealData.foodprotein}",
+                "지방" to "${mealData.foodfat}"
+            )
+            //AllListNutrition에 추가
+            val permealeachfood =AllListNutrition(mealName,foodkey,mealData.foodcarbo,mealData.foodprotein,mealData.foodfat,mealData.foodcal)
+            UserManager.addAllListNutrionList(permealeachfood)
+
+            val permealeachfood2= MealData(realTime,mealName,mealData.foodname,mealData.foodbrand,mealData.foodcal,mealData.foodamount,mealData.foodcarbo,mealData.foodprotein,mealData.foodfat)
+            UserManager.addMealData(permealeachfood2)
+            if(foodkey!=null){
+                dataRoute.child(foodkey).updateChildren(newData)
+            }
+
+
+
+
+        }
     }
 
 }

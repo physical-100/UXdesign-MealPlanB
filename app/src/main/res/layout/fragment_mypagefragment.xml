@@ -65,7 +65,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
-                android:background="@drawable/circle"
                 android:src="@drawable/character"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
