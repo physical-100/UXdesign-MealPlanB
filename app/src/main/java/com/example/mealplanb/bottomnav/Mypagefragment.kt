@@ -16,9 +16,7 @@ import com.example.mealplanb.databinding.FragmentProfileFragmentBinding
 //알림 설정 만들어야
 class Mypagefragment : Fragment() {
     lateinit var binding: FragmentMypagefragmentBinding
-    val userData = UserManager.getUserData()
-    val userCal = UserManager.getUserCal()
-    val usertodayweight =UserManager.getUserTodayWeight()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -27,6 +25,9 @@ class Mypagefragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val userData = UserManager.getUserData()
+        val userCal = UserManager.getUserCal()
+        val usertodayweight =UserManager.getUserTodayWeight()
         // Inflate the layout for this fragment
         binding = FragmentMypagefragmentBinding.inflate(inflater, container, false)
         binding.goToInitialSetting.setOnClickListener{
@@ -47,7 +48,7 @@ class Mypagefragment : Fragment() {
         Log.i("체중", "오늘의 체중 $usertodayweight"+"목표 체중 ${userData?.goal_weight.toString()}")
         if (userCal != null&&userData!=null) {
             binding.apply {
-                nickname.text="{${userData.username}"
+                nickname.text="${userData.username}"
                 mypageGoalWeight.text = "${userData.goal_weight}Kg"
                 mypageGoalCal.text = "${userCal.goal_calory}Kcal"
                 mypageGoalPercent.text ="${userCal.carb_percent}:${userCal.protein_percent}:${userCal.fat_percent}"

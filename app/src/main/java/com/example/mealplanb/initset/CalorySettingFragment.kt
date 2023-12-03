@@ -52,6 +52,7 @@ class CalorySettingFragment : Fragment() {
                 val BMR = (10 * userdata.start_weight.toInt() + 6.25 * userdata.height - 5 * userdata.age + 5).toInt()
                 if (userdata.type == "활동 많음") {
                     val calory = (1.725 * BMR).toInt()
+                    Log.i("calcal", "$calory")
                     binding.calorySetting.setText("$calory")
                     binding.explain.setText("일일 권장 섭취량"+"$calory"+"kcal예요")
                 }
@@ -60,7 +61,6 @@ class CalorySettingFragment : Fragment() {
         }
         binding.next2.setOnClickListener {
             val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
-
             goal_cal = binding.calorySetting.text.toString()
             dataRoute.child("목표 칼로리").setValue(goal_cal.toInt())
             Log.i("sendcal",goal_cal)

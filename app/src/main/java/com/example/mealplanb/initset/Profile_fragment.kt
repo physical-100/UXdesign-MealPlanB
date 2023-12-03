@@ -30,6 +30,7 @@ class Profile_fragment : Fragment() {
     private lateinit var mReference: DatabaseReference
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     private val databaseReference: DatabaseReference = firebaseDatabase.reference
+    private val userData=UserManager.getUserData()
 
 
 
@@ -97,6 +98,83 @@ class Profile_fragment : Fragment() {
             binding.username, binding.age, binding.height,
             binding.startWeight, binding.targetWeight
         )
+        binding.username.setText(userData?.username)
+        if(userData?.age==null){
+            binding.age.setText("")
+        }else{
+            binding.age.setText(userData?.age.toString())
+        }
+        if(userData?.height==null){
+            binding.height.setText("")
+        }else{
+            binding.height.setText(userData?.height.toString())
+        }
+        if(userData?.start_weight==null){
+            binding.startWeight.setText("")
+        }else{
+            binding.startWeight.setText(userData?.start_weight.toString())
+        }
+        if(userData?.goal_weight==null){
+            binding.targetWeight.setText("")
+        }else{
+            binding.targetWeight.setText(userData?.goal_weight.toString())
+        }
+
+        if(userData?.gender=="남성")      {
+            sex="남성"
+            isSexSelected=true
+            binding.maleBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.maleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.femaleBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.femaleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
+        }else if(userData?.gender=="여성"){
+            sex="여성"
+            isSexSelected= true
+            binding.femaleBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.femaleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.maleBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.maleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
+        }
+        if(userData?.type=="활동 많음"){
+            activity="활동 많음"
+            isActivitySelected= true
+            binding.activeBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.activeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.normalBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.normalBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.passiveBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        }else if(userData?.type=="일반적"){
+            activity="일반적"
+            isActivitySelected= true
+            binding.activeBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.activeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.normalBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.normalBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.passiveBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
+        }else if(userData?.type=="활동 적음"){
+            activity="활동 적음"
+            isActivitySelected= true
+            binding.activeBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.activeBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.normalBtn.setBackgroundResource(R.drawable.unselect_shape)
+            binding.normalBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.passiveBtn.setBackgroundResource(R.drawable.select_shape)
+            binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+
+        }
+
+        if(userData!=null){
+            binding.next2.isEnabled=true
+
+        }
+
+
+
         editTextList.forEach { editText ->
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
@@ -106,6 +184,7 @@ class Profile_fragment : Fragment() {
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
                     // 필요 없음
                 }
 
