@@ -28,7 +28,18 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
         // Inflate the layout for this fragment
         binding = FragmentDailyweightBinding.inflate(inflater, container, false)
         todayWeight=UserManager.getUserTodayWeight()
-        binding.dailyWeight.text = "${todayWeight?.weight} Kg"
+        if(todayWeight==null){
+            binding.dailyWeight.text = "오늘의 체중을 입력해주세요"
+        }
+        else{
+            binding.dailyWeight.text = "${todayWeight?.weight} Kg"
+        }
+        if( binding.dailyWeight.text!=null){
+            binding.addweightbutton.text = "수정하기"
+        }
+        else{
+            binding.addweightbutton.text = "기록하기"
+        }
 
 
         binding.addweightbutton.setOnClickListener {
@@ -43,9 +54,11 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
     }
 
     override fun onNumberEntered(number: Double) {
-        todayWeight=UserManager.getUserTodayWeight()
+
         binding.dailyWeight.text = "${todayWeight?.weight} Kg"
-        binding.weightComment.text= "어제보다 - 0.6kg"
+
+        // 어제날짜 체중 가져오는 코드 필요
+    binding.weightComment.text= "어제보다 - 0.6kg"
     }
 
 
