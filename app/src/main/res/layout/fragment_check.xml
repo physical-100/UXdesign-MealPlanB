@@ -1,32 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    tools:context=".fragment.recommand.checkFragment"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.recommand.checkFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:background="@drawable/custom_shape"
-        android:padding="10dp"
-        android:id="@+id/add"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        android:layout_height="match_parent"
-        android:text="이걸로 추가 할래요"
-        android:layout_marginHorizontal="10dp"/>
-    <TextView
-        android:background="@drawable/custom_shape"
-        android:padding="10dp"
-        android:id="@+id/back"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        android:layout_height="match_parent"
-        android:text="다시 고를래요!"/>
+       <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+            android:id="@+id/choose_2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/add"
+                android:layout_width="0dp"
+                android:layout_height="170dp"
+                android:background="@drawable/select_thing"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/textview1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이 음식"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textColor="@color/violet"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/textview3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="먹을게요"
+                    android:textSize="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview1"
+                    android:layout_marginHorizontal="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="식단 입력까지\n자동으로 완료돼요"
+                    android:textSize="14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview3"
+                    android:layout_marginHorizontal="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/back"
+                android:layout_width="0dp"
+                android:layout_height="170dp"
+                android:background="@drawable/select_thing"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:padding="20dp">
+                <TextView
+                    android:id="@+id/textview2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="다른 음식"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textColor="@color/violet"
+                    android:layout_marginHorizontal="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/textview4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:text="추천해주세요"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview2"
+                    android:layout_marginHorizontal="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="같은 칼로리의\n다른 메뉴추천해드릴게요"
+                    android:textSize="14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview4"
+                    android:layout_marginHorizontal="10dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

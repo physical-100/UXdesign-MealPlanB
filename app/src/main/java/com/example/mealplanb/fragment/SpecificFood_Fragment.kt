@@ -1,8 +1,11 @@
 package com.example.mealplanb.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,14 +16,17 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.MealData
+import com.example.mealplanb.R
 import com.example.mealplanb.databinding.FragmentSpecificFoodBinding
 import com.example.mealplanb.dataclass.food
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class SpecificFood_Fragment : BottomSheetDialogFragment()  {
@@ -40,6 +46,38 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
     var isclickededitgram:Boolean= false
     lateinit var mealName:String
     val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거
+    var isBookmarked = false
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setOnShowListener { dialogInterface ->
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            setupRatio(bottomSheetDialog)
+        }
+        return dialog
+    }
+
+    private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
+        val behavior = BottomSheetBehavior.from(bottomSheet!!)
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = getBottomSheetDialogDefaultHeight()
+        bottomSheet.layoutParams = layoutParams
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    private fun getBottomSheetDialogDefaultHeight(): Int {
+        return getWindowHeight() * 75 / 100
+        // 기기 높이 대비 비율 설정 부분!!
+        // 위 수치는 기기 높이 대비 80%로 다이얼로그 높이를 설정
+    }
+
+    private fun getWindowHeight(): Int {
+        // Calculate window height for fullscreen use
+        val displayMetrics = DisplayMetrics()
+        (context as Activity?)!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.heightPixels
+    }
 
 
 
@@ -98,8 +136,27 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         Log.i("1234555", "$specificfooddata ")
         //일단 정보 받아오는거 성공했다이
 
-        binding.oftenfood.setOnClickListener {
-            favoritesFoodToFirebase()
+
+        val cancle = binding.cancle
+        cancle.setOnClickListener {
+            dismiss()
+        }
+
+
+        val bookmark=binding.bookmark
+        bookmark.setOnClickListener {
+            if(!isBookmarked){
+                bookmark.setImageResource(R.drawable.bookmark_checked)
+                //파이어베이스에 즐겨찾기 추가
+                favoritesFoodToFirebase()
+                isBookmarked = true
+            }else{
+                bookmark.setImageResource(R.drawable.bookmark_unchecked)
+                //파이어베이스에서 즐겨찾기 제거
+                //코드
+                isBookmarked = false
+            }
+
         }
 
 // 바인딩
@@ -123,6 +180,7 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         carboview?.text=String.format("%.1f",carboperg*foodamount)
         proteinview?.text=String.format("%.1f",proteinperg*foodamount)
         fatview?.text=String.format("%.1f",fatperg*foodamount)
+
         kcalview?.text=String.format("%.1f",kcalperg*foodamount)
         perpersonbutton?.text="1인분 ("+String.format("%.1f",foodamount)+")"
 
@@ -153,7 +211,6 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
             }
 
             else{
-
             editfoodamount=foodamountview?.hint.toString().toDouble()+0.5
             foodamountview?.hint=String.format("%.1f",editfoodamount)
             carboview?.text=String.format("%.1f",carboperg*editfoodamount*foodamount)
@@ -231,7 +288,7 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
 
 
 
-        binding.plusmeal.setOnClickListener{
+        binding.next2.setOnClickListener{
             if(isclickededitgram==true){
                 editfoodamount=foodamountview?.hint.toString().toDouble()/specificfooddata!!.foodamount
                 saveDataToFirebase(editfoodamount)
@@ -239,6 +296,7 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
             else {
                 saveDataToFirebase(editfoodamount) //데이터베이스 저장
             }
+
             dismiss()
         }
 
