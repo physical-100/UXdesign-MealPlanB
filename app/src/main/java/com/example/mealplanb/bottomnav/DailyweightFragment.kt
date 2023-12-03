@@ -62,4 +62,8 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
     }
 
 
+    fun updateWeightText(weight: Double) {
+        binding.dailyWeight.text = "${weight} Kg"
+    }
+
 }
