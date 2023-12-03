@@ -22,12 +22,14 @@ import com.example.mealplanb.fragment.MealhomeFragment
 import java.lang.Math.abs
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.mealplanb.Totalcal
 
 class TodayFragment : Fragment() {
     private lateinit var notificationManager: NotificationManagerCompat
     lateinit var binding: FragmentTodayBinding
     val userData = UserManager.getUserData()
     val userCal = UserManager.getUserCal()
+    val Totalcal:Totalcal?=null
     private lateinit var scrollView: ScrollView
     private var scrollPosition = 0
     private var AllListNutritionList= arrayListOf<AllListNutrition>(
@@ -64,21 +66,12 @@ class TodayFragment : Fragment() {
             totalfat+=eachNutrtion.fat
             totalkcal+=eachNutrtion.kcal
         }
+        UserManager.setTotalcal(Totalcal(totalkcal,totalcarbo,totalproteion,totalfat))
 
         if (savedInstanceState != null) {
             scrollPosition = savedInstanceState.getInt("scroll_position", 0)
             scrollView.post { scrollView.scrollTo(0, scrollPosition) }
         }
-//        val userCalory = arguments?.getParcelable<User_calory>("user_calory")
-//        if (userCalory != null) {
-//            // userCalory를 사용하여 필요한 작업 수행
-//            binding.apply {
-//                goalCarb.text = "/${userCalory.carb}g"
-//                goalProtein.text = "/${userCalory.protein}g"
-//                goalFat.text = "/${userCalory.fat}g"
-//                goal.text= "${userCalory.goal_calory} Kcal"
-//
-//            }
 
         if (userCal != null) {
             // userCalory를 사용하여 필요한 작업 수행
