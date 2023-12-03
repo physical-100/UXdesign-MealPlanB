@@ -141,7 +141,7 @@ class Profile_fragment : Fragment() {
 
             // 이거를 db에 저장하고 싶음
 
-            UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel))
+            UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activityLevel,null))
 
             val bundle = Bundle()
             bundle.putParcelable("userdata", Userdata)

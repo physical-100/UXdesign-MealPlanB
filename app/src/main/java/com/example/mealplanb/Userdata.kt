@@ -10,7 +10,8 @@ data class Userdata(
     var height: Int,
     var start_weight: Double,
     var goal_weight: Double,
-    var type: String
+    var activitytype: String,
+    var mealtype:String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -19,6 +20,7 @@ data class Userdata(
         parcel.readInt(),
         parcel.readDouble(),
         parcel.readDouble(),
+        parcel.readString() ?: "",
         parcel.readString() ?: ""
     )
 
@@ -29,7 +31,8 @@ data class Userdata(
         parcel.writeInt(height)
         parcel.writeDouble(start_weight)
         parcel.writeDouble(goal_weight)
-        parcel.writeString(type)
+        parcel.writeString(activitytype)
+        parcel.writeString(mealtype)
     }
 
     override fun describeContents(): Int {
@@ -45,7 +48,7 @@ data class Userdata(
             return arrayOfNulls(size)
         }
         fun clear(): Userdata {
-            return Userdata("", "", 0, 0, 0.0, 0.0,"")
+            return Userdata("", "", 0, 0, 0.0, 0.0,"","")
         }
     }
 }

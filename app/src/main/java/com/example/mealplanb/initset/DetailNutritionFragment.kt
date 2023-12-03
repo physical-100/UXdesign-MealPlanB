@@ -60,8 +60,8 @@ class DetailNutritionFragment : Fragment() {
             binding.apply {
                 // kcal 과 g 디자인 추가
                 carbcalory.text = ("$init_carb_cal" +"Kcal")
-                proteincalory.text = init_protein_cal.toString()
-                fatcalory.text = init_fat_cal.toString()
+                proteincalory.text = init_protein_cal.toString()+"Kcal"
+                fatcalory.text = init_fat_cal.toString()+"Kcal"
                 carbSetting.setText("$init_carb")
                 proteinSetting.setText("$init_protein")
                 fatSetting.setText("$init_fat")

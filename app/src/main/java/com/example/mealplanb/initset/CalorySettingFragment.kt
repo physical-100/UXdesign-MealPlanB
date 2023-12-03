@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
+import com.example.mealplanb.UserManager
+import com.example.mealplanb.User_calory
 import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentCalorySettingBinding
 import com.google.firebase.database.FirebaseDatabase
@@ -44,13 +46,13 @@ class CalorySettingFragment : Fragment() {
 //        매우 활동적 (Extra active): BMR * 1.9
         // 힌트 칼로리 설정 해야함
 
-        val userdata = arguments?.getParcelable<Userdata>("Userdata")
+        val userdata = UserManager.getUserData()
 
         // Userdata 객체를 사용하여 계산 등을 수행
         if (userdata != null) {
             if (userdata.gender == "남성") {
                 val BMR = (10 * userdata.start_weight.toInt() + 6.25 * userdata.height - 5 * userdata.age + 5).toInt()
-                if (userdata.type == "활동 많음") {
+                if (userdata.activitytype == "활동 많음") {
                     val calory = (1.725 * BMR).toInt()
                     binding.calorySetting.setText("$calory")
                     binding.explain.setText("일일 권장 섭취량"+"$calory"+"kcal예요")
@@ -59,8 +61,8 @@ class CalorySettingFragment : Fragment() {
 
         }
         binding.next2.setOnClickListener {
-            val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
 
+            val dataRoute=firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
             goal_cal = binding.calorySetting.text.toString()
             dataRoute.child("목표 칼로리").setValue(goal_cal.toInt())
             Log.i("sendcal",goal_cal)
@@ -68,17 +70,6 @@ class CalorySettingFragment : Fragment() {
             //목표 칼로리를 인자로 넘김
 
         }
-
-
-
-
-
-
-
-
-
-
-
 
         return binding.root
     }

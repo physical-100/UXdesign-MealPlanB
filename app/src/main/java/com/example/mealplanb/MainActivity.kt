@@ -77,10 +77,10 @@ class MainActivity : AppCompatActivity() {
                                     "나이" -> userdata?.age = value.toInt()
                                     "성별" -> userdata?.gender = value
                                     "키" -> userdata?.height = value.toInt()
-                                    "평소 활동량" -> userdata?.type = value
+                                    "평소 활동량" -> userdata?.activitytype = value
                                     "시작체중" -> userdata?.start_weight = value.toDouble()
                                     "목표체중" -> userdata?.goal_weight = value.toDouble()
-                                    "목표식단" -> userdata?.type = value
+                                    "목표식단" -> userdata?.mealtype = value
                                     "목표 탄수화물" -> usercal?.carb = value.toInt()
                                     "목표 탄수화물(%)" -> usercal?.carb_percent = value.toInt()
                                     "목표 단백질" -> usercal?.protein = value.toInt()
@@ -92,7 +92,9 @@ class MainActivity : AppCompatActivity() {
 
                                 }
 
+
                             }
+                            UserManager.setUserData(userdata!!)
                             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
                             if (navHostFragment != null) {
                                 val navController = navHostFragment.navController
@@ -335,6 +337,9 @@ object UserManager {
         }
         fun removeMealdata(mealData: MealData){
             usermealdataList.remove(mealData)
+        }
+        fun clearUserdata(){
+        userdata= Userdata.clear()
         }
         fun clearMealData(){
             usermealdataList.clear()

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.R
+import com.example.mealplanb.UserManager
 import com.example.mealplanb.Userdata
 import com.example.mealplanb.databinding.FragmentMealSelectBinding
 import com.google.firebase.database.FirebaseDatabase
@@ -18,6 +19,7 @@ class Meal_selectFragment : Fragment() {
     lateinit var binding: FragmentMealSelectBinding
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     private var mealSelectFlag = false
+//    private var Userdata: Userdata? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,16 +34,26 @@ class Meal_selectFragment : Fragment() {
         binding = FragmentMealSelectBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val userdata = arguments?.getParcelable<Userdata>("userdata")
-        Log.i("sdsd",userdata.toString())
+//        val userdata = arguments?.getParcelable<Userdata>("userdata")
+//        Log.i("sdsd",userdata.toString())
+        val userdata = UserManager.getUserData()
+        var name =userdata!!.username
+        var gender=userdata.gender
+        var age=userdata.age
+        var height=userdata.height
+        var start_weight=userdata.start_weight
+        var goal_weight=userdata.goal_weight
+        var activitytype=userdata.activitytype
+        var mealtype=""
+
         binding.back.setOnClickListener{
-           Userdata.clear()
+           UserManager.clearUserdata()
             findNavController().navigate(R.id.action_meal_selectFragment_to_profile_fragment)
         }
-        val bundle = bundleOf("Userdata" to userdata)
+//        val bundle = bundleOf("Userdata" to userdata)
         binding.apply {
             general.setOnClickListener {
-//            val mealtype="general"
+            mealtype="일반식단"
                 // 클릭시 색 변경 + 다음버튼 눌렀을 때 이동
                 mealSelectFlag = true
                 binding.general.setBackgroundResource(R.drawable.image_border)
@@ -52,6 +64,7 @@ class Meal_selectFragment : Fragment() {
                 dataRoute.child("목표식단").setValue("일반식단")
             }
             hellchang.setOnClickListener {
+                mealtype="운동식단"
                 mealSelectFlag = true
                 binding.general.setBackgroundResource(0)
                 binding.hellchang.setBackgroundResource(R.drawable.image_border)
@@ -61,6 +74,7 @@ class Meal_selectFragment : Fragment() {
                 dataRoute.child("목표식단").setValue("운동식단")
             }
             vegan.setOnClickListener {
+                mealtype="비건"
                 mealSelectFlag = true
                 binding.general.setBackgroundResource(0)
                 binding.hellchang.setBackgroundResource(0)
@@ -70,6 +84,7 @@ class Meal_selectFragment : Fragment() {
                 dataRoute.child("목표식단").setValue("비건식단")
             }
             diabetes.setOnClickListener {
+                mealtype="당뇨"
                 mealSelectFlag = true
                 binding.general.setBackgroundResource(0)
                 binding.hellchang.setBackgroundResource(0)
@@ -81,11 +96,10 @@ class Meal_selectFragment : Fragment() {
             next2.setOnClickListener {
                 if(checkbox.isChecked){
                     findNavController().navigate(
-                        R.id.action_meal_selectFragment_to_calorySettingFragment,
-                        bundle
-                    )
+                        R.id.action_meal_selectFragment_to_calorySettingFragment)
+                    UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activitytype,mealtype))
                 }else{
-                    findNavController().navigate(R.id.action_meal_selectFragment_to_mainFragment,bundle)
+                    findNavController().navigate(R.id.action_meal_selectFragment_to_mainFragment)
                 }
             }
         }
