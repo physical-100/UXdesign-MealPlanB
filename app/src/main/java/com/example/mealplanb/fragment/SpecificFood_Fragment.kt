@@ -202,10 +202,10 @@ class SpecificFood_Fragment : BottomSheetDialogFragment()  {
         carboview?.text=String.format("%.1f",carboperg*foodamount)+"g"
         proteinview?.text=String.format("%.1f",proteinperg*foodamount)+"g"
         fatview?.text=String.format("%.1f",fatperg*foodamount)+"g"
-        foodnameview?.text="음식이름은(는)"+foodname
+        foodnameview?.text=foodname +"은(는)"
 
 
-        kcalview?.text=String.format("%.1f",kcalperg*foodamount)+"Kcal"
+        kcalview?.text=String.format("%.1f",kcalperg*foodamount)+"kcal"+"입니다"
         perpersonbutton?.text="1인분 ("+String.format("%.1f",foodamount)+")"
 
         var editfoodamount=foodamount/specificfooddata!!.foodamount
