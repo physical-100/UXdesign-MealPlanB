@@ -16,6 +16,7 @@ import com.example.mealplanb.fragment.editweightFragment
 class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListener  {
     lateinit var binding: FragmentDailyweightBinding
     var todayWeight:TodayWeight?=null
+    var userData=UserManager.getUserData()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,7 +30,7 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
         binding = FragmentDailyweightBinding.inflate(inflater, container, false)
         todayWeight=UserManager.getUserTodayWeight()
         if(todayWeight?.weight==null){
-            binding.dailyWeight.text = "오늘의 체중을 입력해주세요"
+            binding.dailyWeight.text = userData?.start_weight.toString()
         }
         else{
             binding.dailyWeight.text = "${todayWeight?.weight} Kg"
@@ -58,7 +59,7 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
         binding.dailyWeight.text = "${todayWeight?.weight} Kg"
 
         // 어제날짜 체중 가져오는 코드 필요
-    binding.weightComment.text= "어제보다 - 0.6kg"
+    binding.weightComment.text= "목표까지 "+userData?.start_weight?.minus(todayWeight!!.weight).toString()+"kg"
     }
 
 

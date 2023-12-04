@@ -45,7 +45,7 @@ class Meal_selectFragment : Fragment() {
         var goal_weight=userdata.goal_weight
         var activitytype=userdata.activitytype
         var mealtype=""
-
+        Log.i("goal", "${userdata}")
         binding.back.setOnClickListener{
            UserManager.clearUserdata()
             findNavController().navigate(R.id.action_meal_selectFragment_to_profile_fragment)

@@ -47,6 +47,21 @@ class Profile_fragment : Fragment() {
         // 성별, 활동량이 선택되어 잇는지 확인
 
 
+        binding.age.setOnClickListener{
+            binding.age.setText(null)
+        }
+        binding.username.setOnClickListener{
+            binding.username.setText(null)
+        }
+        binding.height.setOnClickListener{
+            binding.height.setText(null)
+        }
+        binding.startWeight.setOnClickListener{
+            binding.startWeight.setText(null)
+        }
+        binding.targetWeight.setOnClickListener{
+            binding.targetWeight.setText(null)
+        }
         binding.femaleBtn.setOnClickListener {
             sex="여성"
             isSexSelected= true
@@ -137,7 +152,7 @@ class Profile_fragment : Fragment() {
             binding.maleBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
 
         }
-        if(userData?.type=="활동 많음"){
+        if(userData?.activitytype=="활동 많음"){
             activity="활동 많음"
             isActivitySelected= true
             binding.activeBtn.setBackgroundResource(R.drawable.select_shape)
@@ -146,7 +161,7 @@ class Profile_fragment : Fragment() {
             binding.normalBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             binding.passiveBtn.setBackgroundResource(R.drawable.unselect_shape)
             binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        }else if(userData?.type=="일반적"){
+        }else if(userData?.activitytype=="일반적"){
             activity="일반적"
             isActivitySelected= true
             binding.activeBtn.setBackgroundResource(R.drawable.unselect_shape)
@@ -156,7 +171,7 @@ class Profile_fragment : Fragment() {
             binding.passiveBtn.setBackgroundResource(R.drawable.unselect_shape)
             binding.passiveBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
 
-        }else if(userData?.type=="활동 적음"){
+        }else if(userData?.activitytype=="활동 적음"){
             activity="활동 적음"
             isActivitySelected= true
             binding.activeBtn.setBackgroundResource(R.drawable.unselect_shape)
