@@ -70,6 +70,7 @@ class Mypagefragment : Fragment() {
                         changeWeight.text = "+${differenceweight}kg"
                     }else{
                         changeWeight.text="${differenceweight}kg"
+
                     }
                 }
             }

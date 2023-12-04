@@ -10,13 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RemoteViews
 import android.widget.ScrollView
-import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
-import androidx.navigation.fragment.findNavController
 import com.example.mealplanb.AllListNutrition
 import com.example.mealplanb.R
 import com.example.mealplanb.UserManager
-import com.example.mealplanb.User_calory
 import com.example.mealplanb.databinding.FragmentTodayBinding
 import com.example.mealplanb.fragment.MealhomeFragment
 import java.lang.Math.abs
@@ -24,13 +21,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.mealplanb.TodayWeight
 import com.example.mealplanb.Totalcal
+import com.example.mealplanb.fragment.MealDetailFragment
 
 class TodayFragment : Fragment() {
     private lateinit var notificationManager: NotificationManagerCompat
     lateinit var binding: FragmentTodayBinding
     val userData = UserManager.getUserData()
     val userCal = UserManager.getUserCal()
-    val Totalcal:Totalcal?=null
+    var totalkcal=0.0
     var todayWeight: TodayWeight?=null
     private lateinit var scrollView: ScrollView
     private var scrollPosition = 0
@@ -52,8 +50,12 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val isMealadd = arguments?.getString("식단 추가")
+            Log.i("인자",isMealadd.toString())
+
         binding = FragmentTodayBinding.inflate(inflater, container, false)
         scrollView =binding.scrollView
+
         // 알림 띄우기 위한 설정  오늘의 목표치 30%,60%,80%에서 알람을 보냄
 
         // 스크롤 위치를 복원
@@ -119,12 +121,23 @@ class TodayFragment : Fragment() {
 
                 calProgressBar.progress = if (remainingCalories >= 0) (userCal.goal_calory - remainingCalories).toInt() else userCal.goal_calory
             }
-            notificationManager = NotificationManagerCompat.from(requireContext())
+
+
+//            val argument = arguments?.getString("식단 추가")
+//            Log.i("인자",argument.toString())
 //            createAndShowNotification()
             Log.i("총 칼로리",totalkcal.toString())
             Log.i("목표 칼로리",userCal.goal_calory.toString())
-            updateNotification(totalkcal,userCal.goal_calory)
+
         }
+        if(isMealadd!=null) {
+            //식단이 추가 되었을 때 알림 호출
+            notificationManager = NotificationManagerCompat.from(requireContext())
+            createAndShowNotification()
+            updateNotification(totalkcal,userCal!!.goal_calory)
+        }
+
+
         val mealhomeFragment = MealhomeFragment()
         childFragmentManager.beginTransaction()
             .replace(R.id.addmeal, mealhomeFragment)
@@ -167,7 +180,7 @@ class TodayFragment : Fragment() {
         val builder = NotificationCompat.Builder(requireContext(), channelId)
             .setSmallIcon(R.drawable.character)
             .setContentTitle("두번째 식단을 입력하세요")
-            .setContentText("다이어트가 장난입니까..? 어서 식단을 기록해 시발년아")
+            .setContentText("다이어트가 장난입니까..? ")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
 
@@ -179,19 +192,10 @@ class TodayFragment : Fragment() {
         ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
-        notificationManager.notify(1, builder.build())
+//        notificationManager.notify(1, builder.build())
     }
-    // Remove this function
-// private fun NotificationCompat.Builder.setCustomBigContentView(notificationLayout: Int) {}
-
-    // Update your updateNotification function
     private fun updateNotification(totalCalories: Double, goalCalories: Int) {
         val channelId = "your_channel_id"
         val notificationLayout = RemoteViews(requireContext().packageName, R.layout.notification_layout)
@@ -227,11 +231,13 @@ class TodayFragment : Fragment() {
                 notificationLayout.setTextViewText(R.id.notification_text, "힘내세요!")
             }
             percentage > 30 -> {
-                notificationLayout.setTextViewText(R.id.notification_title, "활기찬 식단 기록을 해보아요!!")
+                notificationLayout.setTextViewText(R.id.notification_title, "벌써 30퍼센트 이상 하셨군요!!")
                 notificationLayout.setTextViewText(R.id.notification_text, "자신을 믿어요!")
             }
             else -> {
                 // Do nothing for other percentages
+                notificationLayout.setTextViewText(R.id.notification_title, "활기찬 식단 기록을 해보아요!!")
+                notificationLayout.setTextViewText(R.id.notification_text, "자신을 믿어요!")
                 return
             }
         }
@@ -241,20 +247,11 @@ class TodayFragment : Fragment() {
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Handle the case where permissions are not granted
             return
         }
 
         notificationManager.notify(1, customNotification)
     }
-
-
-
-
-
 }
 
-private fun NotificationCompat.Builder.setCustomBigContentView(notificationLayout: Int) {
-
-}
 

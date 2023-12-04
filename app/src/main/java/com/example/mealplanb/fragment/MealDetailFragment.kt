@@ -82,7 +82,8 @@ class MealDetailFragment : Fragment(),SpecificFood_Fragment.OnfoodEnteredListene
             saveMealDataToFirebase(UsermealdataList+temporarymealdataList)
 
 //            UserManager.clearMealData() //식단1을 추가 완료하면 mealdatalist에 들어있는거 전부 초기화 해준다
-            findNavController().navigate(R.id.action_mealDetailFragment_to_mainFragment)
+            val bundle = bundleOf("식단 추가" to "식단 추가")
+            findNavController().navigate(R.id.action_mealDetailFragment_to_mainFragment,bundle)
             
         }
         binding.backToMain.setOnClickListener{
