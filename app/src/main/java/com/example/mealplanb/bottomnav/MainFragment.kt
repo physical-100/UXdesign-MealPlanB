@@ -29,8 +29,16 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentMainBinding.inflate(inflater, container, false)
+        val argument = arguments?.getString("식단 추가")
+
+        val todayFragment = TodayFragment()
+        val bundle = Bundle().apply {
+            putString("식단 추가", argument)
+        }
+        todayFragment.arguments = bundle
+
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.basic_container, TodayFragment())
+        transaction.replace(R.id.basic_container, todayFragment)
         transaction.commit()
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_recommend_container2)

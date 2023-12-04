@@ -52,11 +52,23 @@ class Mypagefragment : Fragment() {
                 mypageGoalWeight.text = "${userData.goal_weight}Kg"
                 mypageGoalCal.text = "${userCal.goal_calory}Kcal"
                 mypageGoalPercent.text ="${userCal.carb_percent}:${userCal.protein_percent}:${userCal.fat_percent}"
-                val differenceweight=usertodayweight!!.weight.toDouble()-userData.goal_weight.toDouble()
-                if(differenceweight>=0) {
-                    changeWeight.text = "+${differenceweight}kg}"
-                }else{
-                    changeWeight.text="${differenceweight}kg"
+
+                if(usertodayweight==null){
+                    val differenceweight = 0 
+                    if (differenceweight >= 0) {
+                        changeWeight.text = "+${differenceweight}kg}"
+                    } else {
+                        changeWeight.text = "${differenceweight}kg"
+                    }
+                }
+                else {
+                    val differenceweight =
+                        usertodayweight!!.weight.toDouble() - userData.start_weight.toDouble()
+                    if (differenceweight >= 0) {
+                        changeWeight.text = "+${differenceweight}kg}"
+                    } else {
+                        changeWeight.text = "${differenceweight}kg"
+                    }
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.example.mealplanb.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,17 @@ import com.github.mikephil.charting.data.BarEntry
 import com.example.mealplanb.R
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.utils.MPPointF
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class DailyStaticFragment : Fragment() {
     lateinit var binding: FragmentDailyStaticBinding
+    val currentTime = Calendar.getInstance().time
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val realTime = dateFormat.format(currentTime) //현재 시간 받아오는거짜
+    val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+    val dayOfWeek = dayFormat.format(currentTime) // 현재 요일 (문자열)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +34,9 @@ class DailyStaticFragment : Fragment() {
     ): View {
 
         binding = FragmentDailyStaticBinding.inflate(inflater, container, false)
+        Log.i("날짜",currentTime.toString())
+        binding.date.text=realTime+" "+dayOfWeek
+        binding.dateKcal.text
 
         // 막대 차트 그리는 코드
         val barChart = binding.barChart
@@ -32,9 +44,9 @@ class DailyStaticFragment : Fragment() {
         // X축 설정
         val xAxis: XAxis = barChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.granularity = 0.1f // X축 간격
-        xAxis.setDrawGridLines(false)
-        xAxis.setDrawAxisLine(false)//뒤에 선 지우자
+        xAxis.granularity = 1f // X축 간격을 1로 변경 (일일 간격)
+        xAxis.setDrawGridLines(true)
+        xAxis.setDrawAxisLine(true)//뒤에 선 지우자
 
         // Y축 설정
         val yAxisRight: YAxis = barChart.axisRight
