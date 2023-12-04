@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import com.example.mealplanb.databinding.FragmentDailyStaticBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -17,6 +18,7 @@ import com.example.mealplanb.R
 import com.example.mealplanb.Totalcal
 import com.example.mealplanb.UserManager
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.common.primitives.UnsignedBytes.toInt
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -33,14 +35,17 @@ class DailyStaticFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        val data = UserManager.getTotalcal()
         binding = FragmentDailyStaticBinding.inflate(inflater, container, false)
         Log.i("날짜",currentTime.toString())
         binding.date.text=realTime+" "+dayOfWeek
 
         //클릭 했을때 일자별로 섭취한 총 칼로리를 표시
 
-        binding.dateKcal.text = "섭취한 칼로리" +""
+        binding.dateKcal.text = "섭취한 칼로리" +" ${data!!.total_calory.toInt()} kcal"
+        binding.carb.setText("${data!!.total_carb.toInt()}g")
+        binding.protein.setText("${data!!.total_protein.toInt()}g")
+        binding.fat.setText("${data!!.total_fat.toInt()}g")
 
         // 막대 차트 그리는 코드
         val barChart = binding.barChart
@@ -59,6 +64,7 @@ class DailyStaticFragment : Fragment() {
                 return SimpleDateFormat("MM-dd", Locale.getDefault()).format(calendar.time)
             }
         }
+        val usecal= UserManager.getUserCal()
 
         // Y축 설정
         val yAxisRight: YAxis = barChart.axisRight
@@ -67,7 +73,7 @@ class DailyStaticFragment : Fragment() {
         val yAxisLeft: YAxis = barChart.axisLeft
         yAxisLeft.granularity = 500f // Y축 간격
         yAxisLeft.axisMinimum = 0f // Y축 최솟값
-        yAxisLeft.axisMaximum = 3000f // Y축 최댓값
+        yAxisLeft.axisMaximum = usecal!!.goal_calory.toFloat() // Y축 최댓값
 
 
         // 막대 그래프에 표시할 데이터 생성
@@ -106,9 +112,9 @@ class DailyStaticFragment : Fragment() {
                     BarEntry(
                         i.toFloat(),
                         floatArrayOf(
-                            data!!.total_carb.toFloat(),
-                            data!!.total_protein.toFloat(),
-                            data.total_fat.toFloat()
+                            data!!.total_carb.toFloat()*4,
+                            data!!.total_protein.toFloat()*4,
+                            data.total_fat.toFloat()*9
                         )
                     )
                 )
