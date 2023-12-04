@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         userdata = Userdata.clear()
         usercal = User_calory.clear()
+        createNotificationChannel()
         firebaseDatabase.getReference("사용자id별 초기설정값table/로그인한 사용자id")
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
