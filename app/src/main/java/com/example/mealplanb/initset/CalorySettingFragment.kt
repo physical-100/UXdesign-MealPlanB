@@ -48,6 +48,7 @@ class CalorySettingFragment : Fragment() {
 
         val userdata = UserManager.getUserData()
 
+        Log.i("goal2", "${userdata}")
         // Userdata 객체를 사용하여 계산 등을 수행
         if (userdata != null) {
             if (userdata.gender == "남성") {

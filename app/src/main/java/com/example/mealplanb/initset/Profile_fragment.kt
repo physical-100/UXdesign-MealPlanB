@@ -47,6 +47,21 @@ class Profile_fragment : Fragment() {
         // 성별, 활동량이 선택되어 잇는지 확인
 
 
+        binding.age.setOnClickListener{
+            binding.age.setText(null)
+        }
+        binding.username.setOnClickListener{
+            binding.username.setText(null)
+        }
+        binding.height.setOnClickListener{
+            binding.height.setText(null)
+        }
+        binding.startWeight.setOnClickListener{
+            binding.startWeight.setText(null)
+        }
+        binding.targetWeight.setOnClickListener{
+            binding.targetWeight.setText(null)
+        }
         binding.femaleBtn.setOnClickListener {
             sex="여성"
             isSexSelected= true

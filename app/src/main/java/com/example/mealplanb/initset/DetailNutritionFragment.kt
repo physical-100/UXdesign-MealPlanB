@@ -33,6 +33,7 @@ class DetailNutritionFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val userData = UserManager.getUserData()
+        Log.i("goal3", "${userData}")
         if (userData != null) {
            name= userData.username
             // 예: userData.name, userData.gender, userData.age, 등등...

@@ -101,11 +101,13 @@ class TodayFragment : Fragment() {
 
                 }
                 if (userCal.goal_calory-totalkcal>=0){
+                    textview1.text = "오늘은 "
                     leftoverCal.text= "${String.format("%d",(userCal.goal_calory-totalkcal).toInt())}kcal"
-
+                    textview2.text = " 남았어요"
                 }
                 else{
-                    leftoverCal.text="${String.format("%.1f",abs(userCal.goal_calory-totalkcal))}kcal"
+                    textview1.text =""
+                    leftoverCal.text="${String.format("%d",abs(userCal.goal_calory-totalkcal))}kcal"
                     textview2.text = "만큼 초과하여 드셨어요"
 
                 }
