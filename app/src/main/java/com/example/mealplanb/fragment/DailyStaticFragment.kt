@@ -14,8 +14,9 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.example.mealplanb.R
-import com.github.mikephil.charting.components.LimitLine
-import com.github.mikephil.charting.utils.MPPointF
+import com.example.mealplanb.Totalcal
+import com.example.mealplanb.UserManager
+import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -36,7 +37,10 @@ class DailyStaticFragment : Fragment() {
         binding = FragmentDailyStaticBinding.inflate(inflater, container, false)
         Log.i("날짜",currentTime.toString())
         binding.date.text=realTime+" "+dayOfWeek
-        binding.dateKcal.text
+
+        //클릭 했을때 일자별로 섭취한 총 칼로리를 표시
+
+        binding.dateKcal.text = "섭취한 칼로리" +""
 
         // 막대 차트 그리는 코드
         val barChart = binding.barChart
@@ -47,6 +51,14 @@ class DailyStaticFragment : Fragment() {
         xAxis.granularity = 1f // X축 간격을 1로 변경 (일일 간격)
         xAxis.setDrawGridLines(true)
         xAxis.setDrawAxisLine(true)//뒤에 선 지우자
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                // Convert the float value to a date string
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.DAY_OF_MONTH, value.toInt())
+                return SimpleDateFormat("MM-dd", Locale.getDefault()).format(calendar.time)
+            }
+        }
 
         // Y축 설정
         val yAxisRight: YAxis = barChart.axisRight
@@ -83,13 +95,41 @@ class DailyStaticFragment : Fragment() {
 
     private fun getDataBar(): List<BarEntry> {
         val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(1f, floatArrayOf(800f, 400f, 1200f))) // 칼로리 데이터 (탄, 단, 지)
-        entries.add(BarEntry(2f, floatArrayOf(500f, 200f, 800f)))
-        entries.add(BarEntry(3f, floatArrayOf(1500f, 700f, 200f)))
-        entries.add(BarEntry(4f, floatArrayOf(700f, 300f, 1000f)))
-        entries.add(BarEntry(5f, floatArrayOf(2000f, 800f, 200f)))
-        entries.add(BarEntry(6f, floatArrayOf(1000f, 500f, 700f)))
-        entries.add(BarEntry(7f, floatArrayOf(2500f, 1000f, 500f)))
+        val data = UserManager.getTotalcal()
+        // Get the date for today
+        val calendar = Calendar.getInstance()
+
+        // Loop through the past 7 days and add data to the graph
+        for (i in 6 downTo 0) {
+            if (i ==6) {
+                entries.add(
+                    BarEntry(
+                        i.toFloat(),
+                        floatArrayOf(
+                            data!!.total_carb.toFloat(),
+                            data!!.total_protein.toFloat(),
+                            data.total_fat.toFloat()
+                        )
+                    )
+                )
+            }// 칼로리 데이터 (탄, 단, 지)
+            else{
+                entries.add(
+                    BarEntry(
+                        i.toFloat(),
+                        floatArrayOf(
+                            0.0f,0.0f,0.0f
+                        )
+                    )
+                )
+            }
+            calendar.add(Calendar.DAY_OF_MONTH, -1) // Move to the previous day
+        }
+
+        // Reverse the list to display data in chronological order
+        entries.reverse()
+
         return entries
     }
+
 }
