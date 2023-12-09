@@ -88,7 +88,7 @@ class TodayFragment : Fragment() {
                 }
 
                 if(userCal.protein-totalproteion>=0){
-                    protein.text = "순탄수\n${String.format("%.1f",userCal.protein-totalproteion)}g"
+                    protein.text = "단백질\n${String.format("%.1f",userCal.protein-totalproteion)}g"
 
                 }else{
                     protein.text= "단백질\n${String.format("%.1f",abs(userCal.protein-totalproteion))}g 초과"
@@ -107,13 +107,13 @@ class TodayFragment : Fragment() {
                 }
                 else{
                     textview1.text =""
-                    leftoverCal.text="${String.format("%d",abs(userCal.goal_calory-totalkcal))}kcal"
+                    val abs=abs(userCal.goal_calory-totalkcal)
+                    leftoverCal.text="${abs.toInt()}"+"kcal"
                     textview2.text = "만큼 초과하여 드셨어요"
 
                 }
                 val usernameview=binding.nameDate
                 usernameview?.text=userData?.username+"님의 1일차"
-
 
                 val remainingCalories = (userCal.goal_calory - totalkcal).toFloat()
 
@@ -213,24 +213,24 @@ class TodayFragment : Fragment() {
 
         // Different notifications based on the percentage
         when {
-            percentage > 103 -> {
+            percentage >= 105 -> {
                 notificationLayout.setImageViewResource(R.id.notification_image, R.drawable.character)
-                notificationLayout.setTextViewText(R.id.notification_title, "그만좀 먹어라!")
+                notificationLayout.setTextViewText(R.id.notification_title, "그만 좀 먹어라!")
                 notificationLayout.setTextViewText(R.id.notification_text, "제발!!")
             }
-            percentage >= 100 -> {
+            percentage >= 100 && percentage <105 -> {
                 notificationLayout.setTextViewText(R.id.notification_title, "목표 달성 축하해요!!")
                 notificationLayout.setTextViewText(R.id.notification_text, "내일도 열심히 해봅시다!!!")
             }
-            percentage > 80 -> {
+            percentage >= 80 && percentage <100 -> {
                 notificationLayout.setTextViewText(R.id.notification_title, "거의 다왔어요!!")
                 notificationLayout.setTextViewText(R.id.notification_text, "화이팅!")
             }
-            percentage > 60 -> {
+            percentage >= 60 && percentage < 80 -> {
                 notificationLayout.setTextViewText(R.id.notification_title, "오늘 하루도 열심히 가봅시다 !!")
                 notificationLayout.setTextViewText(R.id.notification_text, "힘내세요!")
             }
-            percentage > 30 -> {
+            percentage >= 30 && percentage < 60 -> {
                 notificationLayout.setTextViewText(R.id.notification_title, "벌써 30퍼센트 이상 하셨군요!!")
                 notificationLayout.setTextViewText(R.id.notification_text, "자신을 믿어요!")
             }
