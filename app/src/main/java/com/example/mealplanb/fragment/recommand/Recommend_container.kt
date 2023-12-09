@@ -219,7 +219,8 @@ class Recommend_container : Fragment(),OnItemClickListener{
             GlobalScope.launch(Dispatchers.Main) {
                     delay(1000)  // 1000 밀리초 (1초) 지연
                 savemeal()
-                findNavController().navigate(R.id.action_recommend_container2_to_mainFragment)
+                val bundle = bundleOf("식단 추가" to "식단 추가")
+                findNavController().navigate(R.id.action_recommend_container2_to_mainFragment,bundle)
             }
         }else if (result == "식단 확정") {
             // 양 선택에 대한 로직 수행
@@ -235,7 +236,8 @@ class Recommend_container : Fragment(),OnItemClickListener{
             GlobalScope.launch(Dispatchers.Main) {
                 delay(1000)  // 1000 밀리초 (1초) 지연
                 savemeal()
-                findNavController().navigate(R.id.action_recommend_container2_to_mainFragment)
+                val bundle = bundleOf("식단 추가" to "식단 추가")
+                findNavController().navigate(R.id.action_recommend_container2_to_mainFragment,bundle)
             }
         }
         else if (result == "다른 음식 추천") {
@@ -501,11 +503,12 @@ class Recommend_container : Fragment(),OnItemClickListener{
         val cheatmeal = cheatMealsampledata[randomIndex]
 
         val maxNForkcal = calculateMaxN(cheatmeal.foodcal, remaindata.total_calory)
-        val maxNForCarb = calculateMaxN(cheatmeal.foodcarbo, remaindata.total_carb)
-        val maxNForProtein = calculateMaxN(cheatmeal.foodprotein, remaindata.total_protein)
-        val maxNForFat = calculateMaxN(cheatmeal.foodfat, remaindata.total_fat)
+        //val maxNForCarb = calculateMaxN(cheatmeal.foodcarbo, remaindata.total_carb)
+       // val maxNForProtein = calculateMaxN(cheatmeal.foodprotein, remaindata.total_protein)
+        //val maxNForFat = calculateMaxN(cheatmeal.foodfat, remaindata.total_fat)
 
-        val maxN = minOf(maxNForkcal,maxNForCarb, maxNForProtein, maxNForFat)
+//        val maxN = minOf(maxNForkcal,maxNForCarb, maxNForProtein, maxNForFat)
+        val maxN = maxNForkcal
 
         if (maxN > 0) {
             // Add the message with the calculated nutritional values

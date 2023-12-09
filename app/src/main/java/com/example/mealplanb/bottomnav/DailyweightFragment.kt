@@ -59,7 +59,8 @@ class DailyweightFragment : Fragment(),editweightFragment.OnNumberEnteredListene
         binding.dailyWeight.text = "${todayWeight?.weight} Kg"
 
         // 어제날짜 체중 가져오는 코드 필요
-    binding.weightComment.text= "목표까지 "+userData?.start_weight?.minus(todayWeight!!.weight).toString()+"kg"
+
+    binding.weightComment.text= "목표까지 "+userData?.goal_weight?.minus(todayWeight!!.weight).toString()+"kg"
     }
 
 

@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
                             }
                             UserManager.setUserData(userdata!!)
+                            UserManager.setUserCal(usercal!!)
                             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
                             if (navHostFragment != null) {
                                 val navController = navHostFragment.navController

@@ -100,6 +100,7 @@ class Meal_selectFragment : Fragment() {
                         R.id.action_meal_selectFragment_to_calorySettingFragment)
                     UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activitytype,mealtype))
                 }else{
+                    UserManager.setUserData(Userdata(name,gender ,age, height, start_weight, goal_weight, activitytype,mealtype))
                     findNavController().navigate(R.id.action_meal_selectFragment_to_mainFragment)
 
                 }
